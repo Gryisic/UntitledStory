@@ -1,0 +1,1 @@
+﻿{"inkVersion":21,"root":[[{"->":"main"},["done",{"#f":5,"#n":"g-0"}],null],"done",{"main":["^Очень [color_red]интересный[/color] [opacity_75]текст.","\n","^[color_orange]Надеюсь он будет удобно[/color] парсируемым.","\n","done",{"#f":1}],"first":["^Первый варик.","\n","done",{"#f":1}],"second":["^Второй варик.","\n","done","end",{"#f":1}],"#f":1}],"listDefs":{}}
