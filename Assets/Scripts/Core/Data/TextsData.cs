@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Core.Configs.Interfaces;
+using Core.Data.Interfaces;
 using Core.Interfaces;
 using UnityEngine;
 

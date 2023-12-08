@@ -5,6 +5,7 @@
         public const int StartSceneIndex = 0;
         public const int FloorLayerIndex = 7;
         public const int SafeNumberOfStepsInLoops = 500;
+        public const int IgnoredID = -999;
 
         public const int ActivatedCameraPriority = 100;
         public const int DeactivatedCameraPriority = 0;
@@ -18,7 +19,18 @@
         public const float FarFocusCameraSize = 7f;
 
         public const float DefaultCameraBlendTime = 0.2f;
+        
+        public const float DefaultUITweenTime = 0.3f;
 
+        public const float QTEButtonHoldThreshold = 0.1f;
+        
+        public const float AnimationsFrameRate = 6f / 60f;
+        
+        public const int BattlefieldMinWidth = 7;
+        public const int BattlefieldMinHeight = 3;
+        public const int BattleFieldCellSize = 1;
+        public const float BattleFieldHalfCellSize = (float)BattleFieldCellSize / 2;
+        
         public const int InitialCopiesOfUnit = 5;
         public const int InitialCopiesOfProjectiles = 15;
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Core.Configs.Interfaces;
+using Core.Data.Interfaces;
 using Core.Interfaces;
 using UnityEngine;
 
@@ -19,7 +20,8 @@ namespace Core.Data
 
             data.AddRange(_dataArray);
             data.Add(new TextsData(servicesHandler.ConfigsService.GetConfig<IGameSettingsConfig>()));
-            
+            data.Add(new TriggersData());
+
             _data = data;
         }
 

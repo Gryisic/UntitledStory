@@ -42,6 +42,42 @@ namespace Common.UI.Extensions
             if (element is IVerticallyNavigatableUIElement navigatable)
                 navigatable.MoveDown();
         }
+        
+        public static void Select(this UIElement element)
+        {
+            if (element is ISelectableUIElement selectable)
+                selectable.Select();
+        }
+        
+        public static void Undo(this UIElement element)
+        {
+            if (element is ISelectableUIElement selectable)
+                selectable.Back();
+        }
+        
+        public static void MoveLeft(this UIElement element)
+        {
+            if (element is IHorizontallyNavigatableUIElement navigatable)
+                navigatable.MoveLeft();
+        }
+        
+        public static void MoveRight(this UIElement element)
+        {
+            if (element is IHorizontallyNavigatableUIElement navigatable)
+                navigatable.MoveRight();
+        }
+        
+        public static void MoveUp(this UIElement element)
+        {
+            if (element is IVerticallyNavigatableUIElement navigatable)
+                navigatable.MoveUp();
+        }
+        
+        public static void MoveDown(this UIElement element)
+        {
+            if (element is IVerticallyNavigatableUIElement navigatable)
+                navigatable.MoveDown();
+        }
 
         public static void Dispose(this UIElement element)
         {

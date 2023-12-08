@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
-using Infrastructure.Utils;
-using UnityEngine;
 
 namespace Common.Dialogues.Utils
 {
     public class InkStoryParser
     {
+        private const string SpeakerTag = "s";
+
         private const char ModifierEndChar = '/';
+        private const char TagsDelimiterChar = ':';
         private readonly char[] _delimiterChars = { '[', ']' };
         private readonly char[] _innerDelimiterChars = { '_' };
 
@@ -26,10 +28,13 @@ namespace Common.Dialogues.Utils
             _stringBuilder = new StringBuilder();
         }
         
-        public void Parse(string initialText, out InkParsedText parsedText)
+        public void Parse(string initialText, IReadOnlyList<string> tags, out InkParsedText parsedText)
         {
-            string[] sentences = initialText.Split(_delimiterChars);
             parsedText = new InkParsedText();
+            
+            ParseTags(parsedText, tags);
+            
+            string[] sentences = initialText.Split(_delimiterChars);
 
             if (sentences.Length == 1)
             {
@@ -78,6 +83,29 @@ namespace Common.Dialogues.Utils
             }
             
             parsedText.SetSentence(_stringBuilder.ToString());
+        }
+
+        private void ParseTags(InkParsedText text, IReadOnlyList<string> tags)
+        {
+            foreach (var tag in tags)
+            {
+                string[] splittedTag = tag.Split(TagsDelimiterChar);
+                string concreteTag = splittedTag[0].Trim();
+                string tagValue = splittedTag[1].Trim();
+                
+                if (splittedTag.Length < 2)
+                    throw new Exception($"Invalid 'Ink' tag. Tag: {tag}");
+                
+                switch (concreteTag)
+                {
+                    case SpeakerTag:
+                        text.SetSpeaker(tagValue);
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException($"Founded an unknown tag: {concreteTag}");
+                }
+            }
         }
     }
 }

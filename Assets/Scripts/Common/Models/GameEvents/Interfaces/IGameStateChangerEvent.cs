@@ -6,6 +6,6 @@ namespace Common.Models.GameEvents.Interfaces
 {
     public interface IGameStateChangerEvent : IGameEvent
     {
-        event Action<Enums.GameStateType, GameStateArgs> RequestStateChange;
+        event Action<Enums.GameStateType, GameStateArgs> StateChangeRequested;
     }
 }

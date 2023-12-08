@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Dialogues.Interfaces;
+using Core.Data.Interfaces;
 using Core.GameStates;
 using Core.Interfaces;
 using Ink.Runtime;
@@ -13,7 +14,6 @@ namespace Common.Dialogues.States
         private readonly ITextsData _textsData;
         
         private readonly Dialogue _dialogue;
-        
         public event Func<DialogueStateArgs> RequestArgs;
 
         public DialogueInitializeState(IStateChanger<IDialogueState> stateChanger, IGameDataProvider gameDataProvider, Dialogue dialogue)
@@ -29,7 +29,7 @@ namespace Common.Dialogues.States
         {
             DialogueStateArgs args = RequestArgs?.Invoke();
             Story story = new Story(_textsData.GetText(args.DialogueDataProvider.Key).text);
-            
+
             _dialogue.SetStory(story);
             
             _stateChanger.ChangeState<DialogueActiveState>();

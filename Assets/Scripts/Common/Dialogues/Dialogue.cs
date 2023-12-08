@@ -5,12 +5,14 @@ using Common.Dialogues.Utils;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
 using Ink.Runtime;
+using UnityEngine;
 
 namespace Common.Dialogues
 {
     public class Dialogue
     {
         private readonly InkStoryParser _inkStoryParser;
+        private readonly InkFunctionsResolver _functionsResolver;
         
         private bool _canTypeNextSentence = true;
         private bool _canTypeSentenceAsync = true;
@@ -21,20 +23,29 @@ namespace Common.Dialogues
         private int _choiceIndex;
         private bool _isChoiceTaken;
 
+        private string _lastSpeaker;
+
         private Story _story;
 
-        public event Action<IReadOnlyList<Choice>> ChoicesRequested; 
+        public event Action<IReadOnlyList<Choice>> ChoicesSelectionRequested; 
         public event Action<string> NamePrinted;
         public event Action<string> LetterPrinted;
         public event Action<bool> SentencePrinting;
         public event Action Ended;
 
-        public Dialogue()
+        public Dialogue(InkFunctionsResolver functionsResolver)
         {
+            _functionsResolver = functionsResolver;
+            
             _inkStoryParser = new InkStoryParser();
         }
         
-        public void Start(CancellationToken token) => TypeMonologueAsync(token).Forget();
+        public void Start(CancellationToken token)
+        {
+            _functionsResolver.Bind(_story);
+
+            TypeMonologueAsync(token).Forget();
+        }
 
         public void SetStory(Story story) => _story = story;
 
@@ -72,7 +83,7 @@ namespace Common.Dialogues
             while (token.IsCancellationRequested == false && _story.canContinue)
             {
                 _canTypeNextSentence = false;
-
+                
                 UniTask typeSentenceTask = TypeSentenceAsync(_story.Continue(), token);
                 UniTask awaitPermissionToType = UniTask.WaitUntil(() => _canTypeNextSentence, cancellationToken: token);
 
@@ -86,21 +97,35 @@ namespace Common.Dialogues
                 }
             }
 
+            _functionsResolver.UnBind(_story);
+            
             Ended?.Invoke();
         }
 
         private async UniTask TypeSentenceAsync(string sentence, CancellationToken token) 
         {
+            if (sentence == string.Empty)
+            {
+                _canTypeNextSentence = true;
+                
+                return;
+            }
+            
+            _inkStoryParser.Parse(sentence, _story.currentTags, out InkParsedText parsedText);
+            
             string typedSentence = "";
-            string speaker = "";
+            string speaker = string.IsNullOrEmpty(parsedText.Speaker) ? _lastSpeaker : parsedText.Speaker;
 
+            if (string.IsNullOrEmpty(speaker))
+                throw new Exception($"Speaker of sentence {sentence} is unknown");
+            
+            _lastSpeaker = speaker;
+            
             _canTypeSentenceAsync = true;
             _isSentenceFinished = false;
 
             SentencePrinting?.Invoke(true);
             NamePrinted?.Invoke(speaker);
-            
-            _inkStoryParser.Parse(sentence, out InkParsedText parsedText);
 
             sentence = parsedText.Sentence;
 
@@ -153,7 +178,7 @@ namespace Common.Dialogues
 
         private async UniTask MakeChoiceAsync(CancellationToken token)
         {
-            ChoicesRequested?.Invoke(_story.currentChoices);
+            ChoicesSelectionRequested?.Invoke(_story.currentChoices);
 
             await UniTask.WaitUntil(() => _isChoiceTaken, cancellationToken: token);
             

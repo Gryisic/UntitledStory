@@ -1,12 +1,16 @@
 ﻿using System;
+using Common.Battle.States;
 using Common.UI;
 using Core.Configs;
 using Core.Configs.Interfaces;
 using Core.Data;
+using Core.Data.Interfaces;
 using Core.GameStates;
 using Core.Interfaces;
 using Core.PlayerInput;
 using Core.Utils;
+using Infrastructure.Factories.BattleStatesFactory;
+using Infrastructure.Factories.BattleStatesFactory.Interfaces;
 using Infrastructure.Factories.DialogueStatesFactory;
 using Infrastructure.Factories.DialogueStatesFactory.Interfaces;
 using Infrastructure.Factories.ExploringStateFactory;
@@ -80,17 +84,20 @@ namespace Core.Installers
         {
             Container.Bind<IExploringStateFactory>().To<ExploringStatesFactory>().AsSingle();
             Container.Bind<IDialogueStatesFactory>().To<DialogueStatesFactory>().AsSingle();
+            Container.Bind<IBattleStateFactory>().To<BattleStateFactory>().AsSingle();
             
-            Container.BindInterfacesAndSelfTo<ExploringStatesFactoryUpdater>().AsSingle().CopyIntoDirectSubContainers();
             Container.BindInterfacesAndSelfTo<DialogueStatesFactoryUpdater>().AsSingle().CopyIntoDirectSubContainers();
+            Container.BindInterfacesAndSelfTo<BattleStateFactoryUpdater>().AsSingle().CopyIntoDirectSubContainers();
+            Container.BindInterfacesAndSelfTo<ExploringStatesFactoryUpdater>().AsSingle().CopyIntoDirectSubContainers();
         }
-        
+
         private void BindGameStates()
         {
             Container.BindInterfacesAndSelfTo<GameInitializeState>().AsSingle();
             Container.BindInterfacesAndSelfTo<SceneSwitchState>().AsSingle();
             Container.BindInterfacesAndSelfTo<DialogueState>().AsSingle();
             Container.BindInterfacesAndSelfTo<ExploringState>().AsSingle();
+            Container.BindInterfacesAndSelfTo<BattleState>().AsSingle();
 
             Container.Bind<IGameStatesFactory>().To<GameStatesFactory>().AsSingle();
         }

@@ -1,10 +1,10 @@
-﻿using System;
-using Core.GameStates;
+﻿using Core.GameStates;
+using Core.Interfaces;
 
 namespace Common.Dialogues.Interfaces
 {
-    public interface IDialogueArgsRequester
+    public interface IDialogueArgsRequester : IGameStateArgsRequester<DialogueStateArgs>
     {
-        event Func<DialogueStateArgs> RequestArgs;
+        
     }
 }

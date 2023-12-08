@@ -1,1 +1,1 @@
-﻿{"inkVersion":21,"root":[["^Рассказываю [color_red]историю.","\n","^[color_orange]Очень...","\n","^[color_red]Очень..","\n","^Интересную.","\n",["done",{"#f":5,"#n":"g-0"}],null],"done",{"#f":1}],"listDefs":{}}
+﻿{"inkVersion":21,"root":[["\n","^Рассказываю [color_red]историю.","\n","^[color_orange]Очень...","\n","^[color_red]Очень..","\n","^Интересную.","\n","ev","str","^Test3","/str",{"x()":"ActivateTrigger","exArgs":1},"pop","/ev","\n",["done",{"#f":5,"#n":"g-0"}],null],"done",{"#f":1}],"listDefs":{}}

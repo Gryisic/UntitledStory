@@ -16,5 +16,11 @@ namespace Core.Extensions
             if (gameState is IDisposable disposable)
                 disposable.Dispose();
         }
+        
+        public static void Reset(this IChangeableState gameState)
+        {
+            if (gameState is IResettable resettable)
+                resettable.Reset();
+        }
     }
 }

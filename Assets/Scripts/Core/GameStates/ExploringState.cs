@@ -6,7 +6,6 @@ using Core.Extensions;
 using Core.Interfaces;
 using Infrastructure.Factories.ExploringStateFactory.Interfaces;
 using Infrastructure.Utils;
-using UnityEngine;
 
 namespace Core.GameStates
 {
@@ -92,6 +91,10 @@ namespace Core.GameStates
                 
                 case Enums.GameStateType.Dialogue:
                     _stateSwitcher.SwitchState<DialogueState>(args);
+                    break;
+                
+                case Enums.GameStateType.Battle:
+                    _stateSwitcher.SwitchState<BattleState>(args);
                     break;
                 
                 default:

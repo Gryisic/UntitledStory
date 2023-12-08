@@ -138,6 +138,156 @@ namespace Core.PlayerInput
             ]
         },
         {
+            ""name"": ""Battle"",
+            ""id"": ""57cc0642-a4aa-41ca-9768-b611085fb30a"",
+            ""actions"": [
+                {
+                    ""name"": ""Up"",
+                    ""type"": ""Button"",
+                    ""id"": ""44f087d2-b53a-49d7-adfe-d5a9ebbbf154"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Down"",
+                    ""type"": ""Button"",
+                    ""id"": ""ab02c3c7-0e00-430c-9813-864bc4015401"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack/Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""85c2f3b6-6988-4ce4-9068-7f5a6c102327"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill"",
+                    ""type"": ""Button"",
+                    ""id"": ""3feeec08-da91-46d3-a9de-35829337478b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Items"",
+                    ""type"": ""Button"",
+                    ""id"": ""ead6e34a-97f3-4f14-a8d7-f81674985cc5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Guard/Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""ebd6b6fe-9136-4956-b8c9-48db7c83b123"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""ae5fc380-ba32-4e95-8088-2b8315104c83"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14b4e080-ea6f-4f14-8649-afa67e0458ff"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""286c8e3a-ae02-4833-96fc-dd4131db83ba"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""526879fb-f14c-43bc-937e-b7a6b8263400"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6f5ed8a9-0b7a-40cf-b4f1-c00956c8c29a"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack/Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e97f82f8-a433-4496-82f0-01af9e68b075"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6d09197-bdfd-4fe1-86ff-abe7d32d388b"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Items"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98d05ac4-0980-400b-9fdb-35cd2b48abc6"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Guard/Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""Dialogue"",
             ""id"": ""505d8b1c-2e0d-40ad-9597-d7739d4c3e3f"",
             ""actions"": [
@@ -413,6 +563,14 @@ namespace Core.PlayerInput
             m_Explore_Move = m_Explore.FindAction("Move", throwIfNotFound: true);
             m_Explore_Interact = m_Explore.FindAction("Interact", throwIfNotFound: true);
             m_Explore_Attack = m_Explore.FindAction("Attack", throwIfNotFound: true);
+            // Battle
+            m_Battle = asset.FindActionMap("Battle", throwIfNotFound: true);
+            m_Battle_Up = m_Battle.FindAction("Up", throwIfNotFound: true);
+            m_Battle_Down = m_Battle.FindAction("Down", throwIfNotFound: true);
+            m_Battle_AttackSelect = m_Battle.FindAction("Attack/Select", throwIfNotFound: true);
+            m_Battle_Skill = m_Battle.FindAction("Skill", throwIfNotFound: true);
+            m_Battle_Items = m_Battle.FindAction("Items", throwIfNotFound: true);
+            m_Battle_GuardCancel = m_Battle.FindAction("Guard/Cancel", throwIfNotFound: true);
             // Dialogue
             m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
             m_Dialogue_NextSentence = m_Dialogue.FindAction("NextSentence", throwIfNotFound: true);
@@ -548,6 +706,92 @@ namespace Core.PlayerInput
             }
         }
         public ExploreActions @Explore => new ExploreActions(this);
+
+        // Battle
+        private readonly InputActionMap m_Battle;
+        private List<IBattleActions> m_BattleActionsCallbackInterfaces = new List<IBattleActions>();
+        private readonly InputAction m_Battle_Up;
+        private readonly InputAction m_Battle_Down;
+        private readonly InputAction m_Battle_AttackSelect;
+        private readonly InputAction m_Battle_Skill;
+        private readonly InputAction m_Battle_Items;
+        private readonly InputAction m_Battle_GuardCancel;
+        public struct BattleActions
+        {
+            private @Input m_Wrapper;
+            public BattleActions(@Input wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Up => m_Wrapper.m_Battle_Up;
+            public InputAction @Down => m_Wrapper.m_Battle_Down;
+            public InputAction @AttackSelect => m_Wrapper.m_Battle_AttackSelect;
+            public InputAction @Skill => m_Wrapper.m_Battle_Skill;
+            public InputAction @Items => m_Wrapper.m_Battle_Items;
+            public InputAction @GuardCancel => m_Wrapper.m_Battle_GuardCancel;
+            public InputActionMap Get() { return m_Wrapper.m_Battle; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(BattleActions set) { return set.Get(); }
+            public void AddCallbacks(IBattleActions instance)
+            {
+                if (instance == null || m_Wrapper.m_BattleActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_BattleActionsCallbackInterfaces.Add(instance);
+                @Up.started += instance.OnUp;
+                @Up.performed += instance.OnUp;
+                @Up.canceled += instance.OnUp;
+                @Down.started += instance.OnDown;
+                @Down.performed += instance.OnDown;
+                @Down.canceled += instance.OnDown;
+                @AttackSelect.started += instance.OnAttackSelect;
+                @AttackSelect.performed += instance.OnAttackSelect;
+                @AttackSelect.canceled += instance.OnAttackSelect;
+                @Skill.started += instance.OnSkill;
+                @Skill.performed += instance.OnSkill;
+                @Skill.canceled += instance.OnSkill;
+                @Items.started += instance.OnItems;
+                @Items.performed += instance.OnItems;
+                @Items.canceled += instance.OnItems;
+                @GuardCancel.started += instance.OnGuardCancel;
+                @GuardCancel.performed += instance.OnGuardCancel;
+                @GuardCancel.canceled += instance.OnGuardCancel;
+            }
+
+            private void UnregisterCallbacks(IBattleActions instance)
+            {
+                @Up.started -= instance.OnUp;
+                @Up.performed -= instance.OnUp;
+                @Up.canceled -= instance.OnUp;
+                @Down.started -= instance.OnDown;
+                @Down.performed -= instance.OnDown;
+                @Down.canceled -= instance.OnDown;
+                @AttackSelect.started -= instance.OnAttackSelect;
+                @AttackSelect.performed -= instance.OnAttackSelect;
+                @AttackSelect.canceled -= instance.OnAttackSelect;
+                @Skill.started -= instance.OnSkill;
+                @Skill.performed -= instance.OnSkill;
+                @Skill.canceled -= instance.OnSkill;
+                @Items.started -= instance.OnItems;
+                @Items.performed -= instance.OnItems;
+                @Items.canceled -= instance.OnItems;
+                @GuardCancel.started -= instance.OnGuardCancel;
+                @GuardCancel.performed -= instance.OnGuardCancel;
+                @GuardCancel.canceled -= instance.OnGuardCancel;
+            }
+
+            public void RemoveCallbacks(IBattleActions instance)
+            {
+                if (m_Wrapper.m_BattleActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IBattleActions instance)
+            {
+                foreach (var item in m_Wrapper.m_BattleActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_BattleActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public BattleActions @Battle => new BattleActions(this);
 
         // Dialogue
         private readonly InputActionMap m_Dialogue;
@@ -747,6 +991,15 @@ namespace Core.PlayerInput
             void OnMove(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
             void OnAttack(InputAction.CallbackContext context);
+        }
+        public interface IBattleActions
+        {
+            void OnUp(InputAction.CallbackContext context);
+            void OnDown(InputAction.CallbackContext context);
+            void OnAttackSelect(InputAction.CallbackContext context);
+            void OnSkill(InputAction.CallbackContext context);
+            void OnItems(InputAction.CallbackContext context);
+            void OnGuardCancel(InputAction.CallbackContext context);
         }
         public interface IDialogueActions
         {

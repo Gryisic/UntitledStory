@@ -4,29 +4,360 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="abcf296d-1a7c-4294-9603-5656c227e490" name="Changes" comment="" />
+    <list default="true" id="abcf296d-1a7c-4294-9603-5656c227e490" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Animation.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Animation/AnimationEditor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Animation/AnimationEditor.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Animation/AnimationFrameDrawer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Animation/AnimationFrameDrawer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/SubclassPickerDrawer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/SubclassPickerDrawer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Utils.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Utils/EditorUtils.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/Utils/EditorUtils.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Constraints.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Constraints/BattleConstraint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Constraints/BattleConstraint.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Constraints/ExternalUnitsConstraint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Constraints/ExternalUnitsConstraint.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Constraints/PlacementConstraint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Constraints/PlacementConstraint.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Interfaces.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Interfaces/IBattleState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Interfaces/IBattleState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Interfaces/IBattleStateArgsRequester.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Interfaces/IBattleStateArgsRequester.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/ActionExecutionState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/ActionExecutionState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/BattleFinalizeState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/BattleFinalizeState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/BattleInitializeState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/BattleInitializeState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/BattleStateBase.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/BattleStateBase.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/EnemyTurnState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/EnemyTurnState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/PartyTurnState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/PartyTurnState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/TurnSelectionState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/TurnSelectionState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Turns.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Turns/EnemyTurn.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Turns/EnemyTurn.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Turns/PartyMemberTurn.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Turns/PartyMemberTurn.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Turns/Turn.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Turns/Turn.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Turns/TurnsHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Turns/TurnsHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Utils.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Utils/ConstrainedPosition.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Utils/ConstrainedPosition.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Utils/InitialUnitsPlacementResolver.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Battle/Utils/InitialUnitsPlacementResolver.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/Utils/InkFunctionsResolver.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/Utils/InkFunctionsResolver.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/AnimationFrame.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/AnimationFrame.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/Callbacks.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/Callbacks/AnimationCallback.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/Callbacks/AnimationCallback.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/Callbacks/DebugMessageCallback.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/Callbacks/DebugMessageCallback.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/CustomAnimation.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/CustomAnimation.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/CustomAnimator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/CustomAnimator.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/Interfaces.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/Interfaces/IAnimationFrameData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/Interfaces/IAnimationFrameData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/Interfaces/ICustomAnimation.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/Interfaces/ICustomAnimation.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Affects.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Affects/BattleAffect.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Affects/BattleAffect.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/BattleAction.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/BattleAction.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/BattleActionTemplate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/BattleActionTemplate.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/BattleActionsHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/BattleActionsHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Effects.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Effects/BattleActionEffect.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Effects/BattleActionEffect.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Effects/DamageDealEffect.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Effects/DamageDealEffect.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Interfaces.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Interfaces/IBattleActionData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/Interfaces/IBattleActionData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/GameEvents/Interfaces/IEncounterEvent.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/GameEvents/Interfaces/IEncounterEvent.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Impactable.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Impactable/Interfaces.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Impactable/Interfaces/IAffectable.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Impactable/Interfaces/IAffectable.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Impactable/Interfaces/IDamageable.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Impactable/Interfaces/IDamageable.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Impactable/Interfaces/IHealable.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Impactable/Interfaces/IHealable.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Extensions.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Extensions/MonoTriggersExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Extensions/MonoTriggersExtensions.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Interfaces/IEncounterTrigger.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Interfaces/IEncounterTrigger.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Interfaces/IMonoTrigger.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Interfaces/IMonoTrigger.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Mono.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Mono/MonoDialogueTrigger.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Mono/MonoEncounterTrigger.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Mono/MonoEncounterTrigger.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Mono/MonoTrigger.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattleField.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattleField.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattleFieldSearchStrategy.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattleFieldSearchStrategy/FixedBattleFieldPositionStrategy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattleFieldSearchStrategy/FixedBattleFieldPositionStrategy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattleFieldSearchStrategy/RandomBattleFieldPositionStrategy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattleFieldSearchStrategy/RandomBattleFieldPositionStrategy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattlefieldPlacementStrategy.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattlefieldPlacementStrategy/FixedBattleFieldPlacementStrategy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattlefieldPlacementStrategy/FixedBattleFieldPlacementStrategy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattlefieldPlacementStrategy/RandomBattleFieldPlacementStrategy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/BattlefieldPlacementStrategy/RandomBattleFieldPlacementStrategy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/Extensions.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/Extensions/NavigationCellExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/Extensions/NavigationCellExtensions.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/Interfaces.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/Interfaces/IBattleFieldPlacementStrategy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/Interfaces/IBattleFieldPlacementStrategy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/Interfaces/IBattleFieldSearchStrategy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/Interfaces/IBattleFieldSearchStrategy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/NavigationArea.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/NavigationArea.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/NavigationCell.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/NavigationCell.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/NavigationGrid.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/NavigationGrid.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/Pathfinding.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Navigation/Pathfinding.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/CheckStrategy.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/CheckStrategy/HoldQTECheckStrategy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/CheckStrategy/HoldQTECheckStrategy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/CheckStrategy/TapQTECheckStrategy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/CheckStrategy/TapQTECheckStrategy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/Interfaces.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/Interfaces/IQTEConditionCheckStrategy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/Interfaces/IQTEConditionCheckStrategy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/QuickTimeEvent.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/QuickTimeEvent.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/QuickTimeEventExecutor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/QuickTimeEventExecutor.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/Templates.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/Templates/HoldQTETemplate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/Templates/HoldQTETemplate.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/Templates/QuickTimeEventTemplate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/Templates/QuickTimeEventTemplate.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/Templates/TapQTETemplate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/QTE/Templates/TapQTETemplate.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/ActionButtonView.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/ActionButtonView.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/ActionsSelectorView.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/ActionsSelectorView.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/BattleActionsView.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/BattleActionsView.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/BattleListedLayoutItemView.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/BattleListedLayoutItemView.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/BattleListedLayoutView.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/BattleListedLayoutView.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Battle/QTE.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Common.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Common/DescriptionView.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Common/DescriptionView.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Interfaces/IListedItemData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Interfaces/IListedItemData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Actions/MoveToPointAction.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Actions/MoveToPointAction.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Battle.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Battle/BattleEnemy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Battle/BattleEnemy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Battle/BattlePartyMember.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Battle/BattlePartyMember.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Battle/BattleUnit.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Battle/BattleUnit.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Exploring.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Extensions.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Extensions/UnitExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Extensions/UnitExtensions.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Handlers.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Handlers/BattleUnitsHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Handlers/BattleUnitsHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Handlers/UnitsHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Handlers/UnitsHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Interfaces/IBattleUnitSharedData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Interfaces/IBattleUnitSharedData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Interfaces/IUnitSharedData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Interfaces/IUnitSharedData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Templates/BattleUnitTemplate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Templates/BattleUnitTemplate.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces/ITriggersData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces/ITriggersData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/TriggersData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/TriggersData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Extensions/GameObjectExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Extensions/GameObjectExtensions.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Extensions/IntExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Extensions/IntExtensions.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Extensions/MathExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Extensions/MathExtensions.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/GameStates/BattleState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/GameStates/BattleState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/GameStates/BattleStateArgs.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/GameStates/BattleStateArgs.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/BattleInstaller.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/BattleInstaller.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Interfaces/IGameStateArgsRequester.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Interfaces/IGameStateArgsRequester.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Factories/BattleStatesFactory.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Factories/BattleStatesFactory/BattleStateFactory.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Factories/BattleStatesFactory/BattleStateFactory.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Factories/BattleStatesFactory/BattleStateFactoryUpdater.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Factories/BattleStatesFactory/BattleStateFactoryUpdater.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Factories/BattleStatesFactory/Interfaces.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Factories/BattleStatesFactory/Interfaces/IBattleStateFactory.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Factories/BattleStatesFactory/Interfaces/IBattleStateFactory.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Utils/SubclassesPicker.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Utils/SubclassesPicker.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UntitledStory/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UntitledStory/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Data/Core/PartyData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Data/Core/PartyData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Data/Exploring/Units/Party/Protagonist.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Data/Exploring/Units/Party/Protagonist.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Data/Fonts/Pixel.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Data/Fonts/Pixel.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Core/OverlayCanvas.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Core/OverlayCanvas.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Core/UI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Core/UI.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Localization/Russian/Test.ink" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Localization/Russian/Test.ink" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Localization/Russian/Test.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Localization/Russian/Test.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Localization/Russian/Test2.ink" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Localization/Russian/Test2.ink" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Localization/Russian/Test2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Localization/Russian/Test2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Units/Protagonist.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Units/Protagonist.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Academy.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Academy.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/Dialogue.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/Dialogue.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/Interfaces/IDialogueArgsRequester.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/Interfaces/IDialogueArgsRequester.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/States/DialogueActiveState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/States/DialogueActiveState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/States/DialogueInitializeState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/States/DialogueInitializeState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/Utils/InkParsedText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/Utils/InkParsedText.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/Utils/InkStoryParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Dialogues/Utils/InkStoryParser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Exploring/States/ExploringActiveState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Exploring/States/ExploringActiveState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Exploring/States/ExploringInitializeState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Exploring/States/ExploringInitializeState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Models/GameEvents/Interfaces/IGameStateChangerEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/GameEvents/Interfaces/IGameStateChangerEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Scene/SceneInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Scene/SceneInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Interfaces/ITrigger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Interfaces/ITrigger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/MonoDialogueTrigger.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/MonoDialogueTrigger.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Mono/MonoDialogueTrigger.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/MonoTrigger.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/MonoTrigger.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Mono/MonoTrigger.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/MonoTriggersHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Mono/MonoTriggersHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/MonoTriggersHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Mono/MonoTriggersHandler.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Dialogue/DialogueChoicesView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Dialogue/DialogueChoicesView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Dialogue/DialogueView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Dialogue/DialogueView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Extensions/UIElementExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Extensions/UIElementExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Interfaces/ISelectableUIElement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/UI/Interfaces/ISelectableUIElement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Actions/ContinuousMoveAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Actions/ContinuousMoveAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Actions/UnitAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Actions/UnitAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Actions/UnitActionsExecutor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Actions/UnitActionsExecutor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/ExploringUnit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Exploring/ExploringUnit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/ExploringUnit.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Exploring/ExploringUnit.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Interfaces/IUnitInternalData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Interfaces/IUnitInternalData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Templates/UnitTemplate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Templates/UnitTemplate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/UnitInternalData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/UnitInternalData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/UnitsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Handlers/ExploringUnitsHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Units/UnitsHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Units/Handlers/ExploringUnitsHandler.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Data/GameData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/GameData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Data/GameDataProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/GameDataProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Data/PartyData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/PartyData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Data/TextsData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/TextsData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Extensions/ChangeableStateExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Extensions/ChangeableStateExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Extensions/VectorExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Extensions/VectorExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Game.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/GameStates/DialogueState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/GameStates/DialogueState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/GameStates/ExploringState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/GameStates/ExploringState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/DialogueInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/DialogueInstaller.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/ExploringInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/ExploringInstaller.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/GameInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/GameInstaller.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/SceneInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Installers/SceneInstaller.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Interfaces/IGameData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces/IGameData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Interfaces/IGameData.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces/IGameData.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Interfaces/IGameDataProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces/IGameDataProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Interfaces/IGameDataProvider.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces/IGameDataProvider.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Interfaces/IPartyData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces/IPartyData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Interfaces/IPartyData.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces/IPartyData.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Interfaces/ITextsData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces/ITextsData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Interfaces/ITextsData.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Data/Interfaces/ITextsData.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/PlayerInput/Input.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/PlayerInput/Input.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Core/PlayerInput/Input.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Core/PlayerInput/Input.inputactions" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Factories/Extensions/UnitFactoryExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Factories/Extensions/UnitFactoryExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Utils/Constants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Utils/Constants.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Utils/Enums.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Infrastructure/Utils/Enums.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/DynamicsManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/30adf90198bc4c4b83910c6fb1877998174000/1d/16cc917d/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Project Dualism/repo/UntitledStory/Assets/Plugins/UniTask/Runtime/UniTaskScheduler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Project Dualism/repo/UntitledStory/Assets/Plugins/Zenject/Source/Main/DiContainer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/Animation/AnimationEditor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/Animation/AnimationFrameDrawer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Common/Battle/States/BattleInitializeState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Common/Exploring/States/ExploringInitializeState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/CustomAnimation.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Common/Models/Animator/CustomAnimator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Common/Models/BattleAction/BattleActionTemplate.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Interfaces/IMonoTrigger.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Common/Models/Triggers/Mono/MonoEncounterTrigger.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Common/Units/Unit.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/Game.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/GameStates/BattleState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/GameStates/StatesChanger.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/Installers/GameInstaller.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Core/Installers/SceneInstaller.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.2d.tilemap@1.0.0/Editor/GridPaintingState.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="Toolset" />
+  </component>
   <component name="ProjectId" id="2XwcYEVCMWm0pnwqh1adQyJOaJS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -88,6 +419,32 @@
       <workItem from="1699625824440" duration="15168000" />
       <workItem from="1699708129723" duration="22882000" />
       <workItem from="1699794601563" duration="7268000" />
+      <workItem from="1699818450586" duration="6449000" />
+      <workItem from="1699890142905" duration="1666000" />
+      <workItem from="1699893411900" duration="751000" />
+      <workItem from="1699894314941" duration="15199000" />
+      <workItem from="1699968035157" duration="557000" />
+      <workItem from="1699971624153" duration="734000" />
+      <workItem from="1699992798064" duration="3231000" />
+      <workItem from="1700390451583" duration="19228000" />
+      <workItem from="1700482398482" duration="2495000" />
+      <workItem from="1700507350261" duration="731000" />
+      <workItem from="1700508167359" duration="468000" />
+      <workItem from="1700508849772" duration="386000" />
+      <workItem from="1700509366877" duration="12675000" />
+      <workItem from="1700583050109" duration="18485000" />
+      <workItem from="1700841263872" duration="10186000" />
+      <workItem from="1700911881691" duration="2398000" />
+      <workItem from="1700993174813" duration="11471000" />
+      <workItem from="1701081762853" duration="6168000" />
+      <workItem from="1701153956027" duration="18795000" />
+      <workItem from="1701188395888" duration="6272000" />
+      <workItem from="1701244090226" duration="22742000" />
+      <workItem from="1701511417672" duration="19615000" />
+      <workItem from="1701592502956" duration="17288000" />
+      <workItem from="1701680137147" duration="11360000" />
+      <workItem from="1701780661418" duration="4067000" />
+      <workItem from="1701853051168" duration="8784000" />
     </task>
     <servers />
   </component>

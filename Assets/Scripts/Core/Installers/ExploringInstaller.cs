@@ -19,11 +19,8 @@ namespace Core.Installers
         
         private void BindPlayer() => Container.Bind<Player>().AsSingle();
         
-        private void BindFactories()
-        {
-            Container.Bind<IUnitFactory>().To<UnitFactory>().AsSingle();
-        }
-        
+        private void BindFactories() => Container.Bind<IUnitFactory>().To<UnitFactory>().AsSingle();
+
         private void BindStates()
         {
             Container.BindInterfacesAndSelfTo<ExploringInitializeState>().AsSingle();

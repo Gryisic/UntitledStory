@@ -1,7 +1,7 @@
 ﻿using System;
 using Common.Models.Cameras;
 using Common.Models.Scene;
-using Common.Units;
+using Common.Units.Handlers;
 using Core.Interfaces;
 using Core.Utils;
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace Core.Installers
 
         public override void InstallBindings()
         {
-            BindUnitsHandler();
+            BindUnitsHandlers();
             BindSceneInfo();
             BindSelf();
         }
@@ -30,12 +30,19 @@ namespace Core.Installers
         
         public void Dispose()
         {
-            UnitsHandler unitsHandler = Container.Resolve<UnitsHandler>();
-            
-            unitsHandler.Dispose();
+            ExploringUnitsHandler exploringUnitsHandler = Container.Resolve<ExploringUnitsHandler>();
+            BattleUnitsHandler battleUnitsHandler = Container.Resolve<BattleUnitsHandler>();
+
+            exploringUnitsHandler.Dispose();
+            battleUnitsHandler.Dispose();
+            _sceneInfo.Dispose();
         }
         
-        private void BindUnitsHandler() => Container.Bind<UnitsHandler>().AsSingle();
+        private void BindUnitsHandlers()
+        {
+            Container.Bind<ExploringUnitsHandler>().AsSingle();
+            Container.Bind<BattleUnitsHandler>().AsSingle();
+        }
 
         private void BindSceneInfo() => Container.Bind<SceneInfo>().FromInstance(_sceneInfo).AsSingle();
 

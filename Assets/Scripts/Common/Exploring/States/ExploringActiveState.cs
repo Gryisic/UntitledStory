@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Common.Exploring.Interfaces;
 using Common.Models.GameEvents.Interfaces;
 using Common.Models.Scene;
+using Common.Units.Handlers;
 using Core;
+using Core.Data.Interfaces;
 using Core.GameStates;
 using Core.Interfaces;
 using Infrastructure.Utils;
@@ -13,22 +17,28 @@ namespace Common.Exploring.States
     {
         private readonly IStateChanger<IExploringState> _stateChanger;
         private readonly IInputService _inputService;
+        private readonly ITriggersData _triggersData;
         
         private readonly Player _player;
         private readonly SceneInfo _sceneInfo;
+        private readonly ExploringUnitsHandler _unitsHandler;
         
         public event Action<Enums.GameStateType, GameStateArgs> RequestStateChange;
 
-        public ExploringActiveState(IStateChanger<IExploringState> stateChanger, IServicesHandler servicesHandler, Player player, SceneInfo sceneInfo)
+        public ExploringActiveState(IStateChanger<IExploringState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, ExploringUnitsHandler unitsHandler)
         {
             _stateChanger = stateChanger;
             _inputService = servicesHandler.InputService;
+            _triggersData = gameDataProvider.GetData<ITriggersData>();
             _player = player;
             _sceneInfo = sceneInfo;
+            _unitsHandler = unitsHandler;
         }
         
         public void Activate()
         {
+            ValidateData();
+            
             SubscribeToEvents();
             AttachInput();
             
@@ -47,8 +57,10 @@ namespace Common.Exploring.States
         {
             foreach (var trigger in _sceneInfo.MonoTriggersHandler.Triggers)
             {
+                trigger.IDUsed += _triggersData.Remove;
+
                 if (trigger is IGameStateChangerEvent gameStateChanger)
-                    gameStateChanger.RequestStateChange += OnGameStateChangeRequested;
+                    gameStateChanger.StateChangeRequested += OnGameStateChangeRequested;
             }
         }
 
@@ -56,8 +68,10 @@ namespace Common.Exploring.States
         {
             foreach (var trigger in _sceneInfo.MonoTriggersHandler.Triggers)
             {
+                trigger.IDUsed -= _triggersData.Remove;
+                
                 if (trigger is IGameStateChangerEvent gameStateChanger)
-                    gameStateChanger.RequestStateChange -= OnGameStateChangeRequested;
+                    gameStateChanger.StateChangeRequested -= OnGameStateChangeRequested;
             }
         }
         
@@ -81,6 +95,27 @@ namespace Common.Exploring.States
             _inputService.Input.Explore.Interact.performed -= _player.Interact;
         }
         
-        private void OnGameStateChangeRequested(Enums.GameStateType nextState, GameStateArgs args) => RequestStateChange?.Invoke(nextState,args);
+        private void OnGameStateChangeRequested(Enums.GameStateType nextState, GameStateArgs args)
+        {
+            _unitsHandler.DeactivateAll();
+            
+            RequestStateChange?.Invoke(nextState, args);
+        }
+
+        private void ValidateData()
+        {
+            if (_triggersData.IsDirty == false)
+                return;
+            
+            List<string> ids = _triggersData.GetIDList().ToList();
+
+            foreach (var trigger in _sceneInfo.MonoTriggersHandler.Triggers)
+            {
+                List<string> intersectedIDs = trigger.IDs.Intersect(ids).ToList();
+                    
+                trigger.SetActiveIDs(intersectedIDs);
+                ids = ids.Except(intersectedIDs).ToList();
+            }
+        }
     }
 }

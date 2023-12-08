@@ -13,3 +13,8 @@ MonoBehaviour:
   m_Name: Protagonist
   m_EditorClassIdentifier: 
   _id: 1
+  _animationData:
+  - _animationType: 0
+    _animation: {fileID: 11400000, guid: 8d57cec595b5c7a40954770dc67196d3, type: 2}
+  - _animationType: 1
+    _animation: {fileID: 11400000, guid: dcecc4ab96bd6664f9eae96112e5c719, type: 2}

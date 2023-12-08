@@ -6,18 +6,21 @@ using UnityEngine;
 
 namespace Common.Units
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-    public abstract class Unit : MonoBehaviour, IDisposable
+    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(SpriteRenderer))]
+    public abstract class Unit : MonoBehaviour, IUnitSharedData, IDisposable
     {
         [SerializeField] protected Rigidbody2D localRigidbody;
         [SerializeField] protected Collider2D localCollider;
+        [SerializeField] protected SpriteRenderer localRenderer;
 
         protected IUnitInternalData internalData;
 
         protected UnitActionsExecutor actionsExecutor;
-
+        
         protected bool isActive;
         
+        public int ID { get; private set; }
+
         private void Awake()
         {
             if (localRigidbody == null)
@@ -33,10 +36,24 @@ namespace Common.Units
                 
                 Debug.LogWarning($"Collider of unit {name} {GetInstanceID()} isn't assigned");
             }
+            
+            if (localRenderer == null)
+            {
+                localRenderer = GetComponent<SpriteRenderer>();
+                
+                Debug.LogWarning($"Sprite Renderer of unit {name} {GetInstanceID()} isn't assigned");
+            }
         }
-        
-        public abstract void Initialize(UnitTemplate template);
-        public abstract void Dispose();
+
+        public virtual void Initialize(UnitTemplate template)
+        {
+            ID = template.ID;
+        }
+
+        public virtual void Dispose()
+        {
+            internalData.Dispose();   
+        }
 
         public virtual void Activate()
         {
@@ -57,8 +74,6 @@ namespace Common.Units
             
             actionsExecutor.SuppressActionExecution();
             actionsExecutor.CancelAllActions();
-            
-            internalData.Rigidbody.velocity = Vector2.zero;
         }
     }
 }

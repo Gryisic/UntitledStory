@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Units;
+using Common.Units.Exploring;
 using Common.Units.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;

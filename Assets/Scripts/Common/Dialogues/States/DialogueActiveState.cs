@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Common.Dialogues.Interfaces;
+using Common.Dialogues.Utils;
 using Common.UI.Dialogue;
+using Core.Data.Interfaces;
 using Core.GameStates;
 using Core.Interfaces;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
+using Ink.Runtime;
 using UnityEngine.InputSystem;
 
 namespace Common.Dialogues.States
@@ -14,20 +18,28 @@ namespace Common.Dialogues.States
     {
         private readonly IStateChanger<IDialogueState> _stateChanger;
         private readonly IInputService _inputService;
+        private readonly ITriggersData _triggersData;
         
         private readonly Dialogue _dialogue;
+        private readonly InkFunctionsResolver _functionsResolver;
         private readonly DialogueView _dialogueView;
+        private readonly DialogueBoxView _boxView;
+        private readonly DialogueChoicesView _choicesView;
 
         private CancellationTokenSource _dialogueTokenSource;
         
         public event Action<Enums.GameStateType, GameStateArgs> RequestStateChange;
 
-        public DialogueActiveState(IStateChanger<IDialogueState> stateChanger, IServicesHandler servicesHandler, Dialogue dialogue, UI.UI ui)
+        public DialogueActiveState(IStateChanger<IDialogueState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Dialogue dialogue, InkFunctionsResolver functionsResolver, UI.UI ui)
         {
             _stateChanger = stateChanger;
             _inputService = servicesHandler.InputService;
+            _triggersData = gameDataProvider.GetData<ITriggersData>();
             _dialogue = dialogue;
+            _functionsResolver = functionsResolver;
             _dialogueView = ui.Get<DialogueView>();
+            _boxView = _dialogueView.GetView<DialogueBoxView>();
+            _choicesView = _dialogueView.GetView<DialogueChoicesView>();
         }
         
         public void Dispose()
@@ -54,16 +66,28 @@ namespace Common.Dialogues.States
 
         private void SubscribeToEvents()
         {
-            _dialogue.NamePrinted += _dialogueView.UpdateName;
-            _dialogue.LetterPrinted += _dialogueView.UpdateSentence;
+            _dialogue.NamePrinted += _boxView.UpdateName;
+            _dialogue.LetterPrinted += _boxView.UpdateSentence;
             _dialogue.Ended += OnDialogueEnded;
+            _dialogue.ChoicesSelectionRequested += OnChoicesSelectionRequested;
+
+            _choicesView.ChoiseTaken += OnChoiceTaken;
+            
+            _functionsResolver.ActivateTrigger += _triggersData.Add;
+            _functionsResolver.DeactivateTrigger += _triggersData.Remove;
         }
 
         private void UnsubscribeToEvents()
         {
-            _dialogue.NamePrinted -= _dialogueView.UpdateName;
-            _dialogue.LetterPrinted -= _dialogueView.UpdateSentence;
+            _dialogue.NamePrinted -= _boxView.UpdateName;
+            _dialogue.LetterPrinted -= _boxView.UpdateSentence;
             _dialogue.Ended -= OnDialogueEnded;
+            _dialogue.ChoicesSelectionRequested -= OnChoicesSelectionRequested;
+
+            _choicesView.ChoiseTaken -= OnChoiceTaken;
+
+            _functionsResolver.ActivateTrigger -= _triggersData.Add;
+            _functionsResolver.DeactivateTrigger -= _triggersData.Remove;
         }
         
         private void AttachInput()
@@ -96,6 +120,23 @@ namespace Common.Dialogues.States
         private void ToggleAutoDialogueMode(InputAction.CallbackContext context) => _dialogue.ToggleAutoMode();
 
         private void ToNextState() => RequestStateChange?.Invoke(Enums.GameStateType.Explore, new GameStateArgs());
+        
+        private void OnChoicesSelectionRequested(IReadOnlyList<Choice> choices)
+        {
+            _choicesView.SetIndexesAmount(choices.Count);
+
+            foreach (var choice in choices) 
+                _choicesView.SetNextChoiceText(choice.text);
+
+            _choicesView.ActivateAsync(_dialogueTokenSource.Token).Forget();
+        }
+        
+        private void OnChoiceTaken(int index)
+        {
+            _dialogue.SetChoice(index);
+            
+            _choicesView.DeactivateAsync(_dialogueTokenSource.Token).Forget();
+        }
         
         private async UniTask EndAsync()
         {

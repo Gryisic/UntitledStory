@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Common.Models.Triggers.Interfaces
 {
     public interface ITrigger
     {
-        int ID { get; }
-        
-        event Action Triggered;
+        IReadOnlyList<string> IDs { get; }
     }
 }

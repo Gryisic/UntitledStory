@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _exploringUnitTemplates:
   - {fileID: 11400000, guid: ecf232a92fbd20346a75e7f08212b437, type: 2}
+  _battleUnitTemplates:
+  - {fileID: 11400000, guid: a998b650bf1d5404b9019eaf10262e05, type: 2}

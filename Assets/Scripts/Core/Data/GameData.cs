@@ -1,4 +1,5 @@
-﻿using Core.Interfaces;
+﻿using Core.Data.Interfaces;
+using Core.Interfaces;
 using UnityEngine;
 
 namespace Core.Data

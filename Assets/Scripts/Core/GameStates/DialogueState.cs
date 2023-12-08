@@ -62,6 +62,8 @@ namespace Core.GameStates
             _isInitialized = true;
         }
 
+        private DialogueStateArgs GetArgs() => _args;
+
         private void SubscribeToEvents()
         {
             foreach (var state in states)
@@ -85,8 +87,6 @@ namespace Core.GameStates
                     argsRequester.RequestArgs -= GetArgs;
             }
         }
-
-        private DialogueStateArgs GetArgs() => _args;
         
         private void ToNextState(Enums.GameStateType nextState, GameStateArgs args)
         {

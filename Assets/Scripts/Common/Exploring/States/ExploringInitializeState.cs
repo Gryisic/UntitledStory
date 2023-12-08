@@ -1,8 +1,11 @@
 ﻿using Common.Exploring.Interfaces;
 using Common.Models.Scene;
 using Common.Units;
+using Common.Units.Exploring;
+using Common.Units.Handlers;
 using Common.Units.Templates;
 using Core;
+using Core.Data.Interfaces;
 using Core.Interfaces;
 using Infrastructure.Factories.UnitsFactory.Interfaces;
 
@@ -17,9 +20,9 @@ namespace Common.Exploring.States
         
         private readonly Player _player;
         private readonly SceneInfo _sceneInfo;
-        private readonly UnitsHandler _unitsHandler;
+        private readonly ExploringUnitsHandler _exploringUnitsHandler;
 
-        public ExploringInitializeState(IStateChanger<IExploringState> stateChanger, IUnitFactory unitFactory, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, UnitsHandler unitsHandler)
+        public ExploringInitializeState(IStateChanger<IExploringState> stateChanger, IUnitFactory unitFactory, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, ExploringUnitsHandler exploringUnitsHandler)
         {
             _stateChanger = stateChanger;
             _unitFactory = unitFactory;
@@ -27,7 +30,7 @@ namespace Common.Exploring.States
             _gameDataProvider = gameDataProvider;
             _player = player;
             _sceneInfo = sceneInfo;
-            _unitsHandler = unitsHandler;
+            _exploringUnitsHandler = exploringUnitsHandler;
         }
 
         public void Activate()
@@ -47,7 +50,7 @@ namespace Common.Exploring.States
             ExploringUnit unit = _unitFactory.Create(unitTemplate, _sceneInfo.ExploreUnitSpawnPoint.position) as ExploringUnit;
             
             unit.Initialize(unitTemplate);
-            _unitsHandler.Add(unit);
+            _exploringUnitsHandler.Add(unit);
             _player.UpdateExploringUnit(unit);
         }
     }

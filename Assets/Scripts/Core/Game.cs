@@ -63,10 +63,8 @@ namespace Core
         
         private void ResetAllStates()
         {
-            foreach (var gameState in _gameStates)
-            {
+            foreach (var gameState in _gameStates) 
                 gameState.Reset();
-            }
         }
     }
 }

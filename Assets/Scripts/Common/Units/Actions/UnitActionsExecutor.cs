@@ -10,6 +10,7 @@ namespace Common.Units.Actions
     {
         private readonly Queue<UnitAction> _actionsQueue;
         
+        private UnitAction _activeAction;
         private CancellationTokenSource _executionTokenSource;
 
         private bool _isExecutionSuppressed;
@@ -39,18 +40,27 @@ namespace Common.Units.Actions
 
         public void CancelAllActions()
         {
+            _activeAction?.Cancel();
+            
+            while(_actionsQueue.TryDequeue(out UnitAction action))
+                action.Cancel();
+            
             _executionTokenSource?.Cancel();
             _actionsQueue.Clear();
+
+            _activeAction = null;
         }
 
-        public void Execute()
+        public void Execute() => ExecuteWithAwaiter().Forget();
+
+        public async UniTask ExecuteWithAwaiter()
         {
             if (_actionsQueue.Count <= 0)
                 throw new InvalidOperationException("Trying to execute 'Actions queue' with 0 actions in it");
             
             _executionTokenSource = new CancellationTokenSource();
             
-            ExecuteAsync(_actionsQueue.Dequeue()).Forget();
+            await ExecuteAsync(_actionsQueue.Dequeue());
         }
 
         private async UniTask ExecuteAsync(UnitAction action)
@@ -60,6 +70,8 @@ namespace Common.Units.Actions
                 if (_isExecutionSuppressed)
                     await UniTask.WaitWhile(() => _isExecutionSuppressed, cancellationToken: _executionTokenSource.Token);
                 
+                _activeAction = action;
+                
                 await action.ExecuteAsync(_executionTokenSource.Token);
 
                 if (_actionsQueue.TryDequeue(out action)) 
@@ -67,6 +79,8 @@ namespace Common.Units.Actions
                 
                 break;
             }
+
+            _activeAction = null;
         }
     }
 }
