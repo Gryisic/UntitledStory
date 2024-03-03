@@ -1,20 +1,17 @@
 ﻿using Common.Exploring.Interfaces;
 using Common.Models.Scene;
-using Common.Units;
 using Common.Units.Exploring;
 using Common.Units.Handlers;
 using Common.Units.Templates;
 using Core;
 using Core.Data.Interfaces;
 using Core.Interfaces;
-using Infrastructure.Factories.UnitsFactory.Interfaces;
 
 namespace Common.Exploring.States
 {
     public class ExploringInitializeState : IExploringState
     {
         private readonly IStateChanger<IExploringState> _stateChanger;
-        private readonly IUnitFactory _unitFactory;
         private readonly IServicesHandler _servicesHandler;
         private readonly IGameDataProvider _gameDataProvider;
         
@@ -22,10 +19,9 @@ namespace Common.Exploring.States
         private readonly SceneInfo _sceneInfo;
         private readonly ExploringUnitsHandler _exploringUnitsHandler;
 
-        public ExploringInitializeState(IStateChanger<IExploringState> stateChanger, IUnitFactory unitFactory, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, ExploringUnitsHandler exploringUnitsHandler)
+        public ExploringInitializeState(IStateChanger<IExploringState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, ExploringUnitsHandler exploringUnitsHandler)
         {
             _stateChanger = stateChanger;
-            _unitFactory = unitFactory;
             _servicesHandler = servicesHandler;
             _gameDataProvider = gameDataProvider;
             _player = player;
@@ -45,12 +41,9 @@ namespace Common.Exploring.States
             IPartyData data = _gameDataProvider.GetData<IPartyData>();
             ExploringUnitTemplate unitTemplate = data.ExploringUnitsTemplates[0];
             
-            _unitFactory.Load(unitTemplate.ID);
-            
-            ExploringUnit unit = _unitFactory.Create(unitTemplate, _sceneInfo.ExploreUnitSpawnPoint.position) as ExploringUnit;
+            ExploringUnit unit = _exploringUnitsHandler.GetUnitWithID(unitTemplate.ID);
             
             unit.Initialize(unitTemplate);
-            _exploringUnitsHandler.Add(unit);
             _player.UpdateExploringUnit(unit);
         }
     }

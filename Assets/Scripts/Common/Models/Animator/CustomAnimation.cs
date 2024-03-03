@@ -10,7 +10,7 @@ namespace Common.Models.Animator
         [SerializeField] private List<Sprite> _sprites;
         [SerializeField] private List<AnimationFrame> _frames;
 
-        public IEnumerable<IAnimationFrameData> Frames => _frames;
+        public IReadOnlyList<IAnimationFrameData> Frames => _frames;
 
 #if UNITY_EDITOR 
         //Some shit required for custom inspector

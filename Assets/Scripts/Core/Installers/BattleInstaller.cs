@@ -1,4 +1,5 @@
 ﻿using Common.Battle.States;
+using UnityEngine;
 using Zenject;
 
 namespace Core.Installers
@@ -7,10 +8,10 @@ namespace Core.Installers
     {
         public override void InstallBindings()
         {
-            BindBattleStates();
+            BindStates();
         }
 
-        private void BindBattleStates()
+        private void BindStates()
         {
             Container.BindInterfacesAndSelfTo<BattleInitializeState>().AsSingle();
             Container.BindInterfacesAndSelfTo<PartyTurnState>().AsSingle();

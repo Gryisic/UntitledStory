@@ -1,36 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Common.Battle.Interfaces;
+using Common.Battle.TargetSelection;
+using Common.Models.BattleAction;
 using Common.UI.Battle;
-using Common.UI.Extensions;
+using Common.UI.Battle.QTE;
 using Common.UI.Interfaces;
 using Common.Units.Handlers;
 using Core.GameStates;
 using Core.Interfaces;
+using Core.Utils.ObservableVariables;
+using Core.Utils.ObservableVariables.Interfaces;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Common.Battle.States
 {
-    public class PartyTurnState : BattleStateBase, IDeactivatable, IResettable, IDisposable, IGameStateChangeRequester
+    public class PartyTurnState : BattleStateBase, IDeactivatable, IResettable, IDisposable, IBattleStateArgsRequester, IBattleData
     {
         private readonly IInputService _inputService;
 
+        private readonly TargetSelector _targetSelector;
         private readonly BattleUnitsHandler _battleUnitsHandler;
-        private readonly BattleActionsView _ui;
+        private readonly BattleActionsView _worldUI;
+        private readonly BattleOverlayView _overlayUI;
 
         private CancellationTokenSource _uiAnimationTokenSource;
+
+        private bool _isActive;
         
-        public event Action<Enums.GameStateType, GameStateArgs> RequestStateChange;
+        public event Func<BattleStateArgs> RequestArgs;
+
+        public IObservableVariable<int> CurrentTurn { get; } = new ObservableInt();
         
+        private IBattleData GetData() => this;
+
         public PartyTurnState(IStateChanger<IBattleState> stateChanger, IInputService inputService, BattleUnitsHandler battleUnitsHandler, UI.UI ui) : base(stateChanger)
         {
             _inputService = inputService;
             _battleUnitsHandler = battleUnitsHandler;
-            _ui = ui.Get<BattleActionsView>();
+            _worldUI = ui.Get<BattleActionsView>();
+            _overlayUI = ui.Get<BattleOverlayView>();
+            _targetSelector = new TargetSelector();
         }
         
         public void Dispose()
@@ -39,38 +53,79 @@ namespace Common.Battle.States
             _uiAnimationTokenSource?.Dispose();
         }
 
-        public override void Activate()
-        {
-            AttachInput();
-            SubscribeToEvents();
+        public override void Activate() => ActivateAsync().Forget();
 
-            _uiAnimationTokenSource = new CancellationTokenSource();
-            
-            _ui.ActivateAsync(_uiAnimationTokenSource.Token).Forget();
-        }
-        
         public void Deactivate()
         {
-            UnsubscribeToEvents();
-            DeAttachInput();
+            if (_isActive == false)
+                return;
             
-            _ui.DeactivateAsync(_uiAnimationTokenSource.Token).Forget();
+            DeactivateAsync().Forget();
         }
         
         public void Reset()
         {
-            _battleUnitsHandler.Clear();
+            _targetSelector.Reset();
+        }
+        
+        private async UniTask ActivateAsync()
+        {
+            _isActive = true;
+            
+            SubscribeToEvents();
+
+            BattleStateArgs args = RequestArgs?.Invoke();
+            args.IncreaseTurn();
+
+            _uiAnimationTokenSource = new CancellationTokenSource();
+
+            await _worldUI.ActivateAsync(_uiAnimationTokenSource.Token);
+
+            AttachInput();
+            
+            var turn = CurrentTurn as ObservableInt;
+            turn.Increase(1);
+        }
+        
+        private async UniTask DeactivateAsync()
+        {
+            _isActive = false;
+            
+            DeAttachInput();
+            
+            _targetSelector.Deactivate();
+            
+            await _worldUI.DeactivateAsync(_uiAnimationTokenSource.Token);
+
+            UnsubscribeToEvents();
         }
 
         private void SubscribeToEvents()
         {
-            _ui.RequestItemsData += GetItemsData;
-            _ui.ActionSelected += OnActionSelected;
-        }
+            _worldUI.RequestItemsData += GetItemsData;
+            _worldUI.ActionSelected += OnActionSelected;
+            _worldUI.RequestTargetSelection += _targetSelector.Activate;
+            _worldUI.SuppressTargetSelection += _targetSelector.Deactivate;
 
+            _targetSelector.Activated += _worldUI.TargetSelector.Activate;
+            _targetSelector.Deactivated += _worldUI.TargetSelector.Deactivate;
+            _targetSelector.TargetUpdated += _worldUI.TargetSelector.FocusAt;
+            _targetSelector.RequestTargets += _battleUnitsHandler.GetUnitsOfType;
+            _targetSelector.RequestActiveUniteType += _battleUnitsHandler.ActiveUnit.GetType;
+        }
+        
         private void UnsubscribeToEvents()
         {
-            _ui.RequestItemsData -= GetItemsData;
+            _worldUI.RequestItemsData -= GetItemsData;
+            _worldUI.ActionSelected -= OnActionSelected;
+            _worldUI.RequestTargetSelection -= _targetSelector.Activate;
+            _worldUI.SuppressTargetSelection -= _targetSelector.Deactivate;
+            
+            _targetSelector.Activated -= _worldUI.TargetSelector.Activate;
+            _targetSelector.Deactivated -= _worldUI.TargetSelector.Deactivate;
+            _targetSelector.TargetUpdated -= _worldUI.TargetSelector.FocusAt;
+            _targetSelector.RequestTargets -= _battleUnitsHandler.GetUnitsOfType;
+            _targetSelector.RequestActiveUniteType -= _battleUnitsHandler.ActiveUnit.GetType;
         }
         
         private void AttachInput()
@@ -79,36 +134,68 @@ namespace Common.Battle.States
             _inputService.Input.Battle.Skill.performed += OnSkillPerformed;
             _inputService.Input.Battle.GuardCancel.performed += OnGuardPerformed;
             _inputService.Input.Battle.Items.performed += OnItemsPerformed;
-            _inputService.Input.Battle.Up.performed += _ui.MoveUp;
-            _inputService.Input.Battle.Down.performed += _ui.MoveDown;
+            _inputService.Input.Battle.Up.performed += OnUpPerformed;
+            _inputService.Input.Battle.Down.performed += OnDownPerformed;
+            _inputService.Input.Battle.Left.performed += OnLeftPerformed;
+            _inputService.Input.Battle.Right.performed += OnRightPerformed;
 
             _inputService.Input.Battle.Enable();
+
+#if UNITY_EDITOR
+            _inputService.Input.Debug.EndBattle.performed += OnBattleEnd;
+            
+            _inputService.Input.Debug.Enable();
+#endif
         }
 
         private void DeAttachInput()
         {
+#if UNITY_EDITOR
+            _inputService.Input.Debug.EndBattle.performed -= OnBattleEnd;
+            
+            _inputService.Input.Debug.Disable();
+#endif
+            
             _inputService.Input.Battle.Disable();
             
             _inputService.Input.Battle.AttackSelect.performed -= OnSelectPerformed;
             _inputService.Input.Battle.Skill.performed -= OnSkillPerformed;
             _inputService.Input.Battle.GuardCancel.performed -= OnGuardPerformed;
             _inputService.Input.Battle.Items.performed -= OnItemsPerformed;
-            _inputService.Input.Battle.Up.performed -= _ui.MoveUp;
-            _inputService.Input.Battle.Down.performed -= _ui.MoveDown;
+            _inputService.Input.Battle.Up.performed -= OnUpPerformed;
+            _inputService.Input.Battle.Down.performed -= OnDownPerformed;
+            _inputService.Input.Battle.Left.performed -= OnLeftPerformed;
+            _inputService.Input.Battle.Right.performed -= OnRightPerformed;
         }
 
-        private void OnSelectPerformed(InputAction.CallbackContext context) => _ui.Select(Enums.BattleActions.Attack);
+#if UNITY_EDITOR
+        private void OnBattleEnd(InputAction.CallbackContext context) => ToNextState<BattleFinalizeState>().Forget();
+#endif
 
-        private void OnSkillPerformed(InputAction.CallbackContext context) => _ui.Select(Enums.BattleActions.Skill);
-        
-        private void OnItemsPerformed(InputAction.CallbackContext context) => _ui.Select(Enums.BattleActions.Items);
-
-        private void OnGuardPerformed(InputAction.CallbackContext obj)
+        private void OnUpPerformed(InputAction.CallbackContext context)
         {
-            _ui.Select(Enums.BattleActions.Guard);
-            _ui.Cancel();
+            _worldUI.MoveUp();
+            _targetSelector.MoveUp();
         }
         
+        private void OnDownPerformed(InputAction.CallbackContext context)
+        {
+            _worldUI.MoveDown();
+            _targetSelector.MoveDown();
+        }
+        
+        private void OnLeftPerformed(InputAction.CallbackContext context) => _targetSelector.MoveLeft();
+
+        private void OnRightPerformed(InputAction.CallbackContext context) => _targetSelector.MoveRight();
+        
+        private void OnSelectPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.BattleActions.Attack);
+
+        private void OnSkillPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.BattleActions.Skill);
+        
+        private void OnItemsPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.BattleActions.Items);
+
+        private void OnGuardPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.BattleActions.Guard);
+
         private IReadOnlyList<IListedItemData> GetItemsData(Enums.ListedItem item)
         {
             switch (item)
@@ -117,7 +204,7 @@ namespace Common.Battle.States
                     return null;
                 
                 case Enums.ListedItem.BattleAction:
-                    return _battleUnitsHandler.ActiveUnit.ActionsHandler.ExposedData.ToList();
+                    return _battleUnitsHandler.ActiveUnit.ActionsHandler.ExposedData;
                 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(item), item, null);
@@ -126,17 +213,22 @@ namespace Common.Battle.States
         
         private void OnActionSelected(Enums.BattleActions action, int index)
         {
+            BattleAction concreteAction;
+            
             switch (action)
             {
                 case Enums.BattleActions.Attack:
-                    ToNextState();
+                    concreteAction = _battleUnitsHandler.ActiveUnit.ActionsHandler.GetBasicAttack();
+                    ToActionExecutionState(concreteAction);
                     break;
                 
                 case Enums.BattleActions.Skill:
+                    concreteAction = _battleUnitsHandler.ActiveUnit.ActionsHandler.GetAction(index);
+                    ToActionExecutionState(concreteAction);
                     break;
                 
                 case Enums.BattleActions.Guard:
-                    ToNextState<TurnSelectionState>();
+                    ToNextState<TurnSelectionState>().Forget();
                     break;
                 
                 case Enums.BattleActions.Items:
@@ -147,8 +239,20 @@ namespace Common.Battle.States
             }
         }
 
-        private void ToNextState<T>() where T: IBattleState => stateChanger.ChangeState<T>();
-        
-        private void ToNextState() => ToNextState<ActionExecutionState>();
+        private async UniTask ToNextState<T>() where T: IBattleState
+        {
+            await DeactivateAsync();
+            
+            stateChanger.ChangeState<T>();
+        }
+
+        private void ToActionExecutionState(BattleAction action)
+        {
+            BattleStateArgs args = RequestArgs?.Invoke();
+            
+            args.SetAction(action);
+            
+            ToNextState<ActionExecutionState>().Forget();
+        }
     }
 }

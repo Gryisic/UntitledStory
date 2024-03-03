@@ -142,24 +142,6 @@ namespace Core.PlayerInput
             ""id"": ""57cc0642-a4aa-41ca-9768-b611085fb30a"",
             ""actions"": [
                 {
-                    ""name"": ""Up"",
-                    ""type"": ""Button"",
-                    ""id"": ""44f087d2-b53a-49d7-adfe-d5a9ebbbf154"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Down"",
-                    ""type"": ""Button"",
-                    ""id"": ""ab02c3c7-0e00-430c-9813-864bc4015401"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Attack/Select"",
                     ""type"": ""Button"",
                     ""id"": ""85c2f3b6-6988-4ce4-9068-7f5a6c102327"",
@@ -194,53 +176,45 @@ namespace Core.PlayerInput
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Up"",
+                    ""type"": ""Button"",
+                    ""id"": ""a7627a78-3f53-44a9-8a36-5938fff3949f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Down"",
+                    ""type"": ""Button"",
+                    ""id"": ""610cbd76-001c-44f1-a1eb-be002cb42893"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""32250351-7cfd-4f58-9403-015c6fc18ae6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""23aa5a3e-7685-400d-aa36-afd2a38351e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""ae5fc380-ba32-4e95-8088-2b8315104c83"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Up"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""14b4e080-ea6f-4f14-8649-afa67e0458ff"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Up"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""286c8e3a-ae02-4833-96fc-dd4131db83ba"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Down"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""526879fb-f14c-43bc-937e-b7a6b8263400"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Down"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""6f5ed8a9-0b7a-40cf-b4f1-c00956c8c29a"",
@@ -282,6 +256,94 @@ namespace Core.PlayerInput
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Guard/Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd31fde5-c30d-4b46-a15f-1e3ac31e365c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea2fa8c4-1f76-4421-acd4-65d2a215acf7"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d997b0a6-ebaa-4e88-83a9-6aa6839aec51"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da54b55b-19d0-4ef9-9d8b-0953958c1839"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""50e64bd2-faff-4c00-b373-3858bc0301ce"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""348d5732-5270-47c8-bb60-74414b4989cd"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""469cf8e0-0098-4a9d-8d5a-4f4e0ef48cfd"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1f6d830-7f9f-47f7-9131-23e362e1af77"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -528,6 +590,15 @@ namespace Core.PlayerInput
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EndBattle"",
+                    ""type"": ""Button"",
+                    ""id"": ""316540c8-1a12-48b5-94bd-f5055fce9860"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -552,6 +623,17 @@ namespace Core.PlayerInput
                     ""action"": ""DamageHero"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a066343-ddb8-42c7-b230-abed1620e0dc"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EndBattle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -565,12 +647,14 @@ namespace Core.PlayerInput
             m_Explore_Attack = m_Explore.FindAction("Attack", throwIfNotFound: true);
             // Battle
             m_Battle = asset.FindActionMap("Battle", throwIfNotFound: true);
-            m_Battle_Up = m_Battle.FindAction("Up", throwIfNotFound: true);
-            m_Battle_Down = m_Battle.FindAction("Down", throwIfNotFound: true);
             m_Battle_AttackSelect = m_Battle.FindAction("Attack/Select", throwIfNotFound: true);
             m_Battle_Skill = m_Battle.FindAction("Skill", throwIfNotFound: true);
             m_Battle_Items = m_Battle.FindAction("Items", throwIfNotFound: true);
             m_Battle_GuardCancel = m_Battle.FindAction("Guard/Cancel", throwIfNotFound: true);
+            m_Battle_Up = m_Battle.FindAction("Up", throwIfNotFound: true);
+            m_Battle_Down = m_Battle.FindAction("Down", throwIfNotFound: true);
+            m_Battle_Left = m_Battle.FindAction("Left", throwIfNotFound: true);
+            m_Battle_Right = m_Battle.FindAction("Right", throwIfNotFound: true);
             // Dialogue
             m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
             m_Dialogue_NextSentence = m_Dialogue.FindAction("NextSentence", throwIfNotFound: true);
@@ -587,6 +671,7 @@ namespace Core.PlayerInput
             m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
             m_Debug_SetDebugModifier = m_Debug.FindAction("SetDebugModifier", throwIfNotFound: true);
             m_Debug_DamageHero = m_Debug.FindAction("DamageHero", throwIfNotFound: true);
+            m_Debug_EndBattle = m_Debug.FindAction("EndBattle", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -710,22 +795,26 @@ namespace Core.PlayerInput
         // Battle
         private readonly InputActionMap m_Battle;
         private List<IBattleActions> m_BattleActionsCallbackInterfaces = new List<IBattleActions>();
-        private readonly InputAction m_Battle_Up;
-        private readonly InputAction m_Battle_Down;
         private readonly InputAction m_Battle_AttackSelect;
         private readonly InputAction m_Battle_Skill;
         private readonly InputAction m_Battle_Items;
         private readonly InputAction m_Battle_GuardCancel;
+        private readonly InputAction m_Battle_Up;
+        private readonly InputAction m_Battle_Down;
+        private readonly InputAction m_Battle_Left;
+        private readonly InputAction m_Battle_Right;
         public struct BattleActions
         {
             private @Input m_Wrapper;
             public BattleActions(@Input wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Up => m_Wrapper.m_Battle_Up;
-            public InputAction @Down => m_Wrapper.m_Battle_Down;
             public InputAction @AttackSelect => m_Wrapper.m_Battle_AttackSelect;
             public InputAction @Skill => m_Wrapper.m_Battle_Skill;
             public InputAction @Items => m_Wrapper.m_Battle_Items;
             public InputAction @GuardCancel => m_Wrapper.m_Battle_GuardCancel;
+            public InputAction @Up => m_Wrapper.m_Battle_Up;
+            public InputAction @Down => m_Wrapper.m_Battle_Down;
+            public InputAction @Left => m_Wrapper.m_Battle_Left;
+            public InputAction @Right => m_Wrapper.m_Battle_Right;
             public InputActionMap Get() { return m_Wrapper.m_Battle; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -735,12 +824,6 @@ namespace Core.PlayerInput
             {
                 if (instance == null || m_Wrapper.m_BattleActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_BattleActionsCallbackInterfaces.Add(instance);
-                @Up.started += instance.OnUp;
-                @Up.performed += instance.OnUp;
-                @Up.canceled += instance.OnUp;
-                @Down.started += instance.OnDown;
-                @Down.performed += instance.OnDown;
-                @Down.canceled += instance.OnDown;
                 @AttackSelect.started += instance.OnAttackSelect;
                 @AttackSelect.performed += instance.OnAttackSelect;
                 @AttackSelect.canceled += instance.OnAttackSelect;
@@ -753,16 +836,22 @@ namespace Core.PlayerInput
                 @GuardCancel.started += instance.OnGuardCancel;
                 @GuardCancel.performed += instance.OnGuardCancel;
                 @GuardCancel.canceled += instance.OnGuardCancel;
+                @Up.started += instance.OnUp;
+                @Up.performed += instance.OnUp;
+                @Up.canceled += instance.OnUp;
+                @Down.started += instance.OnDown;
+                @Down.performed += instance.OnDown;
+                @Down.canceled += instance.OnDown;
+                @Left.started += instance.OnLeft;
+                @Left.performed += instance.OnLeft;
+                @Left.canceled += instance.OnLeft;
+                @Right.started += instance.OnRight;
+                @Right.performed += instance.OnRight;
+                @Right.canceled += instance.OnRight;
             }
 
             private void UnregisterCallbacks(IBattleActions instance)
             {
-                @Up.started -= instance.OnUp;
-                @Up.performed -= instance.OnUp;
-                @Up.canceled -= instance.OnUp;
-                @Down.started -= instance.OnDown;
-                @Down.performed -= instance.OnDown;
-                @Down.canceled -= instance.OnDown;
                 @AttackSelect.started -= instance.OnAttackSelect;
                 @AttackSelect.performed -= instance.OnAttackSelect;
                 @AttackSelect.canceled -= instance.OnAttackSelect;
@@ -775,6 +864,18 @@ namespace Core.PlayerInput
                 @GuardCancel.started -= instance.OnGuardCancel;
                 @GuardCancel.performed -= instance.OnGuardCancel;
                 @GuardCancel.canceled -= instance.OnGuardCancel;
+                @Up.started -= instance.OnUp;
+                @Up.performed -= instance.OnUp;
+                @Up.canceled -= instance.OnUp;
+                @Down.started -= instance.OnDown;
+                @Down.performed -= instance.OnDown;
+                @Down.canceled -= instance.OnDown;
+                @Left.started -= instance.OnLeft;
+                @Left.performed -= instance.OnLeft;
+                @Left.canceled -= instance.OnLeft;
+                @Right.started -= instance.OnRight;
+                @Right.performed -= instance.OnRight;
+                @Right.canceled -= instance.OnRight;
             }
 
             public void RemoveCallbacks(IBattleActions instance)
@@ -938,12 +1039,14 @@ namespace Core.PlayerInput
         private List<IDebugActions> m_DebugActionsCallbackInterfaces = new List<IDebugActions>();
         private readonly InputAction m_Debug_SetDebugModifier;
         private readonly InputAction m_Debug_DamageHero;
+        private readonly InputAction m_Debug_EndBattle;
         public struct DebugActions
         {
             private @Input m_Wrapper;
             public DebugActions(@Input wrapper) { m_Wrapper = wrapper; }
             public InputAction @SetDebugModifier => m_Wrapper.m_Debug_SetDebugModifier;
             public InputAction @DamageHero => m_Wrapper.m_Debug_DamageHero;
+            public InputAction @EndBattle => m_Wrapper.m_Debug_EndBattle;
             public InputActionMap Get() { return m_Wrapper.m_Debug; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -959,6 +1062,9 @@ namespace Core.PlayerInput
                 @DamageHero.started += instance.OnDamageHero;
                 @DamageHero.performed += instance.OnDamageHero;
                 @DamageHero.canceled += instance.OnDamageHero;
+                @EndBattle.started += instance.OnEndBattle;
+                @EndBattle.performed += instance.OnEndBattle;
+                @EndBattle.canceled += instance.OnEndBattle;
             }
 
             private void UnregisterCallbacks(IDebugActions instance)
@@ -969,6 +1075,9 @@ namespace Core.PlayerInput
                 @DamageHero.started -= instance.OnDamageHero;
                 @DamageHero.performed -= instance.OnDamageHero;
                 @DamageHero.canceled -= instance.OnDamageHero;
+                @EndBattle.started -= instance.OnEndBattle;
+                @EndBattle.performed -= instance.OnEndBattle;
+                @EndBattle.canceled -= instance.OnEndBattle;
             }
 
             public void RemoveCallbacks(IDebugActions instance)
@@ -994,12 +1103,14 @@ namespace Core.PlayerInput
         }
         public interface IBattleActions
         {
-            void OnUp(InputAction.CallbackContext context);
-            void OnDown(InputAction.CallbackContext context);
             void OnAttackSelect(InputAction.CallbackContext context);
             void OnSkill(InputAction.CallbackContext context);
             void OnItems(InputAction.CallbackContext context);
             void OnGuardCancel(InputAction.CallbackContext context);
+            void OnUp(InputAction.CallbackContext context);
+            void OnDown(InputAction.CallbackContext context);
+            void OnLeft(InputAction.CallbackContext context);
+            void OnRight(InputAction.CallbackContext context);
         }
         public interface IDialogueActions
         {
@@ -1019,6 +1130,7 @@ namespace Core.PlayerInput
         {
             void OnSetDebugModifier(InputAction.CallbackContext context);
             void OnDamageHero(InputAction.CallbackContext context);
+            void OnEndBattle(InputAction.CallbackContext context);
         }
     }
 }

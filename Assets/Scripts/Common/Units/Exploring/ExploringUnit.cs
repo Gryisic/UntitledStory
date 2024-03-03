@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Models.Animator;
+using Common.Models.Impactable.Interfaces;
 using Common.Models.Triggers.Interfaces;
 using Common.Units.Actions;
 using Common.Units.Interfaces;
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace Common.Units.Exploring
 {
-    public class ExploringUnit : Unit, IExploringActionsExecutor
+    public class ExploringUnit : Unit, IExploringActionsExecutor, IDamageable, IDamageSource
     {
         public override void Initialize(UnitTemplate template)
         {
@@ -50,22 +51,42 @@ namespace Common.Units.Exploring
         }
 
         public void StopMoving() => internalData.SetMoveDirection(Vector2.zero);
+        
+        public void TakeDamage(IDamageSource source, int amount)
+        {
+               
+        }
 
         public void Attack()
         {
+            actionsExecutor.AddActionToQueue(new ExploringStateAttackAction(internalData));
+            actionsExecutor.Execute();
             
+            Collider2D[] colliders = GetColliders(out int collidersCount);
+
+            for (var i = 0; i < collidersCount; i++)
+            {
+                if (colliders[i].TryGetComponent(out IDamageable damageable) && ReferenceEquals(damageable, this) == false)
+                    damageable.TakeDamage(this, 1);
+            }
         }
 
         public void Interact()
         {
-            Collider2D[] colliders = new Collider2D[10];
-            int objectsCount = Physics2D.OverlapCircleNonAlloc(transform.position, Constants.InteractionRadius, colliders);
-            
-            for (var i = 0; i < objectsCount; i++)
+            Collider2D[] colliders = GetColliders(out int collidersCount);
+
+            for (var i = 0; i < collidersCount; i++)
             {
                 if (colliders[i].TryGetComponent(out IInteractable interactable))
-                    interactable.Interact();
+                    interactable.Interact(this);
             }
+        }
+
+        private Collider2D[] GetColliders(out int collidersCount)
+        {
+            Collider2D[] colliders = new Collider2D[10];
+            collidersCount = Physics2D.OverlapCircleNonAlloc(transform.position, Constants.InteractionRadius, colliders);
+            return colliders;
         }
     }
 }

@@ -27,6 +27,9 @@ namespace Infrastructure.Factories.UnitsFactory
 
         public void Load(int id)
         {
+            if (_idPrefabMap.ContainsKey(id))
+                return;
+            
             string name = id.DefineUnit();
             Unit unit = Resources.Load<Unit>($"{Constants.PathToUnitPrefabs}/{name}");
             

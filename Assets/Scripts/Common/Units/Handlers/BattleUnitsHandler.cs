@@ -1,82 +1,63 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Common.Models.Scene;
 using Common.Units.Battle;
+using Common.Units.Extensions;
 using Core.Extensions;
 
 namespace Common.Units.Handlers
 {
     public class BattleUnitsHandler : UnitsHandler<BattleUnit>
     {
-        private readonly List<BattlePartyMember> _partyMembers;
-        private readonly List<BattleEnemy> _enemies;
-
         private int _activeUnitIndex = -1;
+
+        private readonly List<BattleUnit> _externalUnits;
 
         public BattleUnit ActiveUnit { get; private set; }
         
-        public IReadOnlyList<BattleUnit> Units => units.Cast<BattleUnit>().ToList();
+        public IReadOnlyList<BattleUnit> Units => units.Cast<BattleUnit>().Concat(_externalUnits).ToList();
 
-        public IReadOnlyList<BattlePartyMember> PartyMembers => _partyMembers;
-        public IReadOnlyList<BattleEnemy> Enemies => _enemies;
+        public IReadOnlyList<BattlePartyMember> PartyMembers => Units.Where(u => u is BattlePartyMember).Cast<BattlePartyMember>().ToList();
+        public IReadOnlyList<BattleEnemy> Enemies => Units.Where(u => u is BattleEnemy).Cast<BattleEnemy>().ToList();
 
-        public BattleUnitsHandler()
+        public BattleUnitsHandler(UnitsPool pool) : base(pool)
         {
-            _partyMembers = new List<BattlePartyMember>();
-            _enemies = new List<BattleEnemy>();
-        }
-
-        public override void Add(Unit unit)
-        {
-            base.Add(unit);
-
-            switch (unit)
-            {
-                case BattlePartyMember partyMember:
-                    _partyMembers.Add(partyMember);
-                    break;
-                
-                case BattleEnemy enemy:
-                    _enemies.Add(enemy);
-                    break;
-            }
-        }
-
-        public override bool TryRemove(Unit unit)
-        {
-            bool isRemoved = base.TryRemove(unit);
-            
-            switch (unit)
-            {
-                case BattlePartyMember partyMember:
-                    _partyMembers.Remove(partyMember);
-                    break;
-                
-                case BattleEnemy enemy:
-                    _enemies.Remove(enemy);
-                    break;
-            }
-            
-            return isRemoved;
+            _externalUnits = new List<BattleUnit>();
         }
 
         public override void Clear()
         {
             base.Clear();
             
-            _partyMembers.Clear();
-            _enemies.Clear();
+            _externalUnits.Clear();
 
             _activeUnitIndex = -1;
             ActiveUnit = null;
         }
 
+        public void Add(BattleUnit unit) => _externalUnits.Add(unit);
+
+        public IReadOnlyList<BattleUnit> GetUnitsOfType(Type type)
+        {
+            if (type == typeof(BattleEnemy))
+                return Enemies;
+            
+            if (type == typeof(BattlePartyMember))
+                return PartyMembers;
+
+            throw new InvalidOperationException($"Trying to get units of invalid type. Type: {type}");
+        }
+
         public BattleUnit GetNextUnit()
         {
-            _activeUnitIndex = _activeUnitIndex.Cycled(units.Count);
+            _activeUnitIndex = _activeUnitIndex.Cycled(Units.Count);
 
-            ActiveUnit = units[_activeUnitIndex] as BattleUnit;
+            ActiveUnit = Units[_activeUnitIndex] as BattleUnit;
 
             return ActiveUnit;
         }
+        
+        public int GetNumberOfUnitsWithID(int id) => units.Count(u => u.ID == id);
     }
 }

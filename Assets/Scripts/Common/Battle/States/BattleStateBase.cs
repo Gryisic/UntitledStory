@@ -1,5 +1,6 @@
 ﻿using Common.Battle.Interfaces;
 using Core.Interfaces;
+using UnityEngine;
 
 namespace Common.Battle.States
 {
@@ -7,10 +8,7 @@ namespace Common.Battle.States
     {
         protected readonly IStateChanger<IBattleState> stateChanger;
 
-        protected BattleStateBase(IStateChanger<IBattleState> stateChanger)
-        {
-            this.stateChanger = stateChanger;
-        }
+        protected BattleStateBase(IStateChanger<IBattleState> stateChanger) => this.stateChanger = stateChanger;
 
         public abstract void Activate();
     }

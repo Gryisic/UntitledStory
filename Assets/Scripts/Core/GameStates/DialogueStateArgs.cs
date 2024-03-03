@@ -1,4 +1,5 @@
 ﻿using Common.Dialogues.Interfaces;
+using Common.Models.GameEvents.Interfaces;
 
 namespace Core.GameStates
 {
@@ -6,7 +7,7 @@ namespace Core.GameStates
     {
         public IDialogueDataProvider DialogueDataProvider { get; }
         
-        public DialogueStateArgs(IDialogueDataProvider dialogueDataProvider)
+        public DialogueStateArgs(IDialogueDataProvider dialogueDataProvider, IGameEventData eventData = null) : base(eventData)
         {
             DialogueDataProvider = dialogueDataProvider;
         }

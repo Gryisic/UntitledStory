@@ -1,7 +1,9 @@
-﻿namespace Common.Models.Triggers.Interfaces
+﻿using Common.Units.Interfaces;
+
+namespace Common.Models.Triggers.Interfaces
 {
     public interface IInteractable
     {
-        void Interact();
+        void Interact(IUnitSharedData source);
     }
 }

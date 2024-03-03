@@ -2,6 +2,7 @@
 using Common.Units.Actions;
 using Common.Units.Interfaces;
 using Common.Units.Templates;
+using Infrastructure.Utils;
 using UnityEngine;
 
 namespace Common.Units
@@ -19,6 +20,7 @@ namespace Common.Units
         
         protected bool isActive;
         
+        public Transform Transform => transform;
         public int ID { get; private set; }
 
         private void Awake()
@@ -74,6 +76,7 @@ namespace Common.Units
             
             actionsExecutor.SuppressActionExecution();
             actionsExecutor.CancelAllActions();
+            internalData.Animator.StopAtFirstFrame(internalData.Data.GetAnimation(Enums.StandardAnimation.Idle));
         }
     }
 }

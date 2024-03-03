@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1031388959511324438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37db7bae6db4db982e8b5b762c9f14e, type: 3}
+  m_Name: Tap
+  m_EditorClassIdentifier: 
+  _pressed: {fileID: 0}
+  _released: {fileID: 0}
+  _startDelay: 0
+  _duration: 0
+  _openDelay: 0
+  _targetSide: 0
+  _offset: 0
+  _offsetValue: {x: 0, y: 0}
+  _input: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922d43478fc144ae9871083b34bf48b7, type: 3}
+  m_Name: BasicAttackSequence
+  m_EditorClassIdentifier: 
+  _templates:
+  - {fileID: 8964928696094487330}
+  - {fileID: -1031388959511324438}
+--- !u!114 &8964928696094487330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37db7bae6db4db982e8b5b762c9f14e, type: 3}
+  m_Name: Tap
+  m_EditorClassIdentifier: 
+  _pressed: {fileID: 0}
+  _released: {fileID: 0}
+  _startDelay: 0
+  _duration: 3
+  _openDelay: 0
+  _targetSide: 0
+  _offset: 0
+  _offsetValue: {x: 0, y: 0}
+  _input: 0

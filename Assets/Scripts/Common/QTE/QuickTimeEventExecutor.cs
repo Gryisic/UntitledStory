@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
@@ -16,27 +16,36 @@ namespace Common.QTE
         
         private Enums.QTEInput _currentInput;
 
+        private Queue<QuickTimeEvent> _eventsQueue;
+
+        public event Action<QuickTimeEvent> Started;
+        public event Action<QuickTimeEvent> Ended;
+
         public int SuccessRate => Mathf.CeilToInt((float) _succeededEvents / _eventsCount * 100);
+
+        public QuickTimeEventExecutor()
+        {
+            _eventsQueue = new Queue<QuickTimeEvent>();
+        }
         
         public async UniTask ExecuteAsync(IReadOnlyList<QuickTimeEvent> events, CancellationToken token)
         {
-            List<UniTask> eventTasks = Enumerable.Select(events, quickTimeEvent => quickTimeEvent.StartAsync(token)).ToList();
-
-            _succeededEvents = 0;
-            _eventsCount = events.Count;
-
-            for (var i = 0; i < events.Count; i++)
+            foreach (var quickTimeEvent in events)
             {
-                _currentEvent = events[i];
+                _eventsQueue.Enqueue(quickTimeEvent);
                 
-                SubscribeToEvents(_currentEvent);
+                await UniTask.Delay(TimeSpan.FromSeconds(quickTimeEvent.Data.StartDelay), cancellationToken: token);
 
-                await UniTask.WaitUntil(() => _currentEvent.ActiveTime >= _currentEvent.Data.Duration, cancellationToken: token);
+                _currentEvent ??= _eventsQueue.Dequeue();
+                
+                SubscribeToEvents(quickTimeEvent);
+
+                quickTimeEvent.StartAsync(token).Forget();
+                
+                Started?.Invoke(quickTimeEvent);
             }
 
-            await UniTask.WhenAll(eventTasks);
-
-            _currentEvent = null;
+            await UniTask.WaitUntil(() => _eventsQueue.Count <= 0 && _currentEvent == null, cancellationToken: token);
         }
 
         public void StartInput(Enums.QTEInput input)
@@ -52,7 +61,7 @@ namespace Common.QTE
 
         public void EndInput()
         {
-            _currentEvent.CancelInput();
+            _currentEvent?.CancelInput();
         }
 
         private void SubscribeToEvents(QuickTimeEvent qte)
@@ -76,6 +85,10 @@ namespace Common.QTE
             _succeededEvents = Mathf.Clamp(valueToValidate, 0, _eventsCount);
             
             UnsubscribeToEvents(qte);
+            
+            Ended?.Invoke(_currentEvent);
+
+            _currentEvent = _eventsQueue.TryDequeue(out QuickTimeEvent quickTimeEvent) ? quickTimeEvent : null;
         }
     }
 }

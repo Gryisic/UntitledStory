@@ -12,7 +12,7 @@ namespace Common.Models.Cameras.Interfaces
 
         void FocusOn(Transform transformToFocusOn, Enums.CameraDistanceType cameraDistanceType = Enums.CameraDistanceType.Neutral);
         void FocusOn(Vector2 positionToFocusOn, Enums.CameraDistanceType cameraDistanceType = Enums.CameraDistanceType.Neutral);
-        void SetEasingAndConfiner(Enums.CameraEasingType easingType, Collider2D confiner);
+        void SetEasingAndConfiner(Enums.CameraEasingType easingType, Collider2D confiner, float easingTime = Constants.DefaultCameraBlendTime);
 
         void Shake();
     }

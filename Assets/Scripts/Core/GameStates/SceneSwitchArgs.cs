@@ -1,4 +1,5 @@
-﻿using Infrastructure.Utils;
+﻿using Common.Models.GameEvents.Interfaces;
+using Infrastructure.Utils;
 
 namespace Core.GameStates
 {
@@ -7,7 +8,7 @@ namespace Core.GameStates
         public Enums.SceneType NextSceneType { get; }
         public Enums.GameStateType NextGameState { get; }
 
-        public SceneSwitchArgs(Enums.SceneType nextSceneType, Enums.GameStateType nextGameState = Enums.GameStateType.Explore)
+        public SceneSwitchArgs(Enums.SceneType nextSceneType, Enums.GameStateType nextGameState = Enums.GameStateType.Explore, IGameEventData eventData = null) : base(eventData)
         {
             NextSceneType = nextSceneType;
             NextGameState = nextGameState;

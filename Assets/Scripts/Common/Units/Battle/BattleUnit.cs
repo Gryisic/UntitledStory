@@ -13,7 +13,8 @@ namespace Common.Units.Battle
     public abstract class BattleUnit : Unit, IBattleUnitSharedData
     {
         public BattleActionsHandler ActionsHandler { get; private set; }
-        
+        public Transform Transform => transform;
+
         public override void Initialize(UnitTemplate template)
         {
             if (template is BattleUnitTemplate battleUnitTemplate == false)

@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Models.Cameras;
+using Common.Models.GameEvents;
 using Common.Models.Scene;
 using Common.Units.Handlers;
 using Core.Interfaces;
@@ -40,6 +41,7 @@ namespace Core.Installers
         
         private void BindUnitsHandlers()
         {
+            Container.Bind<UnitsPool>().AsSingle();
             Container.Bind<ExploringUnitsHandler>().AsSingle();
             Container.Bind<BattleUnitsHandler>().AsSingle();
         }

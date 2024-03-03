@@ -13,6 +13,12 @@ namespace Common.UI
         
         public Enums.UILayer Layer => _layer;
 
+        public void Dispose()
+        {
+            foreach (var element in _elements) 
+                element.Dispose();
+        }
+        
         public void SetCamera(Camera sceneCamera) => _canvas.worldCamera = sceneCamera;
 
         public bool TryGetElement<T>(out T element) where T: UIElement
@@ -30,12 +36,6 @@ namespace Common.UI
             }
 
             return false;
-        }
-
-        public void Dispose()
-        {
-            foreach (var element in _elements) 
-                element.Dispose();
         }
     }
 }

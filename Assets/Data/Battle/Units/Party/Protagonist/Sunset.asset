@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c22e8129cbd84f03b2deac02470d73f4, type: 3}
-  m_Name: Sunrise
+  m_Name: Sunset
   m_EditorClassIdentifier: 
   _icon: {fileID: 0}
-  _name: Sunrise
-  _description: Slice enemy with great power.
-  _cost: 10
+  _name: Sunset
+  _description: Slice enemy with great precision.
+  _cost: 15
   _targetTeam: 1
   _targetsQuantity: 0
-  _quickTimeEventTemplates: []
+  _hasQTE: 1
+  _quickTimeEventSequence: {fileID: 11400000, guid: 679be7ade8c95fd41964dd97c2afae23, type: 2}

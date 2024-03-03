@@ -1,6 +1,7 @@
 ﻿using System;
 using Common.Battle.Interfaces;
 using Common.Battle.States;
+using Common.Models.GameEvents.Interfaces;
 using Core.Extensions;
 using Core.Interfaces;
 using Infrastructure.Factories.BattleStatesFactory.Interfaces;
@@ -16,7 +17,7 @@ namespace Core.GameStates
         private BattleStateArgs _args;
         
         private bool _isInitialized;
-
+        
         public BattleState(IGameStateSwitcher stateSwitcher, IBattleStateFactory stateFactory)
         {
             _stateSwitcher = stateSwitcher;
@@ -53,6 +54,8 @@ namespace Core.GameStates
         public void Deactivate()
         {
             UnsubscribeToEvents();
+            
+            currentState.Deactivate();
         }
 
         public void Reset()
@@ -66,6 +69,8 @@ namespace Core.GameStates
                 state.Reset();
         }
         
+        private BattleStateArgs GetArgs() => _args;
+
         private void CreateStates()
         {
             _stateFactory.CreateAllStates();
@@ -73,8 +78,6 @@ namespace Core.GameStates
             states = _stateFactory.States;
         }
         
-        private BattleStateArgs GetArgs() => _args;
-
         private void SubscribeToEvents()
         {
             foreach (var state in states)
@@ -84,9 +87,12 @@ namespace Core.GameStates
                 
                 if (state is IBattleStateArgsRequester argsRequester)
                     argsRequester.RequestArgs += GetArgs;
+                
+                if (state is IConcreteStateResetRequester stateResetRequester)
+                    stateResetRequester.StateResetRequested += OnStateResetRequested;
             }
         }
-        
+
         private void UnsubscribeToEvents()
         {
             foreach (var state in states)
@@ -96,6 +102,9 @@ namespace Core.GameStates
                 
                 if (state is IBattleStateArgsRequester argsRequester)
                     argsRequester.RequestArgs -= GetArgs;
+                
+                if (state is IConcreteStateResetRequester stateResetRequester)
+                    stateResetRequester.StateResetRequested -= OnStateResetRequested;
             }
         }
         
@@ -115,5 +124,7 @@ namespace Core.GameStates
                     throw new ArgumentOutOfRangeException(nameof(nextState), nextState, null);
             }
         }
+
+        private void OnStateResetRequested() => Reset();
     }
 }

@@ -12,6 +12,16 @@ namespace Infrastructure.Utils
             Dialogue,
             Battle
         }
+
+        public enum PostEventState
+        {
+            Default,
+            Previous,
+            SceneSwitch,
+            Explore,
+            Dialogue,
+            Battle
+        }
         
         public enum Language
         {
@@ -48,13 +58,22 @@ namespace Infrastructure.Utils
         {
             Overlay,
             Camera,
-            World
+            World,
+            Constructed
         }
 
         public enum ListedItem
         {
             Item,
             BattleAction
+        }
+        
+        public enum MoveDirection
+        {
+            Up,
+            Down,
+            Left,
+            Right
         }
 
         public enum QTEState
@@ -69,7 +88,8 @@ namespace Infrastructure.Utils
         public enum QTEType
         {
             Tap,
-            Hold
+            Hold,
+            MultiTap
         }
         
         public enum QTEInput
@@ -113,11 +133,23 @@ namespace Infrastructure.Utils
             SameAsUnit,
             OppositeToUnit
         }
+        
+        public enum QTEOffset
+        {
+            RelativeToTarget,
+            Absolute
+        }
 
         public enum TargetsQuantity
         {
             Single,
             All
+        }
+
+        public enum TargetSelectionType
+        {
+            Active,
+            Passive
         }
 
         public enum BattleConstraint
@@ -143,6 +175,13 @@ namespace Infrastructure.Utils
             Party,
             Enemy
         }
+        
+        public enum AfterBattleBehaviour
+        {
+            Destroy,
+            Hide,
+            Deactivate
+        }
 
         public enum TriggerPriority
         {
@@ -166,6 +205,7 @@ namespace Infrastructure.Utils
         {
             Idle,
             Run,
+            Attack,
             TakeDamage
         }
     }

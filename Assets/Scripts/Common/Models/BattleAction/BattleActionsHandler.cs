@@ -9,7 +9,7 @@ namespace Common.Models.BattleAction
         private readonly BattleAction _basicAttack;
         private readonly List<BattleAction> _actions;
 
-        public IEnumerable<IBattleActionData> ExposedData => _actions.Select(a => a.Data);
+        public IReadOnlyList<IBattleActionData> ExposedData => _actions.Select(a => a.Data).ToList();
 
         public BattleActionsHandler(BattleActionTemplate basicAttackTemplate, IEnumerable<BattleActionTemplate> skillTemplates)
         {

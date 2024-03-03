@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Models.GameEvents.Interfaces;
 using Core.Configs.Interfaces;
 using Core.Interfaces;
 
@@ -10,13 +11,15 @@ namespace Core.Utils
     {
         public IInputService InputService { get; }
         public IConfigsService ConfigsService { get; }
+        public IEventsService EventsService { get; }
 
         private readonly List<IService> _subServices;
 
-        public ServicesHandler(IInputService inputService, IConfigsService configsService)
+        public ServicesHandler(IInputService inputService, IConfigsService configsService, IEventsService eventsService)
         {
             InputService = inputService;
             ConfigsService = configsService;
+            EventsService = eventsService;
 
             _subServices = new List<IService>();
         }

@@ -90,6 +90,15 @@ namespace Core.GameStates
         
         private void ToNextState(Enums.GameStateType nextState, GameStateArgs args)
         {
+            if (_args.EventData != null)
+            {
+                if (_args.EventData.PostEventState == Enums.PostEventState.Battle)
+                {
+                    _stateSwitcher.SwitchState<BattleState>(args as BattleStateArgs);
+                    return;
+                }
+            }
+            
             switch (nextState)
             {
                 case Enums.GameStateType.SceneSwitch:

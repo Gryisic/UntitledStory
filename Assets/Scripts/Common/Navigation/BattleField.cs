@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Core.Extensions;
 using Infrastructure.Utils;
+using UnityEngine;
 
 namespace Common.Navigation
 {
@@ -10,14 +11,15 @@ namespace Common.Navigation
         private readonly List<NavigationCell> _cells;
         private readonly SideCellMap _leftSide;
         private readonly SideCellMap _rightSide;
-        private readonly float _freeColumnPosition;
+        
+        public Vector2 CentralPosition { get; }
         
         public IEnumerable<NavigationCell> Cells => _cells;
 
-        public BattleField(float freeColumnPosition)
+        public BattleField(Vector2 centralPosition)
         {
-            _freeColumnPosition = freeColumnPosition;
-
+            CentralPosition = centralPosition;
+            
             _cells = new List<NavigationCell>();
             _leftSide = new SideCellMap();
             _rightSide = new SideCellMap();
@@ -27,12 +29,12 @@ namespace Common.Navigation
         {
             float horizontalCellPosition = cell.Position.x;
             
-            if (Math.Abs(horizontalCellPosition - _freeColumnPosition) < 0.1f)
+            if (Math.Abs(horizontalCellPosition - CentralPosition.x) < 0.1f)
                 return;
                 
             _cells.Add(cell);
             
-            if (horizontalCellPosition >= _freeColumnPosition)
+            if (horizontalCellPosition >= CentralPosition.x)
                 _rightSide.Add(cell);
             else
                 _leftSide.Add(cell);

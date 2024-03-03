@@ -119,7 +119,7 @@ namespace Common.Dialogues.States
 
         private void ToggleAutoDialogueMode(InputAction.CallbackContext context) => _dialogue.ToggleAutoMode();
 
-        private void ToNextState() => RequestStateChange?.Invoke(Enums.GameStateType.Explore, new GameStateArgs());
+        private void ToNextState() => RequestStateChange?.Invoke(Enums.GameStateType.Explore, new ExploringStateArgs());
         
         private void OnChoicesSelectionRequested(IReadOnlyList<Choice> choices)
         {

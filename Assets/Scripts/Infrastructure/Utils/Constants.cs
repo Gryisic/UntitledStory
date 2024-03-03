@@ -19,10 +19,11 @@
         public const float FarFocusCameraSize = 7f;
 
         public const float DefaultCameraBlendTime = 0.2f;
+        public const float BattleTransitionBlendTime = 0.3f;
         
         public const float DefaultUITweenTime = 0.3f;
 
-        public const float QTEButtonHoldThreshold = 0.1f;
+        public const float QTEButtonHoldThreshold = 0.5f;
         
         public const float AnimationsFrameRate = 6f / 60f;
         

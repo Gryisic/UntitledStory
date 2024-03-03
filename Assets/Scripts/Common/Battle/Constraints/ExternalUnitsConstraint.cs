@@ -9,11 +9,13 @@ namespace Common.Battle.Constraints
 {
     public class ExternalUnitsConstraint : BattleConstraint
     {
+        [SerializeField] private Enums.AfterBattleBehaviour _afterBattleBehaviour;
         [SerializeField] private UnitTemplateMap[] _units;
 
         private Dictionary<BattleUnit, BattleUnitTemplate> _unitsMap;
 
         public override Enums.BattleConstraint Constraint => Enums.BattleConstraint.ExternalUnits;
+        public Enums.AfterBattleBehaviour AfterBattleBehaviour => _afterBattleBehaviour;
         public override int Priority => 999;
 
         public IReadOnlyDictionary<BattleUnit, BattleUnitTemplate> UnitsMap

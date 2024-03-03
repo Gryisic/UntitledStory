@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Common.Models.GameEvents.Interfaces;
 using Core.Interfaces;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
@@ -9,7 +10,9 @@ namespace Core.GameStates
     public class SceneSwitchState : IGameState, IStatesResetRequester, IDisposable
     {
         private readonly IGameStateSwitcher _stateSwitcher;
+        
         private readonly SceneSwitcher _sceneSwitcher;
+        
         private CancellationTokenSource _tokenSource;
         private bool _isActive;
         
@@ -18,6 +21,7 @@ namespace Core.GameStates
         public SceneSwitchState(SceneSwitcher sceneSwitcher, IGameStateSwitcher stateSwitcher)
         {
             _stateSwitcher = stateSwitcher;
+            
             _sceneSwitcher = sceneSwitcher;
         }
         
@@ -58,7 +62,7 @@ namespace Core.GameStates
             switch (nextState)
             {
                 case Enums.GameStateType.Explore:
-                    _stateSwitcher.SwitchState<ExploringState>(new GameStateArgs());
+                    _stateSwitcher.SwitchState<ExploringState>(new ExploringStateArgs());
                     break;
                 
                 default:

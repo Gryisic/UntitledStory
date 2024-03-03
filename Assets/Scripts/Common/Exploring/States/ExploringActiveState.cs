@@ -2,21 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common.Exploring.Interfaces;
+using Common.Models.Cameras.Interfaces;
 using Common.Models.GameEvents.Interfaces;
 using Common.Models.Scene;
+using Common.Models.Triggers.Interfaces;
 using Common.Units.Handlers;
 using Core;
 using Core.Data.Interfaces;
 using Core.GameStates;
 using Core.Interfaces;
 using Infrastructure.Utils;
+using UnityEngine;
 
 namespace Common.Exploring.States
 {
-    public class ExploringActiveState : IExploringState, IDeactivatable, IGameStateChangeRequester
+    public class ExploringActiveState : IExploringState, IDeactivatable, IGameStateChangeRequester, IGameStateArgsRequester<ExploringStateArgs>
     {
         private readonly IStateChanger<IExploringState> _stateChanger;
         private readonly IInputService _inputService;
+        private readonly ICameraService _cameraService;
+        private readonly IEventsService _eventsService;
         private readonly ITriggersData _triggersData;
         
         private readonly Player _player;
@@ -24,11 +29,14 @@ namespace Common.Exploring.States
         private readonly ExploringUnitsHandler _unitsHandler;
         
         public event Action<Enums.GameStateType, GameStateArgs> RequestStateChange;
+        public event Func<ExploringStateArgs> RequestArgs;
 
         public ExploringActiveState(IStateChanger<IExploringState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, ExploringUnitsHandler unitsHandler)
         {
             _stateChanger = stateChanger;
             _inputService = servicesHandler.InputService;
+            _eventsService = servicesHandler.EventsService;
+            _cameraService = servicesHandler.GetSubService<ICameraService>();
             _triggersData = gameDataProvider.GetData<ITriggersData>();
             _player = player;
             _sceneInfo = sceneInfo;
@@ -37,12 +45,16 @@ namespace Common.Exploring.States
         
         public void Activate()
         {
+            _eventsService.AddEvents(_sceneInfo.MonoTriggersHandler.Triggers);
+            
             ValidateData();
+            ValidateUnits();
             
             SubscribeToEvents();
             AttachInput();
             
             _player.Activate();
+            _cameraService.FollowUnit(_unitsHandler.ActiveUnit.transform);
         }
 
         public void Deactivate()
@@ -51,26 +63,30 @@ namespace Common.Exploring.States
             
             DeAttachInput();
             UnsubscribeToEvents();
+            
+            _eventsService.RemoveEvents(_sceneInfo.MonoTriggersHandler.Triggers);
         }
 
         private void SubscribeToEvents()
         {
-            foreach (var trigger in _sceneInfo.MonoTriggersHandler.Triggers)
+            foreach (var gameEvent in _eventsService.Events)
             {
-                trigger.IDUsed += _triggersData.Remove;
-
-                if (trigger is IGameStateChangerEvent gameStateChanger)
+                if (gameEvent is IMonoTrigger monoTrigger)
+                    monoTrigger.IDUsed += _triggersData.Remove;
+                
+                if (gameEvent is IGameStateChangerEvent gameStateChanger)
                     gameStateChanger.StateChangeRequested += OnGameStateChangeRequested;
             }
         }
 
         private void UnsubscribeToEvents()
         {
-            foreach (var trigger in _sceneInfo.MonoTriggersHandler.Triggers)
+            foreach (var gameEvent in _eventsService.Events)
             {
-                trigger.IDUsed -= _triggersData.Remove;
+                if (gameEvent is IMonoTrigger monoTrigger)
+                    monoTrigger.IDUsed -= _triggersData.Remove;
                 
-                if (trigger is IGameStateChangerEvent gameStateChanger)
+                if (gameEvent is IGameStateChangerEvent gameStateChanger)
                     gameStateChanger.StateChangeRequested -= OnGameStateChangeRequested;
             }
         }
@@ -97,7 +113,8 @@ namespace Common.Exploring.States
         
         private void OnGameStateChangeRequested(Enums.GameStateType nextState, GameStateArgs args)
         {
-            _unitsHandler.DeactivateAll();
+            if (nextState == Enums.GameStateType.Battle)
+                _unitsHandler.DeactivateAll();
             
             RequestStateChange?.Invoke(nextState, args);
         }
@@ -112,10 +129,20 @@ namespace Common.Exploring.States
             foreach (var trigger in _sceneInfo.MonoTriggersHandler.Triggers)
             {
                 List<string> intersectedIDs = trigger.IDs.Intersect(ids).ToList();
-                    
+                
                 trigger.SetActiveIDs(intersectedIDs);
                 ids = ids.Except(intersectedIDs).ToList();
             }
+        }
+
+        private void ValidateUnits()
+        {
+            if (_unitsHandler.ActiveUnit.isActiveAndEnabled)
+                return;
+            
+            ExploringStateArgs args = RequestArgs?.Invoke();
+            
+            _unitsHandler.RestoreActiveUnitAtPosition(args.Position);
         }
     }
 }

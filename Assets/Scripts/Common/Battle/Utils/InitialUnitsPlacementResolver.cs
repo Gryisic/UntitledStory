@@ -6,6 +6,7 @@ using Common.Navigation;
 using Common.Units.Battle;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
+using UnityEngine;
 
 namespace Common.Battle.Utils
 {
@@ -44,15 +45,43 @@ namespace Common.Battle.Utils
         {
             List<UniTask> placementTask = new List<UniTask>();
 
-            List<int> intersectedIDs = _unitsToPlace
-                .Select(u => u.ID)
-                .Intersect(constraint.Positions.Select(p => p.ID))
+            List<BattleUnit> intersectedUnits = _unitsToPlace
+                .Where(u => _unitsToPlace
+                    .Select(unit => unit.ID)
+                    .Intersect(constraint.Positions.Select(p => p.ID))
+                    .Contains(u.ID))
                 .ToList();
+
+            Dictionary<ConstrainedPosition, BattleUnit> positionUnitPairs = new Dictionary<ConstrainedPosition, BattleUnit>();
+
+            ValidateUnitPositionPairs(constraint, intersectedUnits, positionUnitPairs);
+            PlaceUnits(navigationArea, positionUnitPairs, placementTask);
+
+            _unitsToPlace = _unitsToPlace.Except(positionUnitPairs.Values).ToList();
             
-            Dictionary<ConstrainedPosition, BattleUnit> positionUnitPairs = _unitsToPlace
-                .Where(u => intersectedIDs.Contains(u.ID))
-                .ToDictionary(u => constraint.Positions.FirstOrDefault(p => p.ID == u.ID));
-            
+            await UniTask.WhenAll(placementTask);
+        }
+
+        private void ValidateUnitPositionPairs(PlacementConstraint constraint, List<BattleUnit> intersectedUnits, Dictionary<ConstrainedPosition, BattleUnit> positionUnitPairs)
+        {
+            foreach (var position in constraint.Positions)
+            {
+                foreach (var unit in intersectedUnits)
+                {
+                    if (unit.ID != position.ID)
+                        continue;
+
+                    if (positionUnitPairs.TryAdd(position, unit) == false)
+                        continue;
+
+                    intersectedUnits.Remove(unit);
+                    break;
+                }
+            }
+        }
+        
+        private void PlaceUnits(NavigationArea navigationArea, Dictionary<ConstrainedPosition, BattleUnit> positionUnitPairs, List<UniTask> placementTask)
+        {
             foreach (var pair in positionUnitPairs)
             {
                 if (pair.Value == null)
@@ -63,10 +92,6 @@ namespace Common.Battle.Utils
 
                 placementTask.Add(placeUnit);
             }
-
-            _unitsToPlace = _unitsToPlace.Except(positionUnitPairs.Values).ToList();
-            
-            await UniTask.WhenAll(placementTask);
         }
 
         private async UniTask PlaceUnit(BattleUnit unit, IReadOnlyList<NavigationCell> path)

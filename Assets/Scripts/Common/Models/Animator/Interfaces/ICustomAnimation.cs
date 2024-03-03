@@ -4,6 +4,6 @@ namespace Common.Models.Animator.Interfaces
 {
     public interface ICustomAnimation
     {
-        IEnumerable<IAnimationFrameData> Frames { get; }
+        IReadOnlyList<IAnimationFrameData> Frames { get; }
     }
 }

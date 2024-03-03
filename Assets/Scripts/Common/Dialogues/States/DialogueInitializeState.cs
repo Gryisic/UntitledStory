@@ -4,6 +4,7 @@ using Core.Data.Interfaces;
 using Core.GameStates;
 using Core.Interfaces;
 using Ink.Runtime;
+using UnityEngine;
 
 namespace Common.Dialogues.States
 {

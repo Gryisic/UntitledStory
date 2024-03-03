@@ -1,5 +1,7 @@
 ﻿using System;
 using Common.Battle.States;
+using Common.Models.GameEvents;
+using Common.Models.GameEvents.Interfaces;
 using Common.UI;
 using Core.Configs;
 using Core.Configs.Interfaces;
@@ -17,6 +19,8 @@ using Infrastructure.Factories.ExploringStateFactory;
 using Infrastructure.Factories.ExploringStateFactory.Interfaces;
 using Infrastructure.Factories.GameStatesFactory;
 using Infrastructure.Factories.GameStatesFactory.Interfaces;
+using Infrastructure.Factories.UIFactory;
+using Infrastructure.Factories.UIFactory.Interfaces;
 using UnityEngine;
 using Zenject;
 using Input = Core.PlayerInput.Input;
@@ -62,6 +66,8 @@ namespace Core.Installers
             Container.BindInterfacesTo<InputService>().AsSingle();
 
             Container.Bind<IConfigsService>().To<ConfigsService>().FromInstance(_configsService).AsSingle();
+
+            Container.Bind<IEventsService>().To<EventsService>().AsSingle();
             
             Container.BindInterfacesTo<ServicesHandler>().AsSingle().CopyIntoDirectSubContainers();
         }
@@ -69,7 +75,7 @@ namespace Core.Installers
         private void BindUI()
         {
             _ui = Container.InstantiatePrefabForComponent<UI>(_ui);
-            
+
             Container.Bind<UI>().FromInstance(_ui).AsSingle();
         }
         
@@ -87,8 +93,8 @@ namespace Core.Installers
             Container.Bind<IBattleStateFactory>().To<BattleStateFactory>().AsSingle();
             
             Container.BindInterfacesAndSelfTo<DialogueStatesFactoryUpdater>().AsSingle().CopyIntoDirectSubContainers();
-            Container.BindInterfacesAndSelfTo<BattleStateFactoryUpdater>().AsSingle().CopyIntoDirectSubContainers();
             Container.BindInterfacesAndSelfTo<ExploringStatesFactoryUpdater>().AsSingle().CopyIntoDirectSubContainers();
+            Container.BindInterfacesAndSelfTo<BattleStateFactoryUpdater>().AsSingle().CopyIntoDirectSubContainers();
         }
 
         private void BindGameStates()

@@ -23,11 +23,8 @@ namespace Common.Navigation
 
         private BattleField _battleField;
         private Pathfinding _pathfinding;
-        
-        private void Awake()
-        {
-            Initialize();
-        }
+
+        public Vector2 CentralPosition => _battleField.CentralPosition;
 
         public void Initialize()
         {

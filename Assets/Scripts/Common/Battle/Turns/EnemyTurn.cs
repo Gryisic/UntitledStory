@@ -6,12 +6,12 @@ namespace Common.Battle.Turns
     {
         public override void Activate()
         {
-            Debug.Log("ET started");
+            //Debug.Log("ET started");
         }
 
         public override void Deactivate()
         {
-            Debug.Log("ET started");
+            //Debug.Log("ET ended");
         }
     }
 }

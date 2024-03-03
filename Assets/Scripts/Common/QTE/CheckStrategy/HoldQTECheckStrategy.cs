@@ -25,7 +25,8 @@ namespace Common.QTE.CheckStrategy
 
         public void Input(Enums.QTEState state, Enums.QTEInput input)
         {
-            if (state != Enums.QTEState.Opened || input != _data.Input || _data.Type != Enums.QTEType.Hold || Math.Abs(_startedAt + _data.OpenDelay - Time.fixedTime) > Constants.QTEButtonHoldThreshold)
+            if (state != Enums.QTEState.Opened || input != _data.Input || _data.Type != Enums.QTEType.Hold 
+                || Math.Abs(_startedAt + _data.OpenDelay - Time.fixedTime) > Constants.QTEButtonHoldThreshold)
             {
                 Failed?.Invoke();
                 

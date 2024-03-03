@@ -34,9 +34,9 @@ namespace Common.Models.Cameras
             _focusCamera.FocusOn(positionToFocusOn, distanceType);
         }
 
-        public void SetEasingAndConfiner(Enums.CameraEasingType easingType, Collider2D confiner)
+        public void SetEasingAndConfiner(Enums.CameraEasingType easingType, Collider2D confiner, float easingTime = Constants.DefaultCameraBlendTime)
         {
-            _brain.m_DefaultBlend = DefineBlend(easingType);
+            _brain.m_DefaultBlend = DefineBlend(easingType, easingTime);
             
             _focusCamera.SetConfiner(confiner);
             _followingCamera.SetConfiner(confiner);
@@ -56,15 +56,15 @@ namespace Common.Models.Cameras
             _activeCamera.Activate();
         }
         
-        private CinemachineBlendDefinition DefineBlend(Enums.CameraEasingType easingType)
+        private CinemachineBlendDefinition DefineBlend(Enums.CameraEasingType easingType, float blendTime)
         {
             switch (easingType)
             {
                 case Enums.CameraEasingType.Instant:
-                    return new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, Constants.DefaultCameraBlendTime);
+                    return new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, blendTime);
                 
                 case Enums.CameraEasingType.Smooth:
-                    return new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, Constants.DefaultCameraBlendTime);
+                    return new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, blendTime);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(easingType), easingType, null);

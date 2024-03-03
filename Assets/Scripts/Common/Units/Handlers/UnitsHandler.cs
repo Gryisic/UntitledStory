@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Common.Models.Scene;
 using Common.Units.Extensions;
 
 namespace Common.Units.Handlers
 {
     public abstract class UnitsHandler<T> : IDisposable where T: Unit
     {
+        protected readonly UnitsPool unitsPool;
         protected readonly List<Unit> units;
 
-        protected UnitsHandler()
+        protected UnitsHandler(UnitsPool unitsPool)
         {
+            this.unitsPool = unitsPool;
+            
             units = new List<Unit>();
         }
         
@@ -22,12 +27,14 @@ namespace Common.Units.Handlers
             }
         }
 
-        public virtual void Add(Unit unit)
+        public T GetUnitWithID(int id)
         {
-            if (unit == null || unit is T == false)
-                throw new NullReferenceException($"Trying to add unit that is null or unit is not an '{typeof(T)}'");
+            T unit = unitsPool.GetUnitOfTypeWithID<T>(id);
             
-            units.Add(unit);
+            if (units.Contains(unit) == false)
+                units.Add(unit);
+            
+            return unit;
         }
 
         public virtual bool TryRemove(Unit unit)
@@ -37,6 +44,7 @@ namespace Common.Units.Handlers
 
             if (units.Contains(unit))
             {
+                unitsPool.Return(unit);
                 units.Remove(unit);
 
                 return true;
@@ -45,7 +53,12 @@ namespace Common.Units.Handlers
             return false;
         }
 
-        public virtual void Clear() => units.Clear();
+        public virtual void Clear()
+        {
+            units.ForEach(u => unitsPool.Return(u));
+            
+            units.Clear();
+        }
 
         public void ActivateAll() => units.ForEach(u => u.ActivateAndShow());
         

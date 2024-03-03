@@ -1,6 +1,6 @@
 ﻿namespace Common.Models.GameEvents.Interfaces
 {
-    public interface IGameEvent
+    public interface IGameEvent : IGameEventData
     {
         
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common.Battle.Interfaces;
 using Infrastructure.Factories.BattleStatesFactory.Interfaces;
+using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.Factories.BattleStatesFactory

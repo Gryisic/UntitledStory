@@ -13,6 +13,10 @@ namespace Common.Models.Animator
     {
         private readonly SpriteRenderer _renderer;
         private CancellationTokenSource _animationTokenSource;
+
+        private ICustomAnimation _currentAnimation;
+
+        public float CurrentAnimationDuration => _currentAnimation.Frames.Count / Constants.AnimationsFrameRate;
         
         public CustomAnimator(SpriteRenderer renderer)
         {
@@ -28,6 +32,16 @@ namespace Common.Models.Animator
         public void PlayOneShot(ICustomAnimation animation) => PlayAnimation(animation, true);
 
         public void PlayCyclic(ICustomAnimation animation) => PlayAnimation(animation, false);
+
+        public void Stop() => _animationTokenSource?.Cancel();
+
+        public void StopAtFirstFrame(ICustomAnimation animation)
+        {
+            Stop();
+
+            if (animation != null)
+                _renderer.sprite = animation.Frames[0].Sprite;
+        }
 
         private void PlayAnimation(ICustomAnimation animation, bool isOneShot)
         {
@@ -51,6 +65,8 @@ namespace Common.Models.Animator
 
         private async UniTask PlayAnimationAsync(ICustomAnimation animation, bool isOneShot)
         {
+            _currentAnimation = animation;
+            
             if (isOneShot)
             {
                 await AwaitAnimationEndAsync(animation);

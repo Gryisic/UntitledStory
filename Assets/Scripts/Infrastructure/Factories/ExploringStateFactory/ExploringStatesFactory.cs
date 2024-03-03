@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common.Exploring.Interfaces;
 using Infrastructure.Factories.ExploringStateFactory.Interfaces;
+using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.Factories.ExploringStateFactory

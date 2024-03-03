@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Common.Battle.Constraints;
 using Common.Battle.Interfaces;
 using Common.Battle.Utils;
+using Common.Models.Cameras.Interfaces;
 using Common.Models.Scene;
+using Common.UI.Battle;
 using Common.Units.Battle;
+using Common.Units.Extensions;
 using Common.Units.Handlers;
 using Common.Units.Templates;
 using Core.Data.Interfaces;
@@ -14,19 +18,22 @@ using Core.Interfaces;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Factories.UnitsFactory.Interfaces;
 using Infrastructure.Utils;
+using UnityEngine;
 
 namespace Common.Battle.States
 {
     public class BattleInitializeState : BattleStateBase, IBattleStateArgsRequester, IDisposable
     {
-        private readonly IUnitFactory _unitFactory;
         private readonly IGameDataProvider _gameDataProvider;
+        private readonly IServicesHandler _servicesHandler;
         
         private readonly SceneInfo _sceneInfo;
         private readonly BattleUnitsHandler _unitsHandler;
 
         private readonly InitialUnitsPlacementResolver _placementResolver;
         private readonly Dictionary<Enums.BattleConstraint, BattleConstraint> _constraintsMap;
+        
+        private readonly BattleOverlayView _overlayUI;
 
         private CancellationTokenSource _initializeTokenSource;
 
@@ -34,12 +41,13 @@ namespace Common.Battle.States
 
         public event Func<BattleStateArgs> RequestArgs;
 
-        public BattleInitializeState(IStateChanger<IBattleState> stateChanger, IUnitFactory unitFactory, IGameDataProvider gameDataProvider, BattleUnitsHandler unitsHandler, SceneInfo sceneInfo) : base(stateChanger)
+        public BattleInitializeState(IStateChanger<IBattleState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, BattleUnitsHandler unitsHandler, SceneInfo sceneInfo, UI.UI ui) : base(stateChanger)
         {
-            _unitFactory = unitFactory;
             _gameDataProvider = gameDataProvider;
+            _servicesHandler = servicesHandler;
             _sceneInfo = sceneInfo;
             _unitsHandler = unitsHandler;
+            _overlayUI = ui.Get<BattleOverlayView>();
 
             _placementResolver = new InitialUnitsPlacementResolver();
             _constraintsMap = new Dictionary<Enums.BattleConstraint, BattleConstraint>();
@@ -60,9 +68,15 @@ namespace Common.Battle.States
 
         private async UniTask InitializeAsync()
         {
+            ICameraService cameraService = _servicesHandler.GetSubService<ICameraService>();
+            
             _constraintsMap.Clear();
             
             _args = RequestArgs?.Invoke();
+
+            _args.NavigationArea.Initialize();
+            cameraService.SetEasingAndConfiner(Enums.CameraEasingType.Smooth, null, Constants.BattleTransitionBlendTime);
+            cameraService.FocusOn(_args.NavigationArea.CentralPosition, Enums.CameraDistanceType.Close);
 
             if (_args.Constraints is { Count: > 0 })
             {
@@ -73,7 +87,9 @@ namespace Common.Battle.States
             CreateUnits();
             
             await MoveUnitsToPositionsAsync();
+            await _overlayUI.ActivateAsync(_initializeTokenSource.Token);
 
+            _unitsHandler.ActivateAll();
             stateChanger.ChangeState<TurnSelectionState>();
         }
         
@@ -81,31 +97,43 @@ namespace Common.Battle.States
         {
             IPartyData data = _gameDataProvider.GetData<IPartyData>();
 
-            CreatePack(data.BattleUnitsTemplates);
+            CreatePartyMembers(data.BattleUnitsTemplates);
 
-            if (_constraintsMap.TryGetValue(Enums.BattleConstraint.ExternalUnits, out BattleConstraint constraint) == false)
-                return;
+            if (_constraintsMap.TryGetValue(Enums.BattleConstraint.ExternalUnits, out BattleConstraint constraint))
+                CreateExternalUnits(constraint);
+        }
+
+        private void CreatePartyMembers(IReadOnlyList<BattleUnitTemplate> templates)
+        {
+            List<BattleUnitTemplate> excludedTemplates = templates.Where(t => _unitsHandler.PartyMembers.Select(u => u.ID).Contains(t.ID) == false).ToList();
             
+            foreach (var template in excludedTemplates)
+            {
+                BattleUnit unit = _unitsHandler.GetUnitWithID(template.ID);
+            
+                InitializeUnit(unit, template);
+            }
+            
+            foreach (var unit in _unitsHandler.PartyMembers) 
+                unit.Transform.position = _args.StartPoint;
+        }
+
+        private void CreateExternalUnits(BattleConstraint constraint)
+        {
             ExternalUnitsConstraint unitsConstraint = constraint as ExternalUnitsConstraint;
-                
+
             foreach (var (unit, template) in unitsConstraint.UnitsMap)
             {
                 _unitsHandler.Add(unit);
-                unit.Initialize(template);
+                
+                InitializeUnit(unit, template);
             }
         }
-
-        private void CreatePack(IReadOnlyList<BattleUnitTemplate> templates)
+        
+        private void InitializeUnit(BattleUnit unit, BattleUnitTemplate template)
         {
-            foreach (var template in templates)
-            {
-                _unitFactory.Load(template.ID);
-            
-                BattleUnit unit = _unitFactory.Create(template, _args.StartPoint) as BattleUnit;
-            
-                _unitsHandler.Add(unit);
-                unit.Initialize(template);
-            }
+            unit.Initialize(template);
+            unit.ActivateAndShow();
         }
         
         private async UniTask MoveUnitsToPositionsAsync()

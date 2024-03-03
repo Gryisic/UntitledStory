@@ -1,7 +1,11 @@
-﻿namespace Common.Units.Interfaces
+﻿using UnityEngine;
+
+namespace Common.Units.Interfaces
 {
     public interface IUnitSharedData
     {
-        int ID { get; }   
+        int ID { get; }  
+        
+        Transform Transform { get; }
     }
 }

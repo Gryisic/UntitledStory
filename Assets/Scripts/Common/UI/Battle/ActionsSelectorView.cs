@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Common.Battle.Interfaces;
+using Common.UI.Interfaces;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure.Utils;
@@ -9,12 +11,31 @@ using UnityEngine;
 
 namespace Common.UI.Battle
 {
-    public class ActionsSelectorView : AnimatableUIElement
+    public class ActionsSelectorView : AnimatableUIElement, ITargetSelectionRequester, IQueueableUIElement, ISelectableUIElement
     {
         [SerializeField] private TextMeshProUGUI _phrase;
         [SerializeField] private List<ActionButtonView> _buttons;
 
         private const float ActivationToggleDelay = Constants.DefaultUITweenTime / 3;
+        
+        public event Action<UIElement> RequestAddingToQueue;
+        public event Action<Enums.TargetSide, Enums.TargetsQuantity, Enums.TargetSelectionType> RequestTargetSelection;
+        public event Action SuppressTargetSelection;
+
+        public override void Activate()
+        {
+            base.Activate();
+            
+            RequestTargetSelection?.Invoke(Enums.TargetSide.OppositeToUnit, Enums.TargetsQuantity.Single, Enums.TargetSelectionType.Passive);
+            RequestAddingToQueue?.Invoke(this);
+        }
+
+        public override void Deactivate()
+        {
+            SuppressTargetSelection?.Invoke();
+
+            base.Deactivate();
+        }
 
         public override async UniTask ActivateAsync(CancellationToken token)
         {
@@ -66,5 +87,9 @@ namespace Common.UI.Battle
             _phrase.gameObject.SetActive(false);
             Deactivate();
         }
+
+        public void Select() => SuppressTargetSelection?.Invoke();
+
+        public void Back() { }
     }
 }

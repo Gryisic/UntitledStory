@@ -6,6 +6,7 @@ using Core.Extensions;
 using Core.Interfaces;
 using Infrastructure.Factories.ExploringStateFactory.Interfaces;
 using Infrastructure.Utils;
+using UnityEngine;
 
 namespace Core.GameStates
 {
@@ -14,6 +15,8 @@ namespace Core.GameStates
         private readonly IGameStateSwitcher _stateSwitcher;
         private readonly IExploringStateFactory _exploringStateFactory;
 
+        private ExploringStateArgs _args;
+        
         private bool _isInitialized;
 
         public ExploringState(IGameStateSwitcher stateSwitcher, IExploringStateFactory exploringStateFactory, UI ui)
@@ -29,6 +32,11 @@ namespace Core.GameStates
         
         public void Activate(GameStateArgs args)
         {
+            if (args is ExploringStateArgs exploringArgs == false)
+                throw new InvalidOperationException("Trying to initiate exploring via non ExploringStateArgs");
+
+            _args = exploringArgs;
+            
             if (_isInitialized == false)
             {
                 CreateStates();
@@ -55,6 +63,8 @@ namespace Core.GameStates
         {
             _isInitialized = false;
         }
+        
+        private ExploringStateArgs GetArgs() => _args;
 
         private void CreateStates()
         {
@@ -69,6 +79,9 @@ namespace Core.GameStates
             {
                 if (state is IGameStateChangeRequester stateChangeRequester)
                     stateChangeRequester.RequestStateChange += ToNextState;
+                
+                if (state is IGameStateArgsRequester<ExploringStateArgs> argsRequester)
+                    argsRequester.RequestArgs += GetArgs;
             }
         }
 
@@ -78,6 +91,9 @@ namespace Core.GameStates
             {
                 if (state is IGameStateChangeRequester stateChangeRequester)
                     stateChangeRequester.RequestStateChange -= ToNextState;
+                
+                if (state is IGameStateArgsRequester<ExploringStateArgs> argsRequester)
+                    argsRequester.RequestArgs -= GetArgs;
             }
         }
         

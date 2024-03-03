@@ -40,7 +40,7 @@ namespace Common.Navigation.BattleFieldSearchStrategy
             
             if (isOccupied == false)
             {
-                field = new BattleField(positionX - 0.5f);
+                field = new BattleField(new Vector2(positionX - 0.5f, positionY - 0.5f));
 
                 int ceilWidth = Mathf.CeilToInt(_halfWidth);
                 int ceilHeight = Mathf.CeilToInt(_halfHeight);

@@ -4,6 +4,7 @@ using System.Linq;
 using Common.Models.Triggers.Interfaces;
 using Common.Units;
 using Common.Units.Exploring;
+using Common.Units.Interfaces;
 using Infrastructure.Utils;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace Common.Models.Triggers.Mono
     {
         [SerializeField] protected Collider2D localCollider;
 
+        [SerializeField] private Enums.PostEventState _postEventState;
         [SerializeField] private List<TriggerData> _triggers;
         
         protected TriggerData firstTriggerInOrder;
@@ -23,6 +25,7 @@ namespace Common.Models.Triggers.Mono
         private IReadOnlyList<TriggerData> _sortedTriggers;
         private bool _hasActiveTrigger;
 
+        public Enums.PostEventState PostEventState => _postEventState;
         public IReadOnlyList<string> IDs => _triggers.Select(t => t.ID).ToList();
         
         public event Action<string> IDUsed; 
@@ -50,10 +53,14 @@ namespace Common.Models.Triggers.Mono
             DefineLoop();
         }
         
-        public void Interact()
+        public void Interact(IUnitSharedData source)
         {
             if (_hasActiveTrigger && firstTriggerInOrder.ActivationType == Enums.TriggerActivationType.Manual)
+            {
+                collidedAt = source.Transform.position;
+                
                 Execute();
+            }
         }
 
         public void SetActiveIDs(IReadOnlyList<string> ids)

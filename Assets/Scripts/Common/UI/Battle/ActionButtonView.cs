@@ -21,7 +21,7 @@ namespace Common.UI.Battle
             
             await DOTween.Sequence()
                 .Append(_name.DOFade(1, TweenTime).From(0))
-                .Join(_background.DOFade(0.25f, TweenTime).From(0))
+                .Join(_background.DOFade(1, TweenTime).From(0))
                 .ToUniTask(cancellationToken: token);
         }
 
@@ -29,7 +29,7 @@ namespace Common.UI.Battle
         {
             await DOTween.Sequence()
                 .Append(_name.DOFade(0, TweenTime).From(1))
-                .Join(_background.DOFade(0, TweenTime).From(0.25f))
+                .Join(_background.DOFade(0, TweenTime).From(1))
                 .ToUniTask(cancellationToken: token);
             
             Deactivate();

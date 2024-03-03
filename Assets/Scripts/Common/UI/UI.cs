@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.UI.Battle;
 using Common.UI.Extensions;
 using Infrastructure.Utils;
 using UnityEngine;
+using Zenject;
 
 namespace Common.UI
 {
@@ -11,6 +13,12 @@ namespace Common.UI
     {
         [SerializeField] private List<UILayer> _layers;
 
+        public void Dispose()
+        {
+            foreach (var layer in _layers) 
+                layer.Dispose();
+        }
+        
         public void SetCameraToLayer(Camera sceneCamera, Enums.UILayer layer)
         {
             UILayer uiLayer = _layers.First(l => l.Layer == layer);
@@ -31,12 +39,6 @@ namespace Common.UI
             }
 
             throw new InvalidOperationException($"Trying to get ui element that's not presented in ui layers. Element: {typeof(T)}");
-        }
-
-        public void Dispose()
-        {
-            foreach (var layer in _layers) 
-                layer.Dispose();
         }
     }
 }
