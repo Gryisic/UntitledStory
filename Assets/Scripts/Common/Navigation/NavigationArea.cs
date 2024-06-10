@@ -52,6 +52,8 @@ namespace Common.Navigation
 
             return path != null;
         }
+
+        public Enums.BattleFieldSide GetPositionSide(Vector2 position) => _battleField.GetSide(position);
         
         public IReadOnlyList<NavigationCell> GetPathToBattleFieldPosition(Vector2 from, Enums.BattleFieldSide side)
         {

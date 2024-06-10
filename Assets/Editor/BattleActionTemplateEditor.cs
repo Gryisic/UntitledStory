@@ -37,10 +37,11 @@ namespace Editor
         public override void OnInspectorGUI()
         {
             EditorGUI.BeginChangeCheck();
+            
             serializedObject.Update();
             
             DrawPropertiesExcluding(serializedObject, BattleActionTemplate.QTESequencePropertyName);
-
+            
             if (_template.HasQTE)
                 DrawQTESequence();
             

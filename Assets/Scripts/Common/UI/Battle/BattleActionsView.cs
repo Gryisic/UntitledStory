@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Common.Battle.Interfaces;
+using Common.Battle.TargetSelection.Interfaces;
 using Common.UI.Extensions;
 using Common.UI.Interfaces;
+using Core.Extensions;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
 using UnityEngine;
@@ -21,8 +23,8 @@ namespace Common.UI.Battle
         private UIElement _currentUIElement;
 
         public event Func<Enums.ListedItem, IReadOnlyList<IListedItemData>> RequestItemsData;
-        public event Action<Enums.BattleActions, int> ActionSelected;
-        public event Action<Enums.TargetSide, Enums.TargetsQuantity, Enums.TargetSelectionType> RequestTargetSelection;
+        public event Action<Enums.Input, int> ActionSelected;
+        public event Action<ITargetSelectionData> RequestTargetSelection;
         public event Action SuppressTargetSelection;
 
         public TargetSelectorView TargetSelector => _targetSelector;
@@ -61,27 +63,39 @@ namespace Common.UI.Battle
             Deactivate();
         }
 
+        public void ValidatePosition(Vector2 position, Enums.BattleFieldSide side, Camera activeCamera)
+        {
+            float sideModifier = side == Enums.BattleFieldSide.Left ? 1 : -1;
+            float offset = Transform.rect.width / 2 + 0.5f * sideModifier;
+            
+            position.x += side == Enums.BattleFieldSide.Right ? offset : -offset;
+            
+            Transform.ClampAround(position, activeCamera);
+            
+            _actionsSelector.UpdateRotation(side);
+        }
+
         public void MoveUp() => _currentUIElement.MoveUp();
 
         public void MoveDown() => _currentUIElement.MoveDown();
 
-        public void Select(Enums.BattleActions input)
+        public void Select(Enums.Input input)
         {
             switch (input)
             {
-                case Enums.BattleActions.Attack:
+                case Enums.Input.A:
                     AttackSelected();
                     break;
                 
-                case Enums.BattleActions.Skill:
+                case Enums.Input.Y:
                     SkillSelected();
                     break;
                 
-                case Enums.BattleActions.Guard:
+                case Enums.Input.B:
                     GuardSelected();
                     break;
                 
-                case Enums.BattleActions.Items:
+                case Enums.Input.X:
                     ItemsSelected();
                     break;
                 
@@ -101,13 +115,13 @@ namespace Common.UI.Battle
                 SwitchElement(currentElement);
             }
             else
-                ActionSelected?.Invoke(Enums.BattleActions.Guard, 0);
+                ActionSelected?.Invoke(Enums.Input.B, 0);
         }
 
         private void AttackSelected()
         {
             if (_currentUIElement is ActionsSelectorView)
-                ActionSelected?.Invoke(Enums.BattleActions.Attack, 0);
+                ActionSelected?.Invoke(Enums.Input.A, 0);
             else
                 _currentUIElement.Select();
         }
@@ -175,12 +189,12 @@ namespace Common.UI.Battle
 
         private void AddElementToQueue(UIElement element) => _elementsQueue.Enqueue(element);
 
-        private void OnTargetSelectionRequested(Enums.TargetSide side, Enums.TargetsQuantity quantity, Enums.TargetSelectionType selectionType)
+        private void OnTargetSelectionRequested(ITargetSelectionData data)
         {
-            if (selectionType == Enums.TargetSelectionType.Active)
+            if (_elementsQueue.Count > 0)
                 SwitchElement(_targetSelector);
             
-            RequestTargetSelection?.Invoke(side, quantity, selectionType);
+            RequestTargetSelection?.Invoke(data);
         }
 
         private void OnTargetSelectionSuppressed()

@@ -2,11 +2,11 @@
 using System.Linq;
 using Common.QTE.Templates;
 using Infrastructure.Utils;
+using Infrastructure.Utils.Attributes;
 using UnityEngine;
 
 namespace Common.QTE
 {
-    [CreateAssetMenu(menuName = "QTETest")]
     public class QuickTimeEventSequence : ScriptableObject
     {
         [SerializeField, Expandable] private List<QuickTimeEventTemplate> _templates;

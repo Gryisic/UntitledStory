@@ -5,9 +5,9 @@ namespace Common.Models.Triggers.Extensions
 {
     public static class MonoTriggersExtensions
     {
-        public static void Dispose(this MonoTrigger trigger)
+        public static void Dispose(this MonoTriggerZone triggerZone)
         {
-            if (trigger is IDisposable disposable)
+            if (triggerZone is IDisposable disposable)
                 disposable.Dispose();
         }
     }

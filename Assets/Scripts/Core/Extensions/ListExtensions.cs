@@ -17,5 +17,17 @@ namespace Core.Extensions
 
             return list[index];
         }
+
+        public static bool TryAdd<T>(this List<T> list, T value)
+        {
+            if (list.Contains(value) == false)
+            {
+                list.Add(value);
+                
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using Common.Battle.Interfaces;
+using Common.Battle.TargetSelection;
+using Common.Battle.TargetSelection.Interfaces;
 using Common.UI.Interfaces;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -19,14 +21,14 @@ namespace Common.UI.Battle
         private const float ActivationToggleDelay = Constants.DefaultUITweenTime / 3;
         
         public event Action<UIElement> RequestAddingToQueue;
-        public event Action<Enums.TargetSide, Enums.TargetsQuantity, Enums.TargetSelectionType> RequestTargetSelection;
+        public event Action<ITargetSelectionData> RequestTargetSelection;
         public event Action SuppressTargetSelection;
 
         public override void Activate()
         {
             base.Activate();
             
-            RequestTargetSelection?.Invoke(Enums.TargetSide.OppositeToUnit, Enums.TargetsQuantity.Single, Enums.TargetSelectionType.Passive);
+            RequestTargetSelection?.Invoke(new DefaultTargetSelection());
             RequestAddingToQueue?.Invoke(this);
         }
 
@@ -88,6 +90,15 @@ namespace Common.UI.Battle
             Deactivate();
         }
 
+        public void UpdateRotation(Enums.BattleFieldSide side)
+        {
+            _phrase.alignment = side == Enums.BattleFieldSide.Left
+                ? TextAlignmentOptions.Right
+                : TextAlignmentOptions.Left;
+            
+            _buttons.ForEach(b => b.Flip(side));
+        }
+        
         public void Select() => SuppressTargetSelection?.Invoke();
 
         public void Back() { }

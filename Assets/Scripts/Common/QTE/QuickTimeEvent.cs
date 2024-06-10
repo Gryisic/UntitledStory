@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Common.QTE.CheckStrategy;
+using Common.QTE.EndBehaviour;
 using Common.QTE.Interfaces;
 using Common.QTE.Templates;
 using Cysharp.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace Common.QTE
         private readonly IQTEConditionCheckStrategy _conditionCheckStrategy;
         
         private Enums.QTEState _state = Enums.QTEState.Sleep;
+
+        private Enums.Input _lastInput;
         
         public QuickTimeEventTemplate Data { get; }
         
@@ -24,9 +27,11 @@ namespace Common.QTE
         public event Action<QuickTimeEvent> Failed;
         public event Action SucceededInternal;
         public event Action FailedInternal;
-        public event Action InputPressed;
-        public event Action InputReleased;
-        
+        public event Action Canceled;
+        public event Action<Enums.Input> InputPressed;
+        public event Action<Enums.Input> InputReleased;
+        public event Action<QuickTimeEvent, QTESuppressArgs> SequenceSuppressed;
+
         public QuickTimeEvent(QuickTimeEventTemplate data)
         {
             Data = data;
@@ -42,6 +47,9 @@ namespace Common.QTE
 
             _conditionCheckStrategy.Succeeded += InvokeSuccess;
             _conditionCheckStrategy.Failed += InvokeFail;
+            
+            if (Data.EndBehaviour is SuppressSequenceBehaviour suppressBehaviour)
+                suppressBehaviour.SequenceSuppressed += OnSequenceSuppressed;
             
             _conditionCheckStrategy.Start();
 
@@ -63,30 +71,39 @@ namespace Common.QTE
             if (IsEnded == false)
                 InvokeFail();
         }
-        
-        public void Input(Enums.QTEInput input)
+
+        public void Cancel()
         {
-            _conditionCheckStrategy.Input(_state, input);
+            End();
             
-            InputPressed?.Invoke();
+            Canceled?.Invoke();
+        }
+
+        public void Input(Enums.Input input)
+        {
+            _lastInput = input;
+            
+            _conditionCheckStrategy.Input(_state, input);
+
+            InputPressed?.Invoke(input);
         }
 
         public void CancelInput()
         {
             _conditionCheckStrategy.CancelInput(_state);
             
-            InputReleased?.Invoke();
+            InputReleased?.Invoke(_lastInput);
         }
 
         private void InvokeSuccess()
         {
             _state = Enums.QTEState.Succeeded;
 
-            Debug.Log("Suc");
-            
+            Data.EndBehaviour?.Update(_state);
+
             Succeeded?.Invoke(this);
             SucceededInternal?.Invoke();
-            
+
             End();
         }
         
@@ -94,8 +111,8 @@ namespace Common.QTE
         {
             _state = Enums.QTEState.Failed;
             
-            Debug.Log("Fail");
-            
+            Data.EndBehaviour?.Update(_state);
+
             Failed?.Invoke(this);
             FailedInternal?.Invoke();
             
@@ -108,8 +125,12 @@ namespace Common.QTE
 
             _conditionCheckStrategy.Succeeded -= InvokeSuccess;
             _conditionCheckStrategy.Failed -= InvokeFail;
+            
+            Data.EndBehaviour?.Clear();
         }
         
+        private void OnSequenceSuppressed(QTESuppressArgs args) => SequenceSuppressed?.Invoke(this, args);
+
         private IQTEConditionCheckStrategy DefineConditionCheckStrategy()
         {
             return Data.Type switch

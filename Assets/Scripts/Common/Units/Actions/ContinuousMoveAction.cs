@@ -31,6 +31,8 @@ namespace Common.Units.Actions
                 
                 _data.Rigidbody.velocity = Vector2.zero;
             }
+
+            await base.ExecuteAsync(token);
             
             Cancel();
         }

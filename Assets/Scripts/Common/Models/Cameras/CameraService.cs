@@ -1,6 +1,7 @@
 ﻿using System;
 using Cinemachine;
 using Common.Models.Cameras.Interfaces;
+using Core.Extensions;
 using Infrastructure.Utils;
 using UnityEngine;
 
@@ -47,6 +48,37 @@ namespace Common.Models.Cameras
             _impulseSource.GenerateImpulse();
         }
 
+        public Vector2 WorldToScreen(RectTransform rect) 
+            => WorldToScreen(_activeCamera.transform.position, rect);
+
+        public Vector2 WorldToScreen(Vector2 worldPosition, RectTransform rect)
+        {
+            Vector3 screenPoint = _brain.OutputCamera.WorldToScreenPoint(worldPosition);
+            screenPoint.z = 0;
+
+            return screenPoint;
+        }
+
+        public Vector2 ScreenToWorld(Enums.CameraCenterPositioning positioning = Enums.CameraCenterPositioning.Default) 
+            => ScreenToWorld(_activeCamera.transform.position, positioning);
+
+        public Vector2 ScreenToWorld(Vector2 screenPosition, Enums.CameraCenterPositioning positioning = Enums.CameraCenterPositioning.Default)
+        {
+            Vector2 defaultPosition = _brain.OutputCamera.ScreenToWorldPoint(screenPosition);
+            
+            switch (positioning)
+            {
+                case Enums.CameraCenterPositioning.Default:
+                    return defaultPosition;
+
+                case Enums.CameraCenterPositioning.Center:
+                    return _brain.OutputCamera.GetScreenCenter();
+                
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(positioning), positioning, null);
+            }
+        }
+
         private void ChangeCamera(Camera newCamera)
         {
             if (_activeCamera != null) 
@@ -55,7 +87,7 @@ namespace Common.Models.Cameras
             _activeCamera = newCamera;
             _activeCamera.Activate();
         }
-        
+
         private CinemachineBlendDefinition DefineBlend(Enums.CameraEasingType easingType, float blendTime)
         {
             switch (easingType)

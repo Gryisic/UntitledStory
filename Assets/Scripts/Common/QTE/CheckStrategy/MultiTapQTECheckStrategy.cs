@@ -27,10 +27,8 @@ namespace Common.QTE.CheckStrategy
             _tapCount = multiTapQteTemplate.TapCount;
         }
 
-        public void Input(Enums.QTEState state, Enums.QTEInput input)
+        public void Input(Enums.QTEState state, Enums.Input input)
         {
-            Debug.Log(state);
-            
             if (state != Enums.QTEState.Opened || input != _data.Input || _data.Type != Enums.QTEType.MultiTap) 
                 Failed?.Invoke();
             else

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Common.Models.Animator.Callbacks;
 using Common.Models.Animator.Interfaces;
 using Infrastructure.Utils;
+using Infrastructure.Utils.Tools;
 using UnityEngine;
 
 namespace Common.Models.Animator

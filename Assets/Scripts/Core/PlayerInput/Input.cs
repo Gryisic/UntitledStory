@@ -114,6 +114,61 @@ namespace Core.PlayerInput
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Direction_Gamepad"",
+                    ""id"": ""cf30a84b-2d13-4004-ab30-666fb4e66c38"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""3a04d1b6-0fa4-4589-b27f-2c7c56ae0693"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""94b6082f-bcc3-4e9b-96f1-eda56e444c28"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""6abdc665-3afd-4b0e-b720-14eec2319f7d"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""9a0532ba-b2b7-45a4-adb0-804d2f054673"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""35fa8cef-8efa-49e3-8bbf-d2c5d89fd221"",
                     ""path"": ""<Keyboard>/f"",
@@ -638,7 +693,18 @@ namespace Core.PlayerInput
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Keyboard"",
+            ""bindingGroup"": ""Keyboard"",
+            ""devices"": []
+        },
+        {
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
+            ""devices"": []
+        }
+    ]
 }");
             // Explore
             m_Explore = asset.FindActionMap("Explore", throwIfNotFound: true);
@@ -1095,6 +1161,24 @@ namespace Core.PlayerInput
             }
         }
         public DebugActions @Debug => new DebugActions(this);
+        private int m_KeyboardSchemeIndex = -1;
+        public InputControlScheme KeyboardScheme
+        {
+            get
+            {
+                if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
+                return asset.controlSchemes[m_KeyboardSchemeIndex];
+            }
+        }
+        private int m_GamepadSchemeIndex = -1;
+        public InputControlScheme GamepadScheme
+        {
+            get
+            {
+                if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+                return asset.controlSchemes[m_GamepadSchemeIndex];
+            }
+        }
         public interface IExploreActions
         {
             void OnMove(InputAction.CallbackContext context);

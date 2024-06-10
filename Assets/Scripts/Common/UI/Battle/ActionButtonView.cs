@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure.Utils;
@@ -11,10 +12,11 @@ namespace Common.UI.Battle
     public class ActionButtonView : AnimatableUIElement
     {
         [SerializeField] private TextMeshProUGUI _name;
+        [SerializeField] private Image _icon;
         [SerializeField] private Image _background;
 
         private const float TweenTime = Constants.DefaultUITweenTime;
-
+        
         public override async UniTask ActivateAsync(CancellationToken token)
         {
             Activate();
@@ -33,6 +35,28 @@ namespace Common.UI.Battle
                 .ToUniTask(cancellationToken: token);
             
             Deactivate();
+        }
+
+        public void Flip(Enums.BattleFieldSide side)
+        {
+            Transform iconTransform = _icon.transform;
+            float absoluteIconX = Mathf.Abs(iconTransform.localPosition.x);
+            
+            switch (side)
+            {
+                case Enums.BattleFieldSide.Left:
+                    iconTransform.localPosition = new Vector3(absoluteIconX, iconTransform.localPosition.y);
+                    _background.transform.rotation = new Quaternion(0, 180, 0, 0);
+                    break;
+                
+                case Enums.BattleFieldSide.Right:
+                    iconTransform.localPosition = new Vector3(absoluteIconX * -1, iconTransform.localPosition.y);
+                    _background.transform.rotation = new Quaternion(0, 0, 0, 0);
+                    break;
+                
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(side), side, null);
+            }
         }
     }
 }

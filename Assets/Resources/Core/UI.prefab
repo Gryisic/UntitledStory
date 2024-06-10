@@ -49,7 +49,6 @@ MonoBehaviour:
   _layers:
   - {fileID: 7785653115664615210}
   - {fileID: 8882268886857952966}
-  - {fileID: 0}
 --- !u!1001 &4155768532820258110
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -3215,7 +3215,7 @@ MonoBehaviour:
   m_text: What should I do next? Maybe regular attack?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f7c8764985aac448a114783bb9578f9, type: 2}
-  m_sharedMaterial: {fileID: -8716871541186209366, guid: 5f7c8764985aac448a114783bb9578f9, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 7eb3f17350bfecc41803914b4b676254, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

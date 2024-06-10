@@ -6,6 +6,6 @@ namespace Common.Models.Triggers.Interfaces
 {
     public interface ITrigger : IGameEvent
     {
-        IReadOnlyList<string> IDs { get; }
+        string ID { get; }
     }
 }

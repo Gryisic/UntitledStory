@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: 587209391}
   - component: {fileID: 587209392}
   - component: {fileID: 587209394}
-  - component: {fileID: 587209393}
+  - component: {fileID: 587209396}
   - component: {fileID: 587209395}
   m_Layer: 0
   m_Name: BattleTest1
@@ -506,55 +506,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &587209393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 587209390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53077243da054a6dbd70b810111f53be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localCollider: {fileID: 587209394}
-  _postEventState: 0
-  _triggers:
-  - _id: BattleTest
-    _priority: 0
-    _activationType: 1
-    _loopType: 1
-  _navigationArea: {fileID: 587209395}
-  _constraints:
-  - rid: 7012289396313161729
-  - rid: 7012289396313161730
-  references:
-    version: 2
-    RefIds:
-    - rid: 7012289396313161729
-      type: {class: ExternalUnitsConstraint, ns: Common.Battle.Constraints, asm: Assembly-CSharp}
-      data:
-        _afterBattleBehaviour: 2
-        _units:
-        - _unit: {fileID: 1182318074}
-          _template: {fileID: 11400000, guid: cda54cacae51ca24fab431b9fed01fe8, type: 2}
-        - _unit: {fileID: 617606623}
-          _template: {fileID: 11400000, guid: cda54cacae51ca24fab431b9fed01fe8, type: 2}
-    - rid: 7012289396313161730
-      type: {class: PlacementConstraint, ns: Common.Battle.Constraints, asm: Assembly-CSharp}
-      data:
-        _partyMembersPositions:
-        - _placementMarker: {fileID: 1324386682}
-          _hasBoundedUnit: 1
-          _id: 11
-        _enemiesPositions:
-        - _placementMarker: {fileID: 2003101032}
-          _hasBoundedUnit: 1
-          _id: -999
-        - _placementMarker: {fileID: 1425702405}
-          _hasBoundedUnit: 1
-          _id: -999
 --- !u!61 &587209394
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -619,6 +570,69 @@ MonoBehaviour:
   _drawGrid: 1
   _drawBattleField: 1
   _drawPath: 1
+--- !u!114 &587209396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587209390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b12a78005bba42f5ab539b74b6e7e836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localCollider: {fileID: 587209394}
+  _triggers:
+  - rid: 5730241714604998656
+  references:
+    version: 2
+    RefIds:
+    - rid: 1785632251767685120
+      type: {class: UnitsDependency, ns: Common.Models.Triggers.Dependencies, asm: Assembly-CSharp}
+      data:
+        _enemyPlacement:
+        - _id: -999
+          _positionMarker: {fileID: 2003101032}
+        - _id: -999
+          _positionMarker: {fileID: 1425702405}
+    - rid: 5730241714604998656
+      type: {class: EncounterTrigger, ns: Common.Models.Triggers.General, asm: Assembly-CSharp}
+      data:
+        _id: BattleTest
+        _postEventState: 0
+        _priority: 0
+        _activationType: 1
+        _loopType: 1
+        _dependencies:
+        - rid: 1785632251767685120
+        _navigationArea: {fileID: 587209395}
+        _constraints:
+        - rid: 5730241714604998657
+        - rid: 5730241714604998658
+    - rid: 5730241714604998657
+      type: {class: PlacementConstraint, ns: Common.Battle.Constraints, asm: Assembly-CSharp}
+      data:
+        _partyMembersPositions:
+        - _placementMarker: {fileID: 1324386682}
+          _hasBoundedUnit: 1
+          _id: 11
+        _enemiesPositions:
+        - _placementMarker: {fileID: 2003101032}
+          _hasBoundedUnit: 1
+          _id: -999
+        - _placementMarker: {fileID: 1425702405}
+          _hasBoundedUnit: 1
+          _id: -999
+    - rid: 5730241714604998658
+      type: {class: ExternalUnitsConstraint, ns: Common.Battle.Constraints, asm: Assembly-CSharp}
+      data:
+        _afterBattleBehaviour: 4
+        _units:
+        - _unit: {fileID: 1182318074}
+          _template: {fileID: 11400000, guid: cda54cacae51ca24fab431b9fed01fe8, type: 2}
+        - _unit: {fileID: 617606623}
+          _template: {fileID: 11400000, guid: cda54cacae51ca24fab431b9fed01fe8, type: 2}
 --- !u!1 &608479790
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,7 +644,7 @@ GameObject:
   - component: {fileID: 608479791}
   - component: {fileID: 608479794}
   - component: {fileID: 608479793}
-  - component: {fileID: 608479792}
+  - component: {fileID: 608479795}
   m_Layer: 0
   m_Name: DialogueTest
   m_TagString: Untagged
@@ -653,29 +667,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 771166849}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &608479792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 608479790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1807b6912cc44cceb2a93fe2ce0d2df1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localCollider: {fileID: 608479793}
-  _postEventState: 0
-  _triggers:
-  - _id: Test
-    _priority: 0
-    _activationType: 0
-    _loopType: 0
-  - _id: Test3
-    _priority: 0
-    _activationType: 0
-    _loopType: 1
 --- !u!61 &608479793
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -773,6 +764,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &608479795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608479790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b12a78005bba42f5ab539b74b6e7e836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localCollider: {fileID: 608479793}
+  _triggers:
+  - rid: 5730241714604998659
+  - rid: 5730241714604998660
+  references:
+    version: 2
+    RefIds:
+    - rid: 5730241714604998659
+      type: {class: DialogueTrigger, ns: Common.Models.Triggers.General, asm: Assembly-CSharp}
+      data:
+        _id: Test
+        _postEventState: 0
+        _priority: 0
+        _activationType: 0
+        _loopType: 0
+        _dependencies: []
+    - rid: 5730241714604998660
+      type: {class: DialogueTrigger, ns: Common.Models.Triggers.General, asm: Assembly-CSharp}
+      data:
+        _id: Test3
+        _postEventState: 0
+        _priority: 0
+        _activationType: 0
+        _loopType: 1
+        _dependencies: []
 --- !u!1 &617606622
 GameObject:
   m_ObjectHideFlags: 0
@@ -1154,10 +1182,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb2dfa23ac3c4626bf9815389649e4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _triggers:
-  - {fileID: 608479792}
-  - {fileID: 1489568824}
-  - {fileID: 587209393}
+  _triggerZones:
+  - {fileID: 608479795}
+  - {fileID: 1489568827}
+  - {fileID: 587209396}
 --- !u!1 &773881223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1458,38 +1486,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 412848365657254963, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412848365657254963, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412848365657254963, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412848365657254963, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 549928356397604073, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 549928356397604073, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 549928356397604073, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 549928356397604073, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1510222538429041778, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1574,42 +1570,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2016592075061344179, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2329792384202973585, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2329792384202973585, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2329792384202973585, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2329792384202973585, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3096040572013350441, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3096040572013350441, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3096040572013350441, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3096040572013350441, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3247451945973469246, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1642,38 +1602,6 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5595592819590038269, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595592819590038269, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595592819590038269, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595592819590038269, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6186840253847249906, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6186840253847249906, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6186840253847249906, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6186840253847249906, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6605283281398117813, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1681,22 +1609,6 @@ PrefabInstance:
     - target: {fileID: 7233598671609933527, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7382385008194883061, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7382385008194883061, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7382385008194883061, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7382385008194883061, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7625340030522927466, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
       propertyPath: m_Name
@@ -1710,15 +1622,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8562865453738950834, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8627326138912971007, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9055122690774286493, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -2219,7 +2123,7 @@ GameObject:
   - component: {fileID: 1489568823}
   - component: {fileID: 1489568826}
   - component: {fileID: 1489568825}
-  - component: {fileID: 1489568824}
+  - component: {fileID: 1489568827}
   m_Layer: 0
   m_Name: DialogueTest2
   m_TagString: Untagged
@@ -2242,25 +2146,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 771166849}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1489568824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1489568822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1807b6912cc44cceb2a93fe2ce0d2df1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localCollider: {fileID: 1489568825}
-  _postEventState: 0
-  _triggers:
-  - _id: Test2
-    _priority: 0
-    _activationType: 1
-    _loopType: 0
 --- !u!61 &1489568825
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2358,6 +2243,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1489568827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489568822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b12a78005bba42f5ab539b74b6e7e836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localCollider: {fileID: 1489568825}
+  _triggers:
+  - rid: 5730241714604998661
+  references:
+    version: 2
+    RefIds:
+    - rid: 5730241714604998661
+      type: {class: DialogueTrigger, ns: Common.Models.Triggers.General, asm: Assembly-CSharp}
+      data:
+        _id: Test2
+        _postEventState: 0
+        _priority: 0
+        _activationType: 1
+        _loopType: 0
+        _dependencies: []
 --- !u!1 &1762140762
 GameObject:
   m_ObjectHideFlags: 0

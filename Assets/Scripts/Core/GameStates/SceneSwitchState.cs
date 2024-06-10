@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Common.Models.GameEvents.Interfaces;
+using Common.Models.Scene;
 using Core.Interfaces;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
@@ -49,20 +50,20 @@ namespace Core.GameStates
             _isActive = true;
             _tokenSource = new CancellationTokenSource();
             
-            await _sceneSwitcher.ChangeSceneAsync(args.NextSceneType, _tokenSource.Token);
+            SceneInfo info = await _sceneSwitcher.ChangeSceneAsync(args.NextSceneType, _tokenSource.Token);
             
             _isActive = false;
             _tokenSource.Dispose();
 
-            ChangeState(args.NextGameState);
+            ChangeState(args.NextGameState, info);
         }
 
-        private void ChangeState(Enums.GameStateType nextState)
+        private void ChangeState(Enums.GameStateType nextState, SceneInfo info)
         {
             switch (nextState)
             {
                 case Enums.GameStateType.Explore:
-                    _stateSwitcher.SwitchState<ExploringState>(new ExploringStateArgs());
+                    _stateSwitcher.SwitchState<ExploringState>(new ExploringStateArgs(info.GetExploreUnitSpawnPosition()));
                     break;
                 
                 default:

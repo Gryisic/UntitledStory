@@ -30,12 +30,14 @@ namespace Common.Units.Actions
 
         public void UnSuppressActionExecution() => _isExecutionSuppressed = false;
 
-        public void AddActionToQueue(UnitAction action)
+        public UnitAction AddActionToQueue(UnitAction action)
         {
             if (action == null)
                 throw new NullReferenceException("Trying to add null 'Unit Action' to queue");
 
             _actionsQueue.Enqueue(action);
+
+            return action;
         }
 
         public void CancelAllActions()

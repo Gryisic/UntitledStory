@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Common.Units.Interfaces;
 using Core.Extensions;
 using Cysharp.Threading.Tasks;
@@ -46,6 +47,8 @@ namespace Common.Units.Actions
 
                 timer += Time.fixedDeltaTime;
             }
+
+            await base.ExecuteAsync(token);
             
             Cancel();
         }

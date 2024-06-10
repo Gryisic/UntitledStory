@@ -15,5 +15,10 @@ namespace Common.Models.Cameras.Interfaces
         void SetEasingAndConfiner(Enums.CameraEasingType easingType, Collider2D confiner, float easingTime = Constants.DefaultCameraBlendTime);
 
         void Shake();
+
+        Vector2 WorldToScreen(RectTransform rect);
+        Vector2 WorldToScreen(Vector2 worldPosition, RectTransform rect);
+        Vector2 ScreenToWorld(Enums.CameraCenterPositioning positioning = Enums.CameraCenterPositioning.Default);
+        Vector2 ScreenToWorld(Vector2 screenPosition, Enums.CameraCenterPositioning positioning = Enums.CameraCenterPositioning.Default);
     }
 }

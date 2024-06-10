@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.UI.Battle;
 using Common.UI.Extensions;
+using Core.Data.Interfaces;
 using Infrastructure.Utils;
 using UnityEngine;
 using Zenject;
@@ -13,6 +14,15 @@ namespace Common.UI
     {
         [SerializeField] private List<UILayer> _layers;
 
+        private IIconsData _iconsData;
+        
+        public void Initialize(IGameDataProvider dataProvider)
+        {
+            _iconsData = dataProvider.GetData<IIconsData>();
+            
+            _layers.ForEach(l => l.Initialize(_iconsData));
+        }
+        
         public void Dispose()
         {
             foreach (var layer in _layers) 
@@ -26,10 +36,6 @@ namespace Common.UI
             uiLayer.SetCamera(sceneCamera);
         }
 
-        public void AddSceneUILayer(UILayer layer) => _layers.Add(layer);
-
-        public void RemoveSceneUILayer(UILayer layer) => _layers.Remove(layer);
-        
         public T Get<T>() where T: UIElement
         {
             foreach (var layer in _layers)

@@ -18,3 +18,6 @@ MonoBehaviour:
     _animation: {fileID: 11400000, guid: 10f451cbbeeec8b43a0fd6679feb07c2, type: 2}
   - _animationType: 2
     _animation: {fileID: 11400000, guid: 16eebd05acbd74441929edf7445f330d, type: 2}
+  _basicAttackTemplate: {fileID: 0}
+  _skillsTemplates: []
+  _statDataContainer: {fileID: 11400000, guid: 369344972543b774c8418e2f75c068d1, type: 2}

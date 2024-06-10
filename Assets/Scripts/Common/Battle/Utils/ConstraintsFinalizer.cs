@@ -11,20 +11,20 @@ namespace Common.Battle.Utils
 {
     public class ConstraintsFinalizer
     {
-        public void Finalize(IEnumerable<BattleConstraint> constraints)
+        public void Finalize(IEnumerable<BattleDependency> dependencies)
         {
-            foreach (var constraint in constraints)
+            foreach (var dependency in dependencies)
             {
-                if (constraint is ExternalUnitsConstraint externalUnitsConstraint)
+                if (dependency is ExternalUnitsDependency externalUnitsConstraint)
                     FinalizeExternalUnits(externalUnitsConstraint);
             }
         }
 
-        private void FinalizeExternalUnits(ExternalUnitsConstraint constraint)
+        private void FinalizeExternalUnits(ExternalUnitsDependency dependency)
         {
-            List<BattleUnit> units = constraint.UnitsMap.Keys.ToList();
+            List<BattleUnit> units = dependency.UnitsMap.Keys.ToList();
             
-            switch (constraint.AfterBattleBehaviour)
+            switch (dependency.AfterBattleBehaviour)
             {
                 case Enums.AfterBattleBehaviour.Destroy:
                     units.ForEach(Object.Destroy);
@@ -36,6 +36,17 @@ namespace Common.Battle.Utils
                 
                 case Enums.AfterBattleBehaviour.Deactivate:
                     units.ForEach(u => u.Deactivate());
+                    break;
+
+                case Enums.AfterBattleBehaviour.RestoreAfterTime:
+                    break;
+                
+                case Enums.AfterBattleBehaviour.RestoreImmediately:
+                    foreach (var u in units)
+                    {
+                        u.Deactivate();
+                        u.Restore();
+                    }
                     break;
                 
                 default:

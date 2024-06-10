@@ -134,7 +134,7 @@ namespace Editor.Animation
 
             GUI.enabled = _isAnimating == false;
 
-            _spritesCount = _animation.Frames.Count() - 1;
+            _spritesCount = _animation.Frames.Count - 1;
             _index = EditorGUILayout.IntSlider("Animation", _index, 0, _spritesCount);
 
             EditorGUILayout.EndHorizontal();

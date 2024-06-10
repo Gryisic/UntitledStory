@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
+using Common.Models.Scene;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
 using UnityEngine;
@@ -15,7 +17,7 @@ namespace Core
         private int _currentSceneIndex;
         private int _nextSceneIndex;
 
-        public async UniTask ChangeSceneAsync(Enums.SceneType sceneType, CancellationToken token)
+        public async UniTask<SceneInfo> ChangeSceneAsync(Enums.SceneType sceneType, CancellationToken token)
         {
             SceneChangeInitiated?.Invoke();
 
@@ -32,6 +34,14 @@ namespace Core
             loadScene.completed -= UnloadSceneAsync;
 
             _currentSceneIndex = _nextSceneIndex;
+            
+            Scene scene = SceneManager.GetSceneByBuildIndex(_nextSceneIndex);
+            
+            foreach (var gameObject in scene.GetRootGameObjects())
+                if (gameObject.TryGetComponent(out SceneInfo sceneInfo))
+                    return sceneInfo;
+
+            return null;
         }
 
         private async UniTask LoadSceneAsync(AsyncOperation loadScene, CancellationToken token)

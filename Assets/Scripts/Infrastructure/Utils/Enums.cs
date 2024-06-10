@@ -7,6 +7,7 @@ namespace Infrastructure.Utils
         public enum GameStateType
         {
             Initialize,
+            Finalize,
             SceneSwitch,
             Explore,
             Dialogue,
@@ -27,6 +28,22 @@ namespace Infrastructure.Utils
         {
             Russian,
             English
+        }
+
+        public enum InputDevice
+        {
+            KeyboardAndMouse,
+            SonyGamepad,
+            MicrosoftGamepad
+        }
+        
+        public enum ValueComparator
+        {
+            Equals,
+            Greater,
+            GreaterOrEquals,
+            Less,
+            LessOrEquals
         }
         
         public enum InkFunction
@@ -52,6 +69,12 @@ namespace Infrastructure.Utils
         {
             Instant,
             Smooth
+        }
+        
+        public enum CameraCenterPositioning
+        {
+            Default,
+            Center
         }
 
         public enum UILayer
@@ -91,29 +114,52 @@ namespace Infrastructure.Utils
             Hold,
             MultiTap
         }
-        
-        public enum QTEInput
+
+        public enum QTESuppress
         {
-            Attack,
-            Skill
+            None,
+            Failure,
+            Success,
         }
-        
-        public enum BattleActions
+
+        public enum QTEDataUpdate
         {
-            Attack,
-            Skill,
-            Guard,
-            Items
+            Preserve,
+            ToHundred,
+            ToZero
+        }
+
+        public enum Input
+        {
+            A,
+            X,
+            B,
+            Y,
+            Up,
+            Down,
+            Left,
+            Right,
+            Start,
+            Select,
+            LB,
+            LT,
+            RB,
+            RT
         }
 
         public enum BattleActionEffect
         {
             Damage,
             Heal,
-            Buff,
-            Debuff,
             Resurrection,
+            StatusEffect,
             EffectsClear
+        }
+        
+        public enum StatusEffectType
+        {
+            Buff,
+            Debuff
         }
         
         public enum Buff
@@ -126,6 +172,35 @@ namespace Infrastructure.Utils
         {
             Bleeding,
             Corruption
+        }
+        
+        public enum UnitStat
+        {
+            MaxHealth,
+            Health,
+            MaxEnergy,
+            Energy,
+            Strength,
+            Focus,
+            Vitality,
+            Resistance,
+            Agility,
+            Accuracy,
+            Luck,
+            Initiative,
+        }
+        
+        public enum StatModifierMultiplier
+        {
+            Add,
+            Multiply,
+            AddPercent
+        }
+        
+        public enum PresentedValueType
+        {
+            Raw,
+            Percent
         }
         
         public enum TargetSide
@@ -148,10 +223,24 @@ namespace Infrastructure.Utils
 
         public enum TargetSelectionType
         {
-            Active,
-            Passive
+            Standalone,
+            WithOtherUIElements
         }
 
+        public enum TargetSelectionFilter
+        {
+            All,
+            Alive,
+            Dead
+        }
+
+        public enum BattleResult
+        {
+            Win,
+            Lose,
+            Event
+        }
+        
         public enum BattleConstraint
         {
             Placement,
@@ -170,7 +259,7 @@ namespace Infrastructure.Utils
             Fixed
         }
         
-        public enum BattleTurn
+        public enum BattleTeam
         {
             Party,
             Enemy
@@ -180,7 +269,9 @@ namespace Infrastructure.Utils
         {
             Destroy,
             Hide,
-            Deactivate
+            Deactivate,
+            RestoreAfterTime,
+            RestoreImmediately
         }
 
         public enum TriggerPriority

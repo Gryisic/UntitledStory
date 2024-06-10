@@ -2,7 +2,9 @@
 using System.Threading;
 using Common.QTE;
 using Common.QTE.Templates;
+using Core.Data.Icons;
 using Cysharp.Threading.Tasks;
+using Infrastructure.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,28 +15,33 @@ namespace Common.UI.Battle.QTE
         [SerializeField] protected Image marker;
         
         protected QuickTimeEventTemplate data;
-        protected CancellationTokenSource _tokenSource;
+        protected CancellationTokenSource tokenSource;
+
+        private InputIcons _icons;
 
         public void Dispose()
         {
-            _tokenSource?.Cancel();
-            _tokenSource?.Dispose();
+            tokenSource?.Cancel();
+            tokenSource?.Dispose();
         }
         
         protected abstract UniTask SuccessAsync();
         
         protected abstract UniTask FailAsync();
         
-        public virtual void OnPress() => marker.sprite = data.Pressed;
+        public virtual void OnPress(Enums.Input input) => marker.sprite = _icons.GetPressedIcon(input);
 
-        public virtual void OnRelease() => marker.sprite = data.Released;
-        
-        public virtual void SetData(QuickTimeEventTemplate qteData)
+        public virtual void OnRelease(Enums.Input input) => marker.sprite = _icons.GetReleasedIcon(input);
+
+        public virtual void SetData(QuickTimeEventTemplate qteData, Vector2 position)
         {
             data = qteData;
+            Transform.position = position;
 
-            marker.sprite = data.Released;
+            marker.sprite = _icons.GetReleasedIcon(data.Input);
         }
+
+        public void SetIcons(InputIcons icons) => _icons = icons;
 
         public void OnSuccess()
         {
@@ -50,11 +57,18 @@ namespace Common.UI.Battle.QTE
             FailAsync().Forget();
         }
 
+        public void OnCancel()
+        {
+            ResetToken();
+            
+            Deactivate();
+        }
+
         private void ResetToken()
         {
-            _tokenSource.Cancel();
+            tokenSource.Cancel();
             
-            _tokenSource = new CancellationTokenSource();
+            tokenSource = new CancellationTokenSource();
         }
     }
 }

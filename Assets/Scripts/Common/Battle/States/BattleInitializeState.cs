@@ -31,7 +31,7 @@ namespace Common.Battle.States
         private readonly BattleUnitsHandler _unitsHandler;
 
         private readonly InitialUnitsPlacementResolver _placementResolver;
-        private readonly Dictionary<Enums.BattleConstraint, BattleConstraint> _constraintsMap;
+        private readonly Dictionary<Enums.BattleConstraint, BattleDependency> _constraintsMap;
         
         private readonly BattleOverlayView _overlayUI;
 
@@ -50,7 +50,7 @@ namespace Common.Battle.States
             _overlayUI = ui.Get<BattleOverlayView>();
 
             _placementResolver = new InitialUnitsPlacementResolver();
-            _constraintsMap = new Dictionary<Enums.BattleConstraint, BattleConstraint>();
+            _constraintsMap = new Dictionary<Enums.BattleConstraint, BattleDependency>();
         }
         
         public void Dispose()
@@ -73,15 +73,23 @@ namespace Common.Battle.States
             _constraintsMap.Clear();
             
             _args = RequestArgs?.Invoke();
+            
+            _args.SetCameraService(cameraService);
 
             _args.NavigationArea.Initialize();
             cameraService.SetEasingAndConfiner(Enums.CameraEasingType.Smooth, null, Constants.BattleTransitionBlendTime);
             cameraService.FocusOn(_args.NavigationArea.CentralPosition, Enums.CameraDistanceType.Close);
 
-            if (_args.Constraints is { Count: > 0 })
+            if (_args.Dependencies is { Count: > 0 })
             {
-                foreach (var constraint in _args.Constraints) 
-                    _constraintsMap.Add(constraint.Constraint, constraint);
+                IEnumerable<BattleDependency> battleDependencies = _args
+                    .Dependencies
+                    .Where(d => d is BattleDependency)
+                    .Cast<BattleDependency>()
+                    .ToList();
+                
+                foreach (var dependency in battleDependencies) 
+                    _constraintsMap.Add(dependency.Constraint, dependency);
             }
 
             CreateUnits();
@@ -96,16 +104,18 @@ namespace Common.Battle.States
         private void CreateUnits()
         {
             IPartyData data = _gameDataProvider.GetData<IPartyData>();
-
+            
             CreatePartyMembers(data.BattleUnitsTemplates);
 
-            if (_constraintsMap.TryGetValue(Enums.BattleConstraint.ExternalUnits, out BattleConstraint constraint))
+            if (_constraintsMap.TryGetValue(Enums.BattleConstraint.ExternalUnits, out BattleDependency constraint))
                 CreateExternalUnits(constraint);
         }
 
         private void CreatePartyMembers(IReadOnlyList<BattleUnitTemplate> templates)
         {
-            List<BattleUnitTemplate> excludedTemplates = templates.Where(t => _unitsHandler.PartyMembers.Select(u => u.ID).Contains(t.ID) == false).ToList();
+            List<BattleUnitTemplate> excludedTemplates = templates
+                .Where(t => _unitsHandler.PartyMembers.Select(u => u.ID).Contains(t.ID) == false)
+                .ToList();
             
             foreach (var template in excludedTemplates)
             {
@@ -118,11 +128,11 @@ namespace Common.Battle.States
                 unit.Transform.position = _args.StartPoint;
         }
 
-        private void CreateExternalUnits(BattleConstraint constraint)
+        private void CreateExternalUnits(BattleDependency dependency)
         {
-            ExternalUnitsConstraint unitsConstraint = constraint as ExternalUnitsConstraint;
+            ExternalUnitsDependency unitsDependency = dependency as ExternalUnitsDependency;
 
-            foreach (var (unit, template) in unitsConstraint.UnitsMap)
+            foreach (var (unit, template) in unitsDependency.UnitsMap)
             {
                 _unitsHandler.Add(unit);
                 
@@ -138,9 +148,9 @@ namespace Common.Battle.States
         
         private async UniTask MoveUnitsToPositionsAsync()
         {
-            _constraintsMap.TryGetValue(Enums.BattleConstraint.Placement, out BattleConstraint constraint);
+            _constraintsMap.TryGetValue(Enums.BattleConstraint.Placement, out BattleDependency constraint);
             
-            await _placementResolver.PlaceUnitsAsync(_unitsHandler.Units, _args.NavigationArea, _initializeTokenSource.Token, constraint as PlacementConstraint);
+            await _placementResolver.PlaceUnitsAsync(_unitsHandler.Units, _args.NavigationArea, _initializeTokenSource.Token, constraint as PlacementDependency);
         }
     }
 }

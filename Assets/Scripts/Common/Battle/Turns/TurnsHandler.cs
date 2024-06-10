@@ -1,4 +1,5 @@
-﻿using Common.Units.Battle;
+﻿using System;
+using Common.Units.Battle;
 using Common.Units.Handlers;
 using Infrastructure.Utils;
 
@@ -20,22 +21,41 @@ namespace Common.Battle.Turns
             _unitsHandler = unitsHandler;
         }
 
-        public void ToNextTurn(out Enums.BattleTurn nextTurn)
+        public void ToNextTurn(out Enums.BattleTeam nextTeam)
         {
             _activeTurn?.Deactivate();
 
-            if (_unitsHandler.GetNextUnit() is BattlePartyMember)
+            if (_unitsHandler.GetNextAliveUnit() is BattlePartyMember)
             {
                 _activeTurn = _partyMemberTurn;
-                nextTurn = Enums.BattleTurn.Party;
+                nextTeam = Enums.BattleTeam.Party;
             }
             else
             {
                 _activeTurn = _enemyTurn;
-                nextTurn = Enums.BattleTurn.Enemy;
+                nextTeam = Enums.BattleTeam.Enemy;
             }
             
             _activeTurn.Activate();
+        }
+        
+        public bool CanGoToNextTurn(out Enums.BattleTeam nextTeam)
+        {
+            nextTeam = Enums.BattleTeam.Party;
+            
+            if (_unitsHandler.HasUnitsWithFilter(u => u is BattlePartyMember && u.IsDead == false) == false)
+            {
+                nextTeam = Enums.BattleTeam.Enemy;
+                return false;
+            }
+
+            if (_unitsHandler.HasUnitsWithFilter(u => u is BattleEnemy && u.IsDead == false) == false)
+            {
+                nextTeam = Enums.BattleTeam.Party;
+                return false;
+            }
+
+            return true;
         }
 
         public void Reset()

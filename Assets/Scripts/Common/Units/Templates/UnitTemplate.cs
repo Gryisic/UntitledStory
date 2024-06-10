@@ -10,6 +10,8 @@ namespace Common.Units.Templates
     public abstract class UnitTemplate : ScriptableObject
     {
         [SerializeField] private int _id;
+        
+        [Space, Header("Animation Data")]
         [SerializeField] private List<StandardAnimationData> _animationData;
 
         public int ID => _id;

@@ -1,12 +1,35 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 namespace Common.Units.Actions
 {
     public abstract class UnitAction
     {
+        private readonly Queue<Action> _callbacks;
+
+        protected UnitAction()
+        {
+            _callbacks = new Queue<Action>();
+        }
+
         public abstract void Cancel();
 
-        public abstract UniTask ExecuteAsync(CancellationToken token);
+        public virtual async UniTask ExecuteAsync(CancellationToken token)
+        {
+            while (_callbacks.TryDequeue(out Action callback)) 
+                callback?.Invoke();
+
+            await UniTask.WaitForFixedUpdate();
+        }
+
+        public void AddCallback(Action callback)
+        {
+            if (callback == null)
+                return;
+        
+            _callbacks.Enqueue(callback);
+        }
     }
 }

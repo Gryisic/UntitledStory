@@ -1,0 +1,244 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7423339891924982820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Initiative
+  m_EditorClassIdentifier: 
+  _initialValue: 1
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &-6436807458916097304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Initiative
+  m_EditorClassIdentifier: 
+  _initialValue: 1
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &-6417290920530193677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Vitality
+  m_EditorClassIdentifier: 
+  _initialValue: 1
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &-6258559255766085559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Focus
+  m_EditorClassIdentifier: 
+  _initialValue: 1
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &-3259028385472106197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Luck
+  m_EditorClassIdentifier: 
+  _initialValue: 1
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &-2413562261931563814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Health
+  m_EditorClassIdentifier: 
+  _initialValue: 3
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &-1989238031073028181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Resistance
+  m_EditorClassIdentifier: 
+  _initialValue: 1
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94e27e2d3e0f4448bd3fbea2d6eec869, type: 3}
+  m_Name: Dummy Stats
+  m_EditorClassIdentifier: 
+  _dataMap:
+    dictionaryList:
+    - Key: 0
+      Value: {fileID: -2413562261931563814}
+      index: 0
+      isKeyDuplicated: 0
+    - Key: 1
+      Value: {fileID: 2283878438851221669}
+      index: 1
+      isKeyDuplicated: 0
+    - Key: 2
+      Value: {fileID: 5622258987560701981}
+      index: 2
+      isKeyDuplicated: 0
+    - Key: 3
+      Value: {fileID: -6258559255766085559}
+      index: 3
+      isKeyDuplicated: 0
+    - Key: 4
+      Value: {fileID: -6417290920530193677}
+      index: 4
+      isKeyDuplicated: 0
+    - Key: 5
+      Value: {fileID: -1989238031073028181}
+      index: 5
+      isKeyDuplicated: 0
+    - Key: 6
+      Value: {fileID: 3689219223333961738}
+      index: 6
+      isKeyDuplicated: 0
+    - Key: 7
+      Value: {fileID: 7683614306696900582}
+      index: 7
+      isKeyDuplicated: 0
+    - Key: 8
+      Value: {fileID: 752677274399107883}
+      index: 8
+      isKeyDuplicated: 0
+    - Key: 9
+      Value: {fileID: -7423339891924982820}
+      index: 9
+      isKeyDuplicated: 0
+    - Key: 10
+      Value: {fileID: -3259028385472106197}
+      index: 10
+      isKeyDuplicated: 0
+    - Key: 11
+      Value: {fileID: -6436807458916097304}
+      index: 11
+      isKeyDuplicated: 0
+--- !u!114 &752677274399107883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Luck
+  m_EditorClassIdentifier: 
+  _initialValue: 1
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &2283878438851221669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Energy
+  m_EditorClassIdentifier: 
+  _initialValue: 3
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &3689219223333961738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Agility
+  m_EditorClassIdentifier: 
+  _initialValue: 1
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &5622258987560701981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Strength
+  m_EditorClassIdentifier: 
+  _initialValue: 1
+  _growthModifier: 1
+  _debug: 0
+--- !u!114 &7683614306696900582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
+  m_Name: Accuracy
+  m_EditorClassIdentifier: 
+  _initialValue: 1
+  _growthModifier: 1
+  _debug: 0

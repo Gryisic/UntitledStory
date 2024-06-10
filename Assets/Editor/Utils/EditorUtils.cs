@@ -1,6 +1,8 @@
 ﻿#if UNITY_EDITOR
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 
@@ -8,6 +10,13 @@ namespace Editor.Utils
 {
     public static class EditorUtils
     {
+        public static IEnumerable<Type> GetTypesDerivedFrom<T>() where T: class
+        {
+            Type type = typeof(T);
+            
+            return Assembly.GetAssembly(type).GetTypes().Where(t => t.IsClass && t.IsAbstract == false && type.IsAssignableFrom(t));
+        }
+
         public static object GetTargetObjectOfProperty(SerializedProperty property)
         {
             string path = property.propertyPath.Replace(".Array.data[", "[");

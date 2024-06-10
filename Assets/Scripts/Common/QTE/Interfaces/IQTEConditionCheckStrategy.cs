@@ -9,7 +9,7 @@ namespace Common.QTE.Interfaces
         event Action Failed;
 
         void Start();
-        void Input(Enums.QTEState state, Enums.QTEInput input);
+        void Input(Enums.QTEState state, Enums.Input input);
         void CancelInput(Enums.QTEState state);
     }
 }

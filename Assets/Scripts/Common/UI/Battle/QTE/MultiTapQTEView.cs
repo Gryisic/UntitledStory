@@ -22,32 +22,32 @@ namespace Common.UI.Battle.QTE
         {
             base.Activate();
 
-            _tokenSource = new CancellationTokenSource();
+            tokenSource = new CancellationTokenSource();
             
             ActivateAsync().Forget();
         }
 
         public override void Deactivate()
         {
-            _tokenSource.Cancel();
+            tokenSource.Cancel();
             
             base.Deactivate();
         }
 
-        public override void SetData(QuickTimeEventTemplate qteData)
+        public override void SetData(QuickTimeEventTemplate qteData, Vector2 position)
         {
             if (qteData is MultiTapQTETemplate multiTapQteTemplate == false)
                 throw new InvalidOperationException($"Trying to set MultiTap view via non Multi Tap template");
             
-            base.SetData(qteData);
+            base.SetData(qteData, position);
 
             _counterValue = multiTapQteTemplate.TapCount;
             _counter.text = $"x{_counterValue}";
         }
 
-        public override void OnPress()
+        public override void OnPress(Enums.Input input)
         {
-            base.OnPress();
+            base.OnPress(input);
 
             _counterValue = Mathf.Clamp(_counterValue--, 0, _counterValue);
             
@@ -59,7 +59,7 @@ namespace Common.UI.Battle.QTE
             _timer.DOColor(Color.green, Constants.DefaultUITweenTime / 2);
             _counter.DOFade(0, Constants.DefaultUITweenTime / 2).From(1);
             
-            await UniTask.Delay(TimeSpan.FromSeconds(Constants.DefaultUITweenTime), cancellationToken: _tokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(Constants.DefaultUITweenTime), cancellationToken: tokenSource.Token);
 
             _timer.DOFade(0, Constants.DefaultUITweenTime / 2).From(1);
         }
@@ -70,7 +70,7 @@ namespace Common.UI.Battle.QTE
                 .Append(_timer.DOColor(Color.red, Constants.DefaultUITweenTime / 2))
                 .Join(_timer.rectTransform.DOShakeScale(Constants.DefaultUITweenTime / 2));
 
-            await UniTask.Delay(TimeSpan.FromSeconds(Constants.DefaultUITweenTime), cancellationToken: _tokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(Constants.DefaultUITweenTime), cancellationToken: tokenSource.Token);
 
             _timer.DOFade(0, Constants.DefaultUITweenTime / 2).From(1);
         }
@@ -83,11 +83,11 @@ namespace Common.UI.Battle.QTE
             _timer.DOFade(1, 0).From(0);
             _counter.DOFade(1, 0).From(0);
 
-            while (localTimer > 0 && _tokenSource.Token.IsCancellationRequested == false)
+            while (localTimer > 0 && tokenSource.Token.IsCancellationRequested == false)
             {
                 _timer.fillAmount = localTimer / data.Duration;
                 
-                await UniTask.Delay(TimeSpan.FromSeconds(Time.fixedDeltaTime), cancellationToken: _tokenSource.Token);
+                await UniTask.Delay(TimeSpan.FromSeconds(Time.fixedDeltaTime), cancellationToken: tokenSource.Token);
 
                 localTimer -= Time.fixedDeltaTime;
             }

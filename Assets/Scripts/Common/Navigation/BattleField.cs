@@ -40,6 +40,9 @@ namespace Common.Navigation
                 _leftSide.Add(cell);
         }
 
+        public Enums.BattleFieldSide GetSide(Vector2 position) 
+            => position.x > CentralPosition.x ? Enums.BattleFieldSide.Right : Enums.BattleFieldSide.Left;
+
         public NavigationCell GetRandomCellFromSide(Enums.BattleFieldSide side)
         {
             switch (side)

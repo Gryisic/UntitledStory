@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Common.Battle.TargetSelection.Interfaces;
 using Common.Units.Battle;
 using Common.Units.Interfaces;
 using Core.Extensions;
@@ -17,20 +19,27 @@ namespace Common.Battle.TargetSelection
 
         public event Func<Type> RequestActiveUniteType; 
         public event Func<Type, IReadOnlyList<IBattleUnitSharedData>> RequestTargets; 
-        public event Action<Transform> TargetUpdated;
-        public event Action<Enums.TargetSelectionType> Activated;
+        public event Action<IBattleUnitSharedData> TargetUpdated;
+        public event Action Activated;
         public event Action Deactivated;
 
-        public void Activate(Enums.TargetSide side, Enums.TargetsQuantity quantity, Enums.TargetSelectionType selectionType)
+        public void Activate(ITargetSelectionData data)
         {
             _isActive = true;
 
-            Type targetType = DefineTargetType(side);
+            Type targetType = DefineTargetType(data.Side);
+            
             _possibleTargets = RequestTargets?.Invoke(targetType);
+            _possibleTargets = GetFilteredTargets(data.SelectionFilter);
+
+            if (_possibleTargets.Count <= 0)
+                return;
+            
+            _targetIndex = _targetIndex >= _possibleTargets.Count ? 0 : _targetIndex;
             _selectedTarget = _possibleTargets[_targetIndex];
             
-            Activated?.Invoke(selectionType);
-            TargetUpdated?.Invoke(_selectedTarget.Transform);
+            Activated?.Invoke();
+            TargetUpdated?.Invoke(_selectedTarget);
         }
 
         public void Deactivate()
@@ -62,7 +71,25 @@ namespace Common.Battle.TargetSelection
             _targetIndex = direction.y < 0 ? _targetIndex.Cycled(_possibleTargets.Count) : _targetIndex.ReverseCycled(_possibleTargets.Count);
             _selectedTarget = _possibleTargets[_targetIndex];
             
-            TargetUpdated?.Invoke(_selectedTarget.Transform);
+            TargetUpdated?.Invoke(_selectedTarget);
+        }
+
+        private IReadOnlyList<IBattleUnitSharedData> GetFilteredTargets(Enums.TargetSelectionFilter filter)
+        {
+            switch (filter)
+            {
+                case Enums.TargetSelectionFilter.All:
+                    return _possibleTargets;
+                
+                case Enums.TargetSelectionFilter.Alive:
+                    return _possibleTargets.Where(t => t.IsDead == false).ToList();
+                
+                case Enums.TargetSelectionFilter.Dead:
+                    return _possibleTargets.Where(t => t.IsDead).ToList();
+                
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
+            }
         }
 
         private Type DefineTargetType(Enums.TargetSide side)

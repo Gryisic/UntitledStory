@@ -21,21 +21,21 @@ namespace Common.UI.Battle.QTE
         {
             base.Activate();
 
-            _tokenSource = new CancellationTokenSource();
+            tokenSource = new CancellationTokenSource();
             
             ActivateAsync().Forget();
         }
 
         public override void Deactivate()
         {
-            _tokenSource.Cancel();
+            tokenSource.Cancel();
             
             base.Deactivate();
         }
 
-        public override void SetData(QuickTimeEventTemplate qteData)
+        public override void SetData(QuickTimeEventTemplate qteData, Vector2 position)
         {
-            base.SetData(qteData);
+            base.SetData(qteData, position);
 
             HoldQTETemplate holdQteTemplate = qteData as HoldQTETemplate;
 
@@ -50,7 +50,7 @@ namespace Common.UI.Battle.QTE
             _background.fillAmount = 0;
             _filledBackground.DOColor(Color.green, Constants.DefaultUITweenTime / 2);
             
-            await UniTask.Delay(TimeSpan.FromSeconds(Constants.DefaultUITweenTime), cancellationToken: _tokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(Constants.DefaultUITweenTime), cancellationToken: tokenSource.Token);
 
             _filledBackground.DOFade(0, Constants.DefaultUITweenTime / 2).From(1);
         }
@@ -63,7 +63,7 @@ namespace Common.UI.Battle.QTE
                 .Append(_filledBackground.DOColor(Color.red, Constants.DefaultUITweenTime / 2))
                 .Join(_filledBackground.rectTransform.DOShakeScale(Constants.DefaultUITweenTime / 2));
 
-            await UniTask.Delay(TimeSpan.FromSeconds(Constants.DefaultUITweenTime), cancellationToken: _tokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(Constants.DefaultUITweenTime), cancellationToken: tokenSource.Token);
 
             _filledBackground.DOFade(0, Constants.DefaultUITweenTime / 2).From(1);
         }
@@ -82,19 +82,19 @@ namespace Common.UI.Battle.QTE
             float speed = _backgroundArea.rectTransform.sizeDelta.x / data.Duration;
             float distance = data.Duration * speed;
 
-            while (localTimer > 0 && _tokenSource.Token.IsCancellationRequested == false)
+            while (localTimer > 0 && tokenSource.Token.IsCancellationRequested == false)
             {
                 float fillPosition = (localTimer * speed).ReMap(0, distance, 0, 1);
                 float xPosition = Mathf.Lerp(position.x + halfDeltaX,
                     position.x - halfDeltaX, fillPosition);
-                Vector3 newPosition = new Vector3(xPosition, marker.rectTransform.localPosition.y);
+                Vector3 newPosition = new Vector3(xPosition, marker.rectTransform.position.y);
 
-                marker.rectTransform.localPosition = newPosition;
+                marker.rectTransform.position = newPosition;
 
                 if (localTimer <= data.Duration - data.OpenDelay)
                     _background.fillAmount = fillPosition;
                 
-                await UniTask.Delay(TimeSpan.FromSeconds(Time.fixedDeltaTime), cancellationToken: _tokenSource.Token);
+                await UniTask.Delay(TimeSpan.FromSeconds(Time.fixedDeltaTime), cancellationToken: tokenSource.Token);
             
                 localTimer -= Time.fixedDeltaTime;
             }

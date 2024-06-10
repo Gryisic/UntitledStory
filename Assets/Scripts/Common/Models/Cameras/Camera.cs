@@ -9,7 +9,7 @@ namespace Common.Models.Cameras
         [SerializeField] protected CinemachineVirtualCamera virtualCamera;
         [SerializeField] protected CinemachineImpulseListener impulseListener;
         [SerializeField] private CinemachineConfiner2D confiner2D;
-
+        
         public void Activate()
         {
             virtualCamera.Priority = Constants.ActivatedCameraPriority;

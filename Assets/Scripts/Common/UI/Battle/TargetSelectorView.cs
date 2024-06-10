@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Common.UI.Interfaces;
+using Common.Units.Interfaces;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure.Utils;
@@ -33,10 +34,10 @@ namespace Common.UI.Battle
         {
             Activate();
             
-            if (selectionType == Enums.TargetSelectionType.Active)
+            if (selectionType == Enums.TargetSelectionType.Standalone)
                 RequestAddingToQueue?.Invoke(this);
         }
 
-        public void FocusAt(Transform point) => transform.position = point.position + new Vector3(0f, -0.35f, 0f);
+        public void FocusAt(IBattleUnitSharedData point) => transform.position = point.Transform.position + new Vector3(0f, -0.35f, 0f);
     }
 }

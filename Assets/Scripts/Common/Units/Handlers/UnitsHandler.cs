@@ -10,12 +10,16 @@ namespace Common.Units.Handlers
     {
         protected readonly UnitsPool unitsPool;
         protected readonly List<Unit> units;
+        
+        protected bool isDirty;
 
         protected UnitsHandler(UnitsPool unitsPool)
         {
             this.unitsPool = unitsPool;
             
             units = new List<Unit>();
+            
+            isDirty = true;
         }
         
         public void Dispose()
@@ -32,7 +36,11 @@ namespace Common.Units.Handlers
             T unit = unitsPool.GetUnitOfTypeWithID<T>(id);
             
             if (units.Contains(unit) == false)
+            {
                 units.Add(unit);
+
+                isDirty = true;
+            }
             
             return unit;
         }
@@ -47,6 +55,8 @@ namespace Common.Units.Handlers
                 unitsPool.Return(unit);
                 units.Remove(unit);
 
+                isDirty = true;
+
                 return true;
             }
 
@@ -58,6 +68,8 @@ namespace Common.Units.Handlers
             units.ForEach(u => unitsPool.Return(u));
             
             units.Clear();
+            
+            isDirty = true;
         }
 
         public void ActivateAll() => units.ForEach(u => u.ActivateAndShow());

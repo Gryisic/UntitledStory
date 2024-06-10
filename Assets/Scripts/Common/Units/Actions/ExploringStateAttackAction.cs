@@ -25,6 +25,7 @@ namespace Common.Units.Actions
             _data.Animator.PlayOneShot(animation);
 
             await UniTask.Delay(TimeSpan.FromSeconds(_data.Animator.CurrentAnimationDuration), cancellationToken: token);
+            await base.ExecuteAsync(token);
         }
     }
 }

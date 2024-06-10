@@ -1,9 +1,12 @@
 ﻿using Common.Exploring.Interfaces;
 using Common.Models.Scene;
+using Common.Units;
 using Common.Units.Exploring;
 using Common.Units.Handlers;
+using Common.Units.Placement;
 using Common.Units.Templates;
 using Core;
+using Core.Configs.Interfaces;
 using Core.Data.Interfaces;
 using Core.Interfaces;
 
@@ -19,6 +22,8 @@ namespace Common.Exploring.States
         private readonly SceneInfo _sceneInfo;
         private readonly ExploringUnitsHandler _exploringUnitsHandler;
 
+        private readonly IUnitsConfig _unitsConfig;
+        
         public ExploringInitializeState(IStateChanger<IExploringState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, ExploringUnitsHandler exploringUnitsHandler)
         {
             _stateChanger = stateChanger;
@@ -27,11 +32,13 @@ namespace Common.Exploring.States
             _player = player;
             _sceneInfo = sceneInfo;
             _exploringUnitsHandler = exploringUnitsHandler;
+            _unitsConfig = _servicesHandler.ConfigsService.GetConfig<IUnitsConfig>();
         }
 
         public void Activate()
         {
             CreatePartyUnits();
+            InitializeTriggers();
             
             _stateChanger.ChangeState<ExploringActiveState>();
         }
@@ -45,6 +52,20 @@ namespace Common.Exploring.States
             
             unit.Initialize(unitTemplate);
             _player.UpdateExploringUnit(unit);
+        }
+
+        private void InitializeTriggers()
+        {
+            foreach (var triggerZone in _sceneInfo.MonoTriggersHandler.TriggerZones) 
+                triggerZone.Initialize();
+        }
+
+        private void CreateUnit(UnitPlace place)
+        {
+            UnitTemplate template = _unitsConfig.GetTemplateWithID(place.ID);
+            Unit unit = _exploringUnitsHandler.GetUnitWithID(template.ID);
+
+            unit.Initialize(template);
         }
     }
 }

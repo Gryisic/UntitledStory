@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7273682357474572520}
   - component: {fileID: 7149384940066999846}
   - component: {fileID: 4421354061043280428}
-  - component: {fileID: 316312710910124968}
+  - component: {fileID: 8760385617999450692}
   m_Layer: 6
   m_Name: Protagonist_Explore
   m_TagString: Untagged
@@ -159,7 +159,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &316312710910124968
+--- !u!114 &8760385617999450692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5656470956277611587}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6825a983f64d48ea9408c9cfeba054eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ab2f7f0cc414462a860b887e5ba8e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   localRigidbody: {fileID: 4421354061043280428}

@@ -39,6 +39,7 @@ namespace Core.Installers
             IServicesHandler services = Container.Resolve<IServicesHandler>();
             
             _gameDataProvider.Initialize(services);
+            _ui.Initialize(_gameDataProvider);
             _game.Initiate();
         }
 
@@ -100,6 +101,7 @@ namespace Core.Installers
         private void BindGameStates()
         {
             Container.BindInterfacesAndSelfTo<GameInitializeState>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameFinalizeState>().AsSingle();
             Container.BindInterfacesAndSelfTo<SceneSwitchState>().AsSingle();
             Container.BindInterfacesAndSelfTo<DialogueState>().AsSingle();
             Container.BindInterfacesAndSelfTo<ExploringState>().AsSingle();

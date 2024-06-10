@@ -8,6 +8,7 @@ using Common.UI.Battle;
 using Common.UI.Battle.QTE;
 using Common.UI.Interfaces;
 using Common.Units.Handlers;
+using Core.Extensions;
 using Core.GameStates;
 using Core.Interfaces;
 using Core.Utils.ObservableVariables;
@@ -28,6 +29,8 @@ namespace Common.Battle.States
         private readonly BattleActionsView _worldUI;
         private readonly BattleOverlayView _overlayUI;
 
+        private BattleStateArgs _args;
+        
         private CancellationTokenSource _uiAnimationTokenSource;
 
         private bool _isActive;
@@ -71,6 +74,8 @@ namespace Common.Battle.States
         private async UniTask ActivateAsync()
         {
             _isActive = true;
+
+            _args = RequestArgs?.Invoke();
             
             SubscribeToEvents();
 
@@ -79,12 +84,12 @@ namespace Common.Battle.States
 
             _uiAnimationTokenSource = new CancellationTokenSource();
 
-            await _worldUI.ActivateAsync(_uiAnimationTokenSource.Token);
-
-            AttachInput();
+            Vector2 activeUnitPosition = _battleUnitsHandler.ActiveUnit.Transform.position;
+            _worldUI.ValidatePosition(activeUnitPosition, _args.NavigationArea.GetPositionSide(activeUnitPosition), _args.CameraService.SceneCamera);
             
-            var turn = CurrentTurn as ObservableInt;
-            turn.Increase(1);
+            await _worldUI.ActivateAsync(_uiAnimationTokenSource.Token);
+            
+            AttachInput();
         }
         
         private async UniTask DeactivateAsync()
@@ -110,6 +115,7 @@ namespace Common.Battle.States
             _targetSelector.Activated += _worldUI.TargetSelector.Activate;
             _targetSelector.Deactivated += _worldUI.TargetSelector.Deactivate;
             _targetSelector.TargetUpdated += _worldUI.TargetSelector.FocusAt;
+            _targetSelector.TargetUpdated += _args.UpdateTargetData;
             _targetSelector.RequestTargets += _battleUnitsHandler.GetUnitsOfType;
             _targetSelector.RequestActiveUniteType += _battleUnitsHandler.ActiveUnit.GetType;
         }
@@ -124,6 +130,7 @@ namespace Common.Battle.States
             _targetSelector.Activated -= _worldUI.TargetSelector.Activate;
             _targetSelector.Deactivated -= _worldUI.TargetSelector.Deactivate;
             _targetSelector.TargetUpdated -= _worldUI.TargetSelector.FocusAt;
+            _targetSelector.TargetUpdated -= _args.UpdateTargetData;
             _targetSelector.RequestTargets -= _battleUnitsHandler.GetUnitsOfType;
             _targetSelector.RequestActiveUniteType -= _battleUnitsHandler.ActiveUnit.GetType;
         }
@@ -188,13 +195,13 @@ namespace Common.Battle.States
 
         private void OnRightPerformed(InputAction.CallbackContext context) => _targetSelector.MoveRight();
         
-        private void OnSelectPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.BattleActions.Attack);
+        private void OnSelectPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.Input.A);
 
-        private void OnSkillPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.BattleActions.Skill);
+        private void OnSkillPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.Input.Y);
         
-        private void OnItemsPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.BattleActions.Items);
+        private void OnItemsPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.Input.X);
 
-        private void OnGuardPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.BattleActions.Guard);
+        private void OnGuardPerformed(InputAction.CallbackContext context) => _worldUI.Select(Enums.Input.B);
 
         private IReadOnlyList<IListedItemData> GetItemsData(Enums.ListedItem item)
         {
@@ -211,27 +218,27 @@ namespace Common.Battle.States
             }
         }
         
-        private void OnActionSelected(Enums.BattleActions action, int index)
+        private void OnActionSelected(Enums.Input action, int index)
         {
             BattleAction concreteAction;
             
             switch (action)
             {
-                case Enums.BattleActions.Attack:
+                case Enums.Input.A:
                     concreteAction = _battleUnitsHandler.ActiveUnit.ActionsHandler.GetBasicAttack();
                     ToActionExecutionState(concreteAction);
                     break;
                 
-                case Enums.BattleActions.Skill:
+                case Enums.Input.Y:
                     concreteAction = _battleUnitsHandler.ActiveUnit.ActionsHandler.GetAction(index);
                     ToActionExecutionState(concreteAction);
                     break;
                 
-                case Enums.BattleActions.Guard:
+                case Enums.Input.B:
                     ToNextState<TurnSelectionState>().Forget();
                     break;
                 
-                case Enums.BattleActions.Items:
+                case Enums.Input.X:
                     break;
                 
                 default:
@@ -248,9 +255,7 @@ namespace Common.Battle.States
 
         private void ToActionExecutionState(BattleAction action)
         {
-            BattleStateArgs args = RequestArgs?.Invoke();
-            
-            args.SetAction(action);
+            _args.SetAction(action);
             
             ToNextState<ActionExecutionState>().Forget();
         }

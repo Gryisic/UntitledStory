@@ -11,12 +11,13 @@ namespace Common.Models.Scene
         [SerializeField] private MonoTriggersHandler _monoTriggersHandler;
         
         public Transform UnitsRoot => _unitsRoot;
-        public Transform ExploreUnitSpawnPoint => _exploreUnitSpawnPoint;
         public MonoTriggersHandler MonoTriggersHandler => _monoTriggersHandler;
 
         public void Dispose()
         {
             _monoTriggersHandler.Dispose();
         }
+
+        public Vector2 GetExploreUnitSpawnPosition() => _exploreUnitSpawnPoint.position;
     }
 }

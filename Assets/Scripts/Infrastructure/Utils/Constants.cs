@@ -23,6 +23,9 @@
         
         public const float DefaultUITweenTime = 0.3f;
 
+        public const float MaxQTEStartDelay = 110;
+        public const float MaxQTEDuration = 10;
+        public const float MaxQTESequenceDuration = 10;
         public const float QTEButtonHoldThreshold = 0.5f;
         
         public const float AnimationsFrameRate = 6f / 60f;
@@ -73,5 +76,8 @@
         
         public const string ShaderHealthValueReference = "_HealthValue";
         public const string DissolveValueReference = "_DissolvePercent";
+
+        public const string PressedInputButtonDeclaration = "Pressed";
+        public const string ReleasedInputButtonDeclaration = "Released";
     }
 }

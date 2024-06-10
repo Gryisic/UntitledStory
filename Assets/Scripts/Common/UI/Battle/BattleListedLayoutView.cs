@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common.Battle.Interfaces;
+using Common.Battle.TargetSelection.Interfaces;
 using Common.Models.BattleAction.Interfaces;
 using Common.UI.Common;
 using Common.UI.Interfaces;
@@ -20,7 +21,7 @@ namespace Common.UI.Battle
         private int _hoveredItemIndex;
         
         public event Action<UIElement> RequestAddingToQueue;
-        public event Action<Enums.TargetSide, Enums.TargetsQuantity, Enums.TargetSelectionType> RequestTargetSelection;
+        public event Action<ITargetSelectionData> RequestTargetSelection;
         public event Action SuppressTargetSelection;
         
         public override void Activate()
@@ -62,7 +63,7 @@ namespace Common.UI.Battle
         {
             if (_datas[_hoveredItemIndex] is IBattleActionData battleActionData)
             {
-                RequestTargetSelection?.Invoke(battleActionData.TargetTeam, battleActionData.TargetsQuantity, Enums.TargetSelectionType.Active);
+                RequestTargetSelection?.Invoke(battleActionData);
                 Deactivate();
             }
         }

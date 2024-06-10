@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using Common.Battle.Constraints;
 using Common.Battle.Interfaces;
 using Common.Battle.Utils;
 using Common.Navigation;
@@ -56,9 +58,17 @@ namespace Common.Battle.States
         private async UniTask FinalizeAsync()
         {
             BattleStateArgs args = RequestArgs?.Invoke();
-            
-            if (args.Constraints != null)
-                _constraintsFinalizer.Finalize(args.Constraints);
+
+            if (args.Dependencies != null)
+            {
+                IEnumerable<BattleDependency> battleDependencies = args
+                    .Dependencies
+                    .Where(d => d is BattleDependency)
+                    .Cast<BattleDependency>()
+                    .ToList();
+                
+                _constraintsFinalizer.Finalize(battleDependencies);
+            }
 
             await _overlayUI.DeactivateAsync(_finalizeTokenSource.Token);
             await ReturnUnitToStartPoint(_unitsHandler.PartyMembers[0], args);

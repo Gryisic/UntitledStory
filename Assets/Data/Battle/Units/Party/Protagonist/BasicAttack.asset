@@ -18,5 +18,27 @@ MonoBehaviour:
   _cost: 0
   _targetTeam: 1
   _targetsQuantity: 0
+  _filter: 1
+  _effects:
+  - rid: 7892411499647336448
   _hasQTE: 1
   _quickTimeEventSequence: {fileID: 11400000, guid: e37977d3c87b5e242bf35c3b07918857, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 7892411499647336448
+      type: {class: DamageDealEffect, ns: Common.Models.BattleAction.Effects, asm: Assembly-CSharp}
+      data:
+        _multiplierPairs:
+        - _comparator:
+            _percentToCompare: 100
+            _valueComparator: 0
+          _damageMultiplier: 3
+        - _comparator:
+            _percentToCompare: 50
+            _valueComparator: 2
+          _damageMultiplier: 2
+        - _comparator:
+            _percentToCompare: 50
+            _valueComparator: 3
+          _damageMultiplier: 1

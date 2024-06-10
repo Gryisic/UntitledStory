@@ -3,6 +3,7 @@ using Common.Models.BattleAction.Effects;
 using Common.Models.BattleAction.Interfaces;
 using Common.QTE;
 using Infrastructure.Utils;
+using Infrastructure.Utils.Tools;
 using UnityEngine;
 
 namespace Common.Models.BattleAction
@@ -18,21 +19,23 @@ namespace Common.Models.BattleAction
 
         [SerializeField] private Enums.TargetSide _targetTeam;
         [SerializeField] private Enums.TargetsQuantity _targetsQuantity;
+        [SerializeField] private Enums.TargetSelectionFilter _filter;
+
+        [SerializeReference, SubclassesPicker] private BattleActionEffect[] _effects;
 
         [SerializeField] private bool _hasQTE = true;
 
         [SerializeField] private QuickTimeEventSequence _quickTimeEventSequence;
 
-        [SerializeReference, SubclassesPicker] private List<BattleActionEffect> _effects;
-
         public Sprite Icon => _icon;
         public string Name => _name;
         public int Cost => _cost;
         public string Description => _description;
-        
-        public Enums.TargetSide TargetTeam => _targetTeam;
-        public Enums.TargetsQuantity TargetsQuantity => _targetsQuantity;
 
+        public Enums.TargetSide Side => _targetTeam;
+        public Enums.TargetsQuantity Quantity => _targetsQuantity;
+        public Enums.TargetSelectionFilter SelectionFilter => _filter;
+        
         public bool HasQTE => _hasQTE;
         public QuickTimeEventSequence QuickTimeEventSequence => _quickTimeEventSequence;
 

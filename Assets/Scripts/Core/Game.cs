@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Data.Icons;
+using Core.Data.Interfaces;
 using Core.Extensions;
 using Core.GameStates;
 using Core.Interfaces;
@@ -14,7 +16,7 @@ namespace Core
     {
         private IReadOnlyList<IGameState> _gameStates;
         private IGameStatesFactory _factory;
-        
+
         private IGameState _currentState;
         
         [Inject]
@@ -38,13 +40,13 @@ namespace Core
 
         public void Dispose()
         {
-            _currentState.Deactivate();
-            
             foreach (var gameState in _gameStates)
             {
                 if (gameState is IStatesResetRequester resetRequester)
                     resetRequester.ResetRequested -= ResetAllStates;
             }
+            
+            SwitchState<GameFinalizeState>(new GameStateArgs());
         }
 
         public void SwitchState<T>(GameStateArgs args) where T : IGameState

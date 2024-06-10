@@ -1,5 +1,7 @@
 ﻿using System;
 using Common.UI.Extensions;
+using Common.UI.Interfaces;
+using Core.Data.Interfaces;
 using Infrastructure.Utils;
 using UnityEngine;
 
@@ -12,6 +14,15 @@ namespace Common.UI
         [SerializeField] private UIElement[] _elements;
         
         public Enums.UILayer Layer => _layer;
+
+        public void Initialize(IIconsData iconsData)
+        {
+            foreach (var element in _elements)
+            {
+                if (element is IIconsRequester requester)
+                    requester.SetIconsData(iconsData);
+            }
+        }
 
         public void Dispose()
         {

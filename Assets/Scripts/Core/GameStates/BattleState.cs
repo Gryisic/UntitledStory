@@ -90,6 +90,9 @@ namespace Core.GameStates
                 
                 if (state is IConcreteStateResetRequester stateResetRequester)
                     stateResetRequester.StateResetRequested += OnStateResetRequested;
+                
+                if (state is IBattleEndRequester endRequester)
+                    endRequester.RequestBattleEnd += OnBattleEndRequested;
             }
         }
 
@@ -105,6 +108,9 @@ namespace Core.GameStates
                 
                 if (state is IConcreteStateResetRequester stateResetRequester)
                     stateResetRequester.StateResetRequested -= OnStateResetRequested;
+                
+                if (state is IBattleEndRequester endRequester)
+                    endRequester.RequestBattleEnd -= OnBattleEndRequested;
             }
         }
         
@@ -122,6 +128,25 @@ namespace Core.GameStates
                 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(nextState), nextState, null);
+            }
+        }
+        
+        private void OnBattleEndRequested(Enums.BattleResult result)
+        {
+            switch (result)
+            {
+                case Enums.BattleResult.Win:
+                    ChangeState<BattleFinalizeState>();
+                    return;
+                
+                case Enums.BattleResult.Lose:
+                    throw new NotImplementedException("Battle lose state is not implemented yet!");
+                
+                case Enums.BattleResult.Event:
+                    throw new NotImplementedException("Battle end with event state is not implemented yet!");
+                
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(result), result, null);
             }
         }
 

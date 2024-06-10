@@ -71,7 +71,7 @@ namespace Common.Exploring.States
         {
             foreach (var gameEvent in _eventsService.Events)
             {
-                if (gameEvent is IMonoTrigger monoTrigger)
+                if (gameEvent is IMonoTriggerZone monoTrigger)
                     monoTrigger.IDUsed += _triggersData.Remove;
                 
                 if (gameEvent is IGameStateChangerEvent gameStateChanger)
@@ -83,7 +83,7 @@ namespace Common.Exploring.States
         {
             foreach (var gameEvent in _eventsService.Events)
             {
-                if (gameEvent is IMonoTrigger monoTrigger)
+                if (gameEvent is IMonoTriggerZone monoTrigger)
                     monoTrigger.IDUsed -= _triggersData.Remove;
                 
                 if (gameEvent is IGameStateChangerEvent gameStateChanger)
@@ -126,7 +126,7 @@ namespace Common.Exploring.States
             
             List<string> ids = _triggersData.GetIDList().ToList();
 
-            foreach (var trigger in _sceneInfo.MonoTriggersHandler.Triggers)
+            foreach (var trigger in _sceneInfo.MonoTriggersHandler.TriggerZones)
             {
                 List<string> intersectedIDs = trigger.IDs.Intersect(ids).ToList();
                 

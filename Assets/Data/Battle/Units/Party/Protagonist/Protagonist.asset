@@ -18,3 +18,4 @@ MonoBehaviour:
   _skillsTemplates:
   - {fileID: 11400000, guid: c24b61981eb47f547860d4ab6bb33650, type: 2}
   - {fileID: 11400000, guid: 5d2f50f93aaeea24495a07aa1358500f, type: 2}
+  _statDataContainer: {fileID: 11400000, guid: 0966db38d8bc7ec468dde801a603e13c, type: 2}

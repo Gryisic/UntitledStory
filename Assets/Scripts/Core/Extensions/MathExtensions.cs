@@ -9,6 +9,8 @@ namespace Core.Extensions
 
         public static float RoundToNearest(this float value) => Mathf.Abs(DecimalPart(value)) >= 0.5f ? Mathf.Ceil(value) : Mathf.Floor(value);
         
+        public static int RoundToNearestInt(this float value) => (int) (Mathf.Abs(DecimalPart(value)) >= 0.5f ? Mathf.Ceil(value) : Mathf.Floor(value));
+        
         public static float SnapTo(this float value, float snapTo)
         {
             if (value is <= 1 and >= -1)
