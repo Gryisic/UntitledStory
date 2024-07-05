@@ -4,6 +4,6 @@ namespace Common.Models.Triggers.Interfaces
 {
     public interface IDialogueTrigger : IDialogueEvent
     {
-        
+        void End();
     }
 }

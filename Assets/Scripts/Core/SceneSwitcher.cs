@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using Common.Models.Scene;
 using Cysharp.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace Core
             _nextSceneIndex = (int) sceneType + 1;
 
             AsyncOperation loadScene = SceneManager.LoadSceneAsync(_nextSceneIndex, LoadSceneMode.Additive);
-
+            
             await LoadSceneAsync(loadScene, token);
             
             if (_currentSceneIndex != Constants.StartSceneIndex)
@@ -38,8 +37,10 @@ namespace Core
             Scene scene = SceneManager.GetSceneByBuildIndex(_nextSceneIndex);
             
             foreach (var gameObject in scene.GetRootGameObjects())
+            {
                 if (gameObject.TryGetComponent(out SceneInfo sceneInfo))
                     return sceneInfo;
+            }
 
             return null;
         }
@@ -52,12 +53,12 @@ namespace Core
             loadScene.completed += OnSceneLoadCompleted;
 
             UniTask secondDelayTask = UniTask.Delay(TimeSpan.FromSeconds(0f), cancellationToken: token);
-            UniTask loadSceneTask = UniTask.WaitUntil(() => loadScene.progress == 0.9f, cancellationToken: token);
+            UniTask loadSceneTask = UniTask.WaitUntil(() => loadScene.progress >= 0.9f, cancellationToken: token);
 
             await UniTask.WhenAll(secondDelayTask, loadSceneTask);
 
             loadScene.allowSceneActivation = true;
-
+            
             await UniTask.WaitUntil(() => loadScene.isDone, cancellationToken: token);
         }
 

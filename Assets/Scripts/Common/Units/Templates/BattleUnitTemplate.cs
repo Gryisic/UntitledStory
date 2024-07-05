@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Common.Models.BattleAction;
+using Common.Models.Skills.Templates;
 using Common.Models.Stats;
 using UnityEngine;
 
@@ -9,14 +9,14 @@ namespace Common.Units.Templates
     public class BattleUnitTemplate : UnitTemplate
     {
         [Space, Header("Battle Data")]
-        [SerializeField] private BattleActionTemplate _basicAttackTemplate;
-        [SerializeField] private BattleActionTemplate[] _skillsTemplates;
+        [SerializeField] private SkillTemplate _basicAttackTemplate;
+        [SerializeField] private SkillTemplate[] _skillsTemplates;
 
         [Space, Header("Stats Data")] 
         [SerializeField] private StatDataContainer _statDataContainer;
         
-        public BattleActionTemplate BasicAttackTemplate => _basicAttackTemplate;
-        public IEnumerable<BattleActionTemplate> SkillsTemplates => _skillsTemplates;
+        public SkillTemplate BasicAttackTemplate => _basicAttackTemplate;
+        public IEnumerable<SkillTemplate> SkillsTemplates => _skillsTemplates;
         
         public StatDataContainer StatDataContainer => _statDataContainer;
 

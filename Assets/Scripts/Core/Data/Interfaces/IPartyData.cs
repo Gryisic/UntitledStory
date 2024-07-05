@@ -5,7 +5,6 @@ namespace Core.Data.Interfaces
 {
     public interface IPartyData : IGameData
     {
-        IReadOnlyList<ExploringUnitTemplate> ExploringUnitsTemplates { get; }
-        IReadOnlyList<BattleUnitTemplate> BattleUnitsTemplates { get; }
+        IReadOnlyList<PartyMemberTemplate> Templates { get; }
     }
 }

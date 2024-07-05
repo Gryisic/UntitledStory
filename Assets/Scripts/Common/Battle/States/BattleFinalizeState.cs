@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using Common.Battle.Constraints;
 using Common.Battle.Interfaces;
 using Common.Battle.Utils;
 using Common.Navigation;
 using Common.UI.Battle;
 using Common.Units.Battle;
 using Common.Units.Handlers;
+using Common.Units.Interfaces;
 using Core.GameStates;
 using Core.Interfaces;
 using Cysharp.Threading.Tasks;
@@ -58,28 +57,26 @@ namespace Common.Battle.States
         private async UniTask FinalizeAsync()
         {
             BattleStateArgs args = RequestArgs?.Invoke();
+            BattleThoughtsBuilder thoughtsBuilder = args.ThoughtsBuilder;
+            
+            thoughtsBuilder.Clear();
+            thoughtsBuilder.AppendBattleState(Enums.BattleState.Win);
+            _overlayUI.ThoughtsView.Append(thoughtsBuilder.Build());
 
-            if (args.Dependencies != null)
-            {
-                IEnumerable<BattleDependency> battleDependencies = args
-                    .Dependencies
-                    .Where(d => d is BattleDependency)
-                    .Cast<BattleDependency>()
-                    .ToList();
-                
-                _constraintsFinalizer.Finalize(battleDependencies);
-            }
+            if (args.Constraints != null) 
+                _constraintsFinalizer.Finalize(args.Constraints, args.Dependencies);
 
-            await _overlayUI.DeactivateAsync(_finalizeTokenSource.Token);
             await ReturnUnitToStartPoint(_unitsHandler.PartyMembers[0], args);
+            await _overlayUI.DeactivateAsync(_finalizeTokenSource.Token);
             
             _unitsHandler.DeactivateAll();
-
+            args.Trigger.End();
+            
             StateResetRequested?.Invoke();
             RequestStateChange?.Invoke(Enums.GameStateType.Explore, new ExploringStateArgs(args.StartPoint));
         }
-
-        private async UniTask ReturnUnitToStartPoint(BattleUnit unit, BattleStateArgs args)
+        
+        private async UniTask ReturnUnitToStartPoint(IBattleUnit unit, BattleStateArgs args)
         {
             bool isPathExist = args.NavigationArea.TryGetPath(unit.Transform.position, args.StartPoint, out IReadOnlyList<NavigationCell> path);
 

@@ -4,10 +4,10 @@ namespace Infrastructure.Factories.Extensions
 {
     public static class UnitFactoryExtensions
     {
-        private static readonly Dictionary<int, string> _idNameMap = new Dictionary<int, string>()
+        private static readonly Dictionary<int, string> _idNameMap = new()
         {
-            {1, "Protagonist_Explore"},
-            {11, "Protagonist_Battle"}
+            {1, "Protagonist"},
+            {-999, "Dummy"}
         };
 
         public static string DefineUnit(this int id) => _idNameMap[id];

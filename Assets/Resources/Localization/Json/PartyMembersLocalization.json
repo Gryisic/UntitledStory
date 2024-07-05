@@ -1,0 +1,22 @@
+{
+  "Russian": [{
+    "ID": 1,
+    "Name": "Протагонист",
+    "ActionPhrase": "Что я должен делать?",
+    "BattleThoughts": {
+      "Start": ["Ещё одно препятствие", "Новое сражение"],
+      "Win": ["Победа", "Справились"],
+      "Neutral": ["Что дальше?", "Следующий шаг это..."]
+    }
+  }],
+  "English": [{
+    "ID": 1,
+    "Name": "Protagonist",
+    "ActionPhrase": "What should I do??",
+    "BattleThoughts": {
+      "Start": ["Another obstacle", "New battle"],
+      "Win": ["Battle is won", "We've made it"],
+      "Neutral": ["What to do next?", "Next move is..."]
+    }
+  }]
+}

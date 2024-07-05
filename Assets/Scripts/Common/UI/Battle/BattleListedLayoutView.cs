@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Common.Battle.Interfaces;
 using Common.Battle.TargetSelection.Interfaces;
-using Common.Models.BattleAction.Interfaces;
+using Common.Models.Skills.Interfaces;
 using Common.UI.Common;
 using Common.UI.Interfaces;
 using Core.Extensions;
@@ -61,7 +61,7 @@ namespace Common.UI.Battle
         
         public void Select()
         {
-            if (_datas[_hoveredItemIndex] is IBattleActionData battleActionData)
+            if (_datas[_hoveredItemIndex] is IActiveSkillData battleActionData)
             {
                 RequestTargetSelection?.Invoke(battleActionData);
                 Deactivate();

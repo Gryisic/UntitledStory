@@ -1,6 +1,8 @@
 ﻿using System;
 using Common.Dialogues.Interfaces;
+using Core.Configs.Interfaces;
 using Core.Data.Interfaces;
+using Core.Data.Texts;
 using Core.GameStates;
 using Core.Interfaces;
 using Ink.Runtime;
@@ -29,8 +31,11 @@ namespace Common.Dialogues.States
         public void Activate()
         {
             DialogueStateArgs args = RequestArgs?.Invoke();
-            Story story = new Story(_textsData.GetText(args.DialogueDataProvider.Key).text);
-
+            NamesLocalization localization = _textsData.GetLocalizedData<NamesLocalization>();
+            string jsonStory = _textsData.GetTextAsset(args.DialogueDataProvider.Key).text;
+            Story story = new Story(jsonStory);
+            
+            args.SetLocalizationData(localization);
             _dialogue.SetStory(story);
             
             _stateChanger.ChangeState<DialogueActiveState>();

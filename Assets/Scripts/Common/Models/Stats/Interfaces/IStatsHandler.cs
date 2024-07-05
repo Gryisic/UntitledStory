@@ -14,6 +14,9 @@ namespace Common.Models.Stats.Interfaces
         void DecreaseStat(Enums.UnitStat stat, int amount);
         void IncreaseBaseStat(Enums.UnitStat stat, int amount);
         void DecreaseBaseStat(Enums.UnitStat stat, int amount);
+
+        void GetHealthData(out IStatData currentHealth, out IStatData maxHealth);
+        void GetEnergyData(out IStatData currentEnergy, out IStatData maxEnergy);
         
         IStatData GetStatData(Enums.UnitStat stat);
     }

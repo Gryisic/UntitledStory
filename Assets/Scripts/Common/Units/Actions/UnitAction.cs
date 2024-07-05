@@ -20,8 +20,6 @@ namespace Common.Units.Actions
         {
             while (_callbacks.TryDequeue(out Action callback)) 
                 callback?.Invoke();
-
-            await UniTask.WaitForFixedUpdate();
         }
 
         public void AddCallback(Action callback)

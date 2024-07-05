@@ -29,6 +29,11 @@ namespace Infrastructure.Utils
             Russian,
             English
         }
+        
+        public enum LocalizableText
+        {
+            BattleThought
+        }
 
         public enum InputDevice
         {
@@ -202,6 +207,19 @@ namespace Infrastructure.Utils
             Raw,
             Percent
         }
+
+        public enum SkillType
+        {
+            Active,
+            Passive,
+            Field
+        }
+
+        public enum FieldSkill
+        {
+            Cut,
+            Teleport
+        }
         
         public enum TargetSide
         {
@@ -234,11 +252,11 @@ namespace Infrastructure.Utils
             Dead
         }
 
-        public enum BattleResult
+        public enum BattleState
         {
+            Start,
             Win,
-            Lose,
-            Event
+            Lose
         }
         
         public enum BattleConstraint
@@ -265,7 +283,7 @@ namespace Infrastructure.Utils
             Enemy
         }
         
-        public enum AfterBattleBehaviour
+        public enum AfterEventBehaviour
         {
             Destroy,
             Hide,
@@ -298,6 +316,20 @@ namespace Infrastructure.Utils
             Run,
             Attack,
             TakeDamage
+        }
+        
+        public enum PortraitSide
+        {
+            Free,
+            Left, 
+            Right
+        }
+
+        public enum IconType
+        {
+            Portrait,
+            Item,
+            Skill
         }
     }
 }

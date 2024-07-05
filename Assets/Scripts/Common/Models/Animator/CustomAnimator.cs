@@ -31,7 +31,13 @@ namespace Common.Models.Animator
         
         public void PlayOneShot(ICustomAnimation animation) => PlayAnimation(animation, true);
 
-        public void PlayCyclic(ICustomAnimation animation) => PlayAnimation(animation, false);
+        public void PlayCyclic(ICustomAnimation animation)
+        {
+            if (animation == _currentAnimation)
+                return;
+            
+            PlayAnimation(animation, false);
+        }
 
         public void Stop() => _animationTokenSource?.Cancel();
 

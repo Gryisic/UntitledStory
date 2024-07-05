@@ -1,0 +1,18 @@
+{
+  "Russian": [{
+    "Key": "Protagonist",
+    "Name": "Протагонист"
+  },
+    {
+      "Key": "Bro",
+      "Name": "Бро"
+    }],
+  "English": [{
+    "Key": "Protagonist",
+    "Name": "Protagonist"
+  },
+    {
+    "Key": "Bro",
+    "Name": "Bro"
+  }]
+}

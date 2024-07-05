@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Data.Icons;
-using Core.Data.Interfaces;
 using Core.Extensions;
 using Core.GameStates;
 using Core.Interfaces;

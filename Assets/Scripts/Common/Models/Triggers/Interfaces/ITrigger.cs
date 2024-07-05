@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common.Models.GameEvents.Interfaces;
+using Infrastructure.Utils;
 
 namespace Common.Models.Triggers.Interfaces
 {

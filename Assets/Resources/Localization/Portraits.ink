@@ -1,0 +1,1 @@
+VAR Protagonist_Neutral = "Protagonist_Neutral"

@@ -1,22 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Extensions;
+using Infrastructure.Utils;
 
 namespace Common.Dialogues.Utils
 {
     public class InkStoryParser
     {
         private const string SpeakerTag = "s";
+        private const string DeactivationKey = "deactivate";
 
         private const char ModifierEndChar = '/';
         private const char TagsDelimiterChar = ':';
         private readonly char[] _delimiterChars = { '[', ']' };
         private readonly char[] _innerDelimiterChars = { '_' };
 
-        private readonly Dictionary<string, TextModifier> _textModifiersMap = new Dictionary<string, TextModifier>()
+        private readonly Dictionary<string, TextModifier> _textModifiersMap = new()
         {
             {"color", new ColorModifier()},
             {"opacity", new OpacityModifier()}
+        };
+        
+        private readonly Dictionary<string, Enums.PortraitSide> _speakerSideMap = new()
+        {
+            {"free", Enums.PortraitSide.Free},
+            {"left", Enums.PortraitSide.Left},
+            {"right", Enums.PortraitSide.Right}
+        };
+        
+        private readonly Dictionary<string, bool> _speakerCenterMap = new()
+        {
+            {"true", true},
+            {"false", false}
         };
 
         private readonly StringBuilder _stringBuilder;
@@ -57,7 +73,7 @@ namespace Common.Dialogues.Utils
                 {
                     int startIndex = _stringBuilder.Length;
                     
-                    _textModifiersMap[firstSubSentence.Remove(0, 1)].EndModification(firstSubSentence, _stringBuilder);
+                    _textModifiersMap[firstSubSentence.Remove(0, 1)].EndModification(firstSubSentence.ToLower(), _stringBuilder);
                     
                     int endIndex = _stringBuilder.Length - 1;
                     
@@ -66,7 +82,7 @@ namespace Common.Dialogues.Utils
                     continue;
                 }
                 
-                if (_textModifiersMap.TryGetValue(firstSubSentence, out TextModifier modifier))
+                if (_textModifiersMap.TryGetValue(firstSubSentence.ToLower(), out TextModifier modifier))
                 {
                     int startIndex = _stringBuilder.Length;
 
@@ -99,13 +115,58 @@ namespace Common.Dialogues.Utils
                 switch (concreteTag)
                 {
                     case SpeakerTag:
-                        text.SetSpeaker(tagValue);
+                        DefineSpeaker(text, tagValue);
                         break;
 
                     default:
                         throw new ArgumentOutOfRangeException($"Founded an unknown tag: {concreteTag}");
                 }
             }
+        }
+
+        private void DefineSpeaker(InkParsedText text, string tag)
+        {
+            string[] values = tag.Split(_innerDelimiterChars);
+            string speaker = values[0];
+            
+            SpeakerData data = new SpeakerData(speaker);
+            
+            for (var i = 1; i < values.Length; i++)
+            {
+                string value = values[i].ToLower();
+
+                data = UpdateSpeakerData(value, data);
+            }
+            
+            text.SetSpeaker(data);
+        }
+
+        private SpeakerData UpdateSpeakerData(string value, SpeakerData data)
+        {
+            if (_speakerSideMap.TryGetValue(value, out Enums.PortraitSide side))
+            {
+                data = new SpeakerData(data.Speaker, data.Emotion, side, data.LookAtCenter);
+
+                return data;
+            }
+                
+            if (_speakerCenterMap.TryGetValue(value, out bool lookAtCenter))
+            {
+                data = new SpeakerData(data.Speaker, data.Emotion, data.Side, lookAtCenter);
+
+                return data;
+            }
+
+            if (value == DeactivationKey)
+            {
+                data = new SpeakerData(data.Speaker, data.Emotion, data.Side, data.LookAtCenter, true);
+
+                return data;
+            }
+                
+            data = new SpeakerData(data.Speaker, value.ToFirstUpper(), data.Side, data.LookAtCenter);
+            
+            return data;
         }
     }
 }

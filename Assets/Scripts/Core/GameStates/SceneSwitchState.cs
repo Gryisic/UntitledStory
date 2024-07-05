@@ -5,12 +5,14 @@ using Common.Models.Scene;
 using Core.Interfaces;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
+using UnityEngine;
 
 namespace Core.GameStates
 {
     public class SceneSwitchState : IGameState, IStatesResetRequester, IDisposable
     {
         private readonly IGameStateSwitcher _stateSwitcher;
+        private readonly IEventsService _eventsService;
         
         private readonly SceneSwitcher _sceneSwitcher;
         
@@ -19,9 +21,10 @@ namespace Core.GameStates
         
         public event Action ResetRequested;
 
-        public SceneSwitchState(SceneSwitcher sceneSwitcher, IGameStateSwitcher stateSwitcher)
+        public SceneSwitchState(SceneSwitcher sceneSwitcher, IGameStateSwitcher stateSwitcher, IServicesHandler servicesHandler)
         {
             _stateSwitcher = stateSwitcher;
+            _eventsService = servicesHandler.EventsService;
             
             _sceneSwitcher = sceneSwitcher;
         }
@@ -50,12 +53,17 @@ namespace Core.GameStates
             _isActive = true;
             _tokenSource = new CancellationTokenSource();
             
-            SceneInfo info = await _sceneSwitcher.ChangeSceneAsync(args.NextSceneType, _tokenSource.Token);
+            if (args.CurrentSceneInfo != null)
+                _eventsService.RemoveEvents(args.CurrentSceneInfo.MonoTriggersHandler.Triggers);
+            
+            SceneInfo newSceneInfo = await _sceneSwitcher.ChangeSceneAsync(args.NextSceneType, _tokenSource.Token);
+            
+            _eventsService.AddEvents(newSceneInfo.MonoTriggersHandler.Triggers);
             
             _isActive = false;
             _tokenSource.Dispose();
 
-            ChangeState(args.NextGameState, info);
+            ChangeState(args.NextGameState, newSceneInfo);
         }
 
         private void ChangeState(Enums.GameStateType nextState, SceneInfo info)

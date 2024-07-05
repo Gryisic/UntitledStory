@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Core.Data.Texts;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure.Utils;
@@ -11,6 +12,7 @@ namespace Common.UI.Battle
 {
     public class ActionButtonView : AnimatableUIElement
     {
+        [SerializeField] private string _key;
         [SerializeField] private TextMeshProUGUI _name;
         [SerializeField] private Image _icon;
         [SerializeField] private Image _background;
@@ -57,6 +59,11 @@ namespace Common.UI.Battle
                 default:
                     throw new ArgumentOutOfRangeException(nameof(side), side, null);
             }
+        }
+
+        public void UpdateLocalization(GeneralMenuLocalization localization)
+        {
+            _name.text = localization.Entries[_key];
         }
     }
 }

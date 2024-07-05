@@ -4,6 +4,7 @@ using System.Linq;
 using Common.Models.GameEvents.Interfaces;
 using Core.Configs.Interfaces;
 using Core.Interfaces;
+using UnityEngine;
 
 namespace Core.Utils
 {
@@ -24,7 +25,7 @@ namespace Core.Utils
             _subServices = new List<IService>();
         }
 
-        public T GetSubService<T>() where T : IService => (T) _subServices.First(s => s is T);
+        public T GetSubService<T>() where T : IService => (T)_subServices.First(s => s is T);
 
         public void RegisterService<T>(T service) where T: IService
         {

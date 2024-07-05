@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Common.Models.Stats.Interfaces;
 using Infrastructure.Utils;
+using UnityEngine;
 
 namespace Common.Models.Stats
 {
@@ -44,6 +45,18 @@ namespace Common.Models.Stats
         public void IncreaseBaseStat(Enums.UnitStat stat, int amount) => _statsMap[stat].IncreaseBaseValue(amount);
         
         public void DecreaseBaseStat(Enums.UnitStat stat, int amount) => _statsMap[stat].DecreaseBaseValue(amount);
+        
+        public void GetHealthData(out IStatData currentHealth, out IStatData maxHealth)
+        {
+            currentHealth = GetStatData(Enums.UnitStat.Health);
+            maxHealth = GetStatData(Enums.UnitStat.MaxHealth);
+        }
+
+        public void GetEnergyData(out IStatData currentEnergy, out IStatData maxEnergy)
+        {
+            currentEnergy = GetStatData(Enums.UnitStat.Energy);
+            maxEnergy = GetStatData(Enums.UnitStat.MaxEnergy);
+        }
 
         public IStatData GetStatData(Enums.UnitStat stat)
         {

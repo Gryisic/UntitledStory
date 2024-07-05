@@ -14,7 +14,10 @@ namespace Core.Data
         public TriggersData() => _idList = new List<string>()
         {
             "Test",
-            "BattleTest"
+            "Test4",
+            "BattleTest",
+            "CutTest",
+            "TeleportTest"
         };
 
         public void Add(string id)

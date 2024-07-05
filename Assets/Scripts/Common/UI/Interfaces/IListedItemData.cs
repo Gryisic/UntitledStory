@@ -7,6 +7,5 @@ namespace Common.UI.Interfaces
         Sprite Icon { get; }
         string Name { get; }
         string Description { get; }
-        int Cost { get; }
     }
 }

@@ -11,8 +11,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50615ff8b1e8406f98f69486a0b2bcf4, type: 3}
   m_Name: PartyData
-  m_EditorClassIdentifier: 
-  _exploringUnitTemplates:
-  - {fileID: 11400000, guid: ecf232a92fbd20346a75e7f08212b437, type: 2}
-  _battleUnitTemplates:
-  - {fileID: 11400000, guid: a998b650bf1d5404b9019eaf10262e05, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp:Core.Data:PartyData
+  _partyMemberTemplates:
+  - {fileID: 11400000, guid: bd9ab6b32def1c34f99386a52d4e5900, type: 2}

@@ -28,8 +28,6 @@ namespace Common.Units.Actions
                 _data.Rigidbody.velocity = _data.MoveDirection * Constants.ExplorationMovementSpeed;       
                 
                 await UniTask.WaitForFixedUpdate(cancellationToken: token);
-                
-                _data.Rigidbody.velocity = Vector2.zero;
             }
 
             await base.ExecuteAsync(token);

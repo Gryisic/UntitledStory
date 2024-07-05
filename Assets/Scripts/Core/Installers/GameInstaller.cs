@@ -37,8 +37,10 @@ namespace Core.Installers
         public void Initialize()
         {
             IServicesHandler services = Container.Resolve<IServicesHandler>();
+            EventsService eventsService = services.EventsService as EventsService;
             
             _gameDataProvider.Initialize(services);
+            eventsService.Initialize();
             _ui.Initialize(_gameDataProvider);
             _game.Initiate();
         }

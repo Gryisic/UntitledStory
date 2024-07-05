@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using Common.Models.GameEvents.Interfaces;
 using Common.Models.Triggers.Dependencies;
+using Common.Models.Triggers.Extensions;
 using Common.Models.Triggers.Interfaces;
+using Common.Units.Handlers;
 using Infrastructure.Utils;
 using Infrastructure.Utils.Tools;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Common.Models.Triggers.General
 {
@@ -18,9 +21,11 @@ namespace Common.Models.Triggers.General
         [SerializeField] private Enums.TriggerActivationType _activationType;
         [SerializeField] private Enums.TriggerLoopType _loopType;
 
-        [FormerlySerializedAs("dependencies")] [SerializeReference, SubclassesPicker] protected Dependency[] generalDependencies;
+        [SerializeReference, SubclassesPicker] protected Dependency[] dependencies;
         
         protected IMonoTriggerData data;
+        
+        public abstract event Action<IGameEvent> Ended;
 
         public string ID => _id;
         
@@ -29,20 +34,43 @@ namespace Common.Models.Triggers.General
         public Enums.TriggerActivationType ActivationType => _activationType;
         public Enums.TriggerLoopType LoopType => _loopType;
 
+        public IReadOnlyList<Dependency> Dependencies => dependencies;
+        
         public bool IsActive { get; private set; }
 
         public abstract void Execute();
         
-        public void Activate() => IsActive = true;
+        public void Activate()
+        {
+            if (IsActive)
+                return;
+            
+            foreach (var dependency in dependencies) 
+                dependency.Activate();
 
-        public void Deactivate() => IsActive = false;
-        
+            IsActive = true;
+        }
+
+        public void Deactivate()
+        {
+            if (IsActive == false)
+                return;
+            
+            IsActive = false;
+
+            foreach (var dependency in dependencies) 
+                dependency.Deactivate();
+        }
+
         public void SetData(IMonoTriggerData data) => this.data = data;
         
-        public void Initialize()
+        public void Initialize(GeneralUnitsHandler unitsHandler)
         {
-            foreach (var dependency in generalDependencies) 
+            foreach (var dependency in dependencies)
+            {
+                dependency.SetUnitsHandler(unitsHandler);
                 dependency.Resolve();
+            }
         }
     }
 }

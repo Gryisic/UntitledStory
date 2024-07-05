@@ -1,5 +1,6 @@
 ﻿using System;
 using Infrastructure.Factories.ExploringStateFactory.Interfaces;
+using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.Factories.ExploringStateFactory

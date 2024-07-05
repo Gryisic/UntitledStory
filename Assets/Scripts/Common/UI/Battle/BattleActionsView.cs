@@ -6,6 +6,8 @@ using Common.Battle.Interfaces;
 using Common.Battle.TargetSelection.Interfaces;
 using Common.UI.Extensions;
 using Common.UI.Interfaces;
+using Core.Data.Interfaces;
+using Core.Data.Texts;
 using Core.Extensions;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
@@ -74,6 +76,12 @@ namespace Common.UI.Battle
             
             _actionsSelector.UpdateRotation(side);
         }
+
+        public void UpdateActionPhrase(PartyMemberLocalization partyLocalization) => 
+            _actionsSelector.UpdateActionPhrase(partyLocalization);
+
+        public void UpdateButtonsLocalization(GeneralMenuLocalization menuLocalization) => 
+            _actionsSelector.UpdateButtonsLocalization(menuLocalization);
 
         public void MoveUp() => _currentUIElement.MoveUp();
 

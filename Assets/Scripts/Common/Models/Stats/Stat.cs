@@ -16,6 +16,7 @@ namespace Common.Models.Stats
         private bool _isDirty;
         private int _value;
         private int _deltaValue;
+        private int _lastRecalculatedValue;
 
         public float GrowthModifier => _template.GrowthModifier;
         public int InitialValue => _template.InitialValue;
@@ -51,6 +52,9 @@ namespace Common.Models.Stats
                 throw new InvalidOperationException("Trying to increase stat value on negative value.");
 
             _deltaValue += amount;
+
+            if (_lastRecalculatedValue + _deltaValue > Constants.MaxStatValue)
+                _deltaValue = Constants.MaxStatValue - Value;
             
             UpdateValue();
         }
@@ -61,6 +65,9 @@ namespace Common.Models.Stats
                 throw new InvalidOperationException("Trying to decrease stat value on negative value.");
 
             _deltaValue -= amount;
+
+            if (_lastRecalculatedValue + _deltaValue < Constants.MinStatValue) 
+                _deltaValue = _lastRecalculatedValue * -1;
             
             UpdateValue();
         }
@@ -118,19 +125,26 @@ namespace Common.Models.Stats
 
                 return true;
             }
-            catch (Exception e)
+            catch 
             {
                 return false;
             }
         }
 
-        private void UpdateValue() => _value = Mathf.Clamp(GetRecalculatedValue() + _deltaValue, Constants.MinStatValue, Constants.MaxStatValue);
-        
+        private void UpdateValue()
+        {
+            _lastRecalculatedValue = GetRecalculatedValue();
+            
+            int rawValue = _lastRecalculatedValue + _deltaValue;
+            
+            _value = Mathf.Clamp(rawValue, Constants.MinStatValue, Constants.MaxStatValue);
+        }
+
         private int GetRecalculatedValue()
         {
             _isDirty = false;
             
-            return StatCalculator.GetCalculatedValue(this, 1, _modifiers);
+            return StatCalculator.GetCalculatedValue(this, 50, _modifiers);
         }
     }
 }

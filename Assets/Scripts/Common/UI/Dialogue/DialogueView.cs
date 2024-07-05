@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Threading;
+using Common.UI.Dialogue.Portraits;
+using Common.UI.Interfaces;
+using Core.Data.Icons;
+using Core.Data.Interfaces;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Common.UI.Dialogue
 {
-    public class DialogueView : AnimatableUIElement
+    public class DialogueView : AnimatableUIElement, IIconsRequester
     {
         [SerializeField] private DialogueBoxView _boxView;
+        [SerializeField] private PortraitsView _portraitsView;
         [SerializeField] private DialogueChoicesView _choicesView;
 
         public override async UniTask ActivateAsync(CancellationToken token)
@@ -15,10 +20,12 @@ namespace Common.UI.Dialogue
             Activate();
             
             await _boxView.ActivateAsync(token);
+            await _portraitsView.ActivateAsync(token);
         }
         
         public override async UniTask DeactivateAsync(CancellationToken token)
         {
+            await _portraitsView.DeactivateAsync(token);
             await _boxView.DeactivateAsync(token);
             
             Deactivate();
@@ -32,11 +39,13 @@ namespace Common.UI.Dialogue
             if (typeof(T) == typeof(DialogueChoicesView))
                 return _choicesView as T;
 
+            if (typeof(T) == typeof(PortraitsView))
+                return _portraitsView as T;
+
             throw new ArgumentOutOfRangeException($"Trying to get invalid view from 'DialogueView'. Type of view {typeof(T)}");
         }
-
-        //public void UpdateName(string newName) => _boxView.UpdateName(newName);
         
-        //public void UpdateSentence(string newSentence) => _boxView.UpdateSentence(newSentence);
+        public void SetIconsData(IIconsData iconsData) => 
+            _portraitsView.SetIcons(iconsData.GetIcons<PortraitIcons>());
     }
 }

@@ -14,7 +14,7 @@ namespace Common.Battle.States
         private readonly BattleUnitsHandler _unitsHandler;
         
         public event Func<BattleStateArgs> RequestArgs;
-        public event Action<Enums.BattleResult> RequestBattleEnd;
+        public event Action<Enums.BattleState> RequestBattleEnd;
 
         public TurnSelectionState(IStateChanger<IBattleState> stateChanger, BattleUnitsHandler battleUnitsHandler) : base(stateChanger)
         {
@@ -58,11 +58,11 @@ namespace Common.Battle.States
             switch (team)
             {
                 case Enums.BattleTeam.Party:
-                    RequestBattleEnd?.Invoke(Enums.BattleResult.Win);
+                    RequestBattleEnd?.Invoke(Enums.BattleState.Win);
                     break;
                 
                 case Enums.BattleTeam.Enemy:
-                    RequestBattleEnd?.Invoke(Enums.BattleResult.Lose);
+                    RequestBattleEnd?.Invoke(Enums.BattleState.Lose);
                     break;
                 
                 default:

@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Editor/UXML/Uss/JsonReaderUSS.uss?fileID=7433441132597879392&amp;guid=245b7bcf939aff14e98f3db81ed290c9&amp;type=3#JsonReaderUSS" />
+    <ui:VisualElement name="VisualElement" class="section">
+        <ui:DropdownField label="Add Array" index="-1" choices="Value,Hashtable" name="ValueSelector" style="color: rgb(255, 255, 255);" />
+    </ui:VisualElement>
+</ui:UXML>

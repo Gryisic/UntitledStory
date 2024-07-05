@@ -5,6 +5,6 @@ namespace Common.Battle.Interfaces
 {
     public interface IBattleEndRequester
     {
-        event Action<Enums.BattleResult> RequestBattleEnd;
+        event Action<Enums.BattleState> RequestBattleEnd;
     }
 }

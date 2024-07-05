@@ -31,12 +31,14 @@ namespace Common.Battle.TargetSelection
             
             _possibleTargets = RequestTargets?.Invoke(targetType);
             _possibleTargets = GetFilteredTargets(data.SelectionFilter);
-
+            
             if (_possibleTargets.Count <= 0)
                 return;
             
             _targetIndex = _targetIndex >= _possibleTargets.Count ? 0 : _targetIndex;
             _selectedTarget = _possibleTargets[_targetIndex];
+            
+            _selectedTarget.Select();
             
             Activated?.Invoke();
             TargetUpdated?.Invoke(_selectedTarget);
@@ -44,6 +46,8 @@ namespace Common.Battle.TargetSelection
 
         public void Deactivate()
         {
+            _selectedTarget.Deselect();
+            
             Deactivated?.Invoke();
             
             _isActive = false;
@@ -52,6 +56,8 @@ namespace Common.Battle.TargetSelection
         public void Reset()
         {
             _targetIndex = 0;
+            
+            _selectedTarget.Deselect();
             _selectedTarget = null;
         }
 
@@ -68,8 +74,12 @@ namespace Common.Battle.TargetSelection
             if (_isActive == false || _possibleTargets.Count <= 1)
                 return;
 
+            _selectedTarget.Deselect();
+            
             _targetIndex = direction.y < 0 ? _targetIndex.Cycled(_possibleTargets.Count) : _targetIndex.ReverseCycled(_possibleTargets.Count);
             _selectedTarget = _possibleTargets[_targetIndex];
+            
+            _selectedTarget.Select();
             
             TargetUpdated?.Invoke(_selectedTarget);
         }
@@ -95,11 +105,11 @@ namespace Common.Battle.TargetSelection
         private Type DefineTargetType(Enums.TargetSide side)
         {
             Type activeUnitType = RequestActiveUniteType?.Invoke();
-
+            
             return side switch
             {
                 Enums.TargetSide.SameAsUnit => activeUnitType,
-                Enums.TargetSide.OppositeToUnit => activeUnitType == typeof(BattlePartyMember) ? typeof(BattleEnemy) : typeof(BattlePartyMember),
+                Enums.TargetSide.OppositeToUnit => activeUnitType.GetInterface(nameof(IPartyMember)) != null ? typeof(IBattleEnemy) : typeof(IPartyMember),
                 _ => throw new ArgumentOutOfRangeException(nameof(side), side, null)
             };
         }

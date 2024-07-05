@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Common.Battle.Constraints;
-using Common.Models.Triggers.Dependencies;
+using Common.Models.GameEvents.Interfaces;
 using Common.Models.Triggers.Interfaces;
 using Common.Navigation;
 using Core.GameStates;
 using Infrastructure.Utils;
 using Infrastructure.Utils.Tools;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Common.Models.Triggers.General
 {
@@ -18,16 +15,20 @@ namespace Common.Models.Triggers.General
     {
         [Space]
         [SerializeField] private NavigationArea _navigationArea;
-        [FormerlySerializedAs("_constraints")] [SerializeReference, SubclassesPicker] private BattleDependency[] _battleDependencies;
+        [SerializeReference, SubclassesPicker] private BattleConstraint[] _constraints;
         
         public event Action<Enums.GameStateType, GameStateArgs> StateChangeRequested;
-        
+
+        public override event Action<IGameEvent> Ended;
+
+        public IReadOnlyList<BattleConstraint> Constraints => _constraints;
+
         public override void Execute()
         {
-            IReadOnlyList<Dependency> dependencies = generalDependencies.Union(_battleDependencies).ToList();
-
             StateChangeRequested?.Invoke(Enums.GameStateType.Battle,
-                new BattleStateArgs(data.CollidedAt, _navigationArea, dependencies));
+                new BattleStateArgs(data.CollidedAt, _navigationArea, this));
         }
+        
+        public void End() => Ended?.Invoke(this);
     }
 }

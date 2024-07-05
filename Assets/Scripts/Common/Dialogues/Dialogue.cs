@@ -5,7 +5,6 @@ using Common.Dialogues.Utils;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
 using Ink.Runtime;
-using UnityEngine;
 
 namespace Common.Dialogues
 {
@@ -23,12 +22,13 @@ namespace Common.Dialogues
         private int _choiceIndex;
         private bool _isChoiceTaken;
 
-        private string _lastSpeaker;
+        private SpeakerData _lastSpeakerData;
 
         private Story _story;
 
-        public event Action<IReadOnlyList<Choice>> ChoicesSelectionRequested; 
-        public event Action<string> NamePrinted;
+        public event Action<IReadOnlyList<Choice>> ChoicesSelectionRequested;
+        public event Action<SpeakerData> SpeakerDataUpdated;
+        public event Action<SpeakerData> MonologueEnded; 
         public event Action<string> LetterPrinted;
         public event Action<bool> SentencePrinting;
         public event Action Ended;
@@ -95,6 +95,8 @@ namespace Common.Dialogues
                     
                     await MakeChoiceAsync(token);
                 }
+                
+                MonologueEnded?.Invoke(_lastSpeakerData);
             }
 
             _functionsResolver.UnBind(_story);
@@ -102,8 +104,10 @@ namespace Common.Dialogues
             Ended?.Invoke();
         }
 
-        private async UniTask TypeSentenceAsync(string sentence, CancellationToken token) 
+        private async UniTask TypeSentenceAsync(string sentence, CancellationToken token)
         {
+            sentence = sentence.Trim();
+
             if (sentence == string.Empty)
             {
                 _canTypeNextSentence = true;
@@ -114,19 +118,30 @@ namespace Common.Dialogues
             _inkStoryParser.Parse(sentence, _story.currentTags, out InkParsedText parsedText);
             
             string typedSentence = "";
-            string speaker = string.IsNullOrEmpty(parsedText.Speaker) ? _lastSpeaker : parsedText.Speaker;
+            string speaker;
 
+            if (string.IsNullOrEmpty(parsedText.SpeakerData.Speaker) == false)
+            {
+                speaker = parsedText.SpeakerData.Speaker;
+
+                _lastSpeakerData = parsedText.SpeakerData;
+            }
+            else
+            {
+                speaker = _lastSpeakerData.Speaker;
+            }
+            
             if (string.IsNullOrEmpty(speaker))
                 throw new Exception($"Speaker of sentence {sentence} is unknown");
-            
-            _lastSpeaker = speaker;
             
             _canTypeSentenceAsync = true;
             _isSentenceFinished = false;
 
             SentencePrinting?.Invoke(true);
-            NamePrinted?.Invoke(speaker);
-
+            
+            if (parsedText.SpeakerData.Speaker != null)
+                SpeakerDataUpdated?.Invoke(parsedText.SpeakerData);
+            
             sentence = parsedText.Sentence;
 
             char[] letters = sentence.ToCharArray();

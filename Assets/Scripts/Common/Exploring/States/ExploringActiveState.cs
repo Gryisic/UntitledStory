@@ -6,6 +6,7 @@ using Common.Models.Cameras.Interfaces;
 using Common.Models.GameEvents.Interfaces;
 using Common.Models.Scene;
 using Common.Models.Triggers.Interfaces;
+using Common.Units.Extensions;
 using Common.Units.Handlers;
 using Core;
 using Core.Data.Interfaces;
@@ -26,12 +27,12 @@ namespace Common.Exploring.States
         
         private readonly Player _player;
         private readonly SceneInfo _sceneInfo;
-        private readonly ExploringUnitsHandler _unitsHandler;
+        private readonly GeneralUnitsHandler _unitsHandler;
         
         public event Action<Enums.GameStateType, GameStateArgs> RequestStateChange;
         public event Func<ExploringStateArgs> RequestArgs;
 
-        public ExploringActiveState(IStateChanger<IExploringState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, ExploringUnitsHandler unitsHandler)
+        public ExploringActiveState(IStateChanger<IExploringState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, GeneralUnitsHandler unitsHandler)
         {
             _stateChanger = stateChanger;
             _inputService = servicesHandler.InputService;
@@ -45,37 +46,30 @@ namespace Common.Exploring.States
         
         public void Activate()
         {
-            _eventsService.AddEvents(_sceneInfo.MonoTriggersHandler.Triggers);
-            
             ValidateData();
             ValidateUnits();
             
             SubscribeToEvents();
             AttachInput();
             
-            _player.Activate();
-            _cameraService.FollowUnit(_unitsHandler.ActiveUnit.transform);
+            _cameraService.FollowUnit(_unitsHandler.ActiveUnit.Transform);
         }
 
         public void Deactivate()
         {
-            _player.Deactivate();
-            
             DeAttachInput();
             UnsubscribeToEvents();
-            
-            _eventsService.RemoveEvents(_sceneInfo.MonoTriggersHandler.Triggers);
         }
 
         private void SubscribeToEvents()
         {
             foreach (var gameEvent in _eventsService.Events)
             {
-                if (gameEvent is IMonoTriggerZone monoTrigger)
-                    monoTrigger.IDUsed += _triggersData.Remove;
-                
                 if (gameEvent is IGameStateChangerEvent gameStateChanger)
                     gameStateChanger.StateChangeRequested += OnGameStateChangeRequested;
+                
+                if (gameEvent is IPositionChangeRequester positionChangeRequester)
+                    positionChangeRequester.RequestPositionChange += OnPositionChangeRequested;
             }
         }
 
@@ -83,11 +77,11 @@ namespace Common.Exploring.States
         {
             foreach (var gameEvent in _eventsService.Events)
             {
-                if (gameEvent is IMonoTriggerZone monoTrigger)
-                    monoTrigger.IDUsed -= _triggersData.Remove;
-                
                 if (gameEvent is IGameStateChangerEvent gameStateChanger)
                     gameStateChanger.StateChangeRequested -= OnGameStateChangeRequested;
+                
+                if (gameEvent is IPositionChangeRequester positionChangeRequester)
+                    positionChangeRequester.RequestPositionChange -= OnPositionChangeRequested;
             }
         }
         
@@ -111,11 +105,14 @@ namespace Common.Exploring.States
             _inputService.Input.Explore.Interact.performed -= _player.Interact;
         }
         
+        private void OnPositionChangeRequested(Vector2 position) => _unitsHandler.ActiveUnit.Transform.position = position;
+
         private void OnGameStateChangeRequested(Enums.GameStateType nextState, GameStateArgs args)
         {
             if (nextState == Enums.GameStateType.Battle)
-                _unitsHandler.DeactivateAll();
+                _unitsHandler.DeactivateAllExploringUnits();
             
+            _player.CancelActions();
             RequestStateChange?.Invoke(nextState, args);
         }
 
@@ -137,7 +134,7 @@ namespace Common.Exploring.States
 
         private void ValidateUnits()
         {
-            if (_unitsHandler.ActiveUnit.isActiveAndEnabled)
+            if (_unitsHandler.ActiveUnit.IsActive())
                 return;
             
             ExploringStateArgs args = RequestArgs?.Invoke();

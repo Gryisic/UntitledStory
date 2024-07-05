@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common.Models.Scene;
 using Common.Units;
+using Common.Units.Interfaces;
 using Common.Units.Templates;
 using Infrastructure.Factories.Extensions;
 using Infrastructure.Factories.UnitsFactory.Interfaces;
@@ -15,14 +16,14 @@ namespace Infrastructure.Factories.UnitsFactory
         private readonly DiContainer _diContainer;
         private readonly Transform _root;
         
-        private readonly Dictionary<int, Unit> _idPrefabMap;
+        private readonly Dictionary<int, IUnit> _idPrefabMap;
         
         public UnitFactory(DiContainer diContainer, SceneInfo sceneInfo)
         {
             _diContainer = diContainer;
             _root = sceneInfo.UnitsRoot;
 
-            _idPrefabMap = new Dictionary<int, Unit>();
+            _idPrefabMap = new Dictionary<int, IUnit>();
         }
 
         public void Load(int id)
@@ -31,7 +32,7 @@ namespace Infrastructure.Factories.UnitsFactory
                 return;
             
             string name = id.DefineUnit();
-            Unit unit = Resources.Load<Unit>($"{Constants.PathToUnitPrefabs}/{name}");
+            IUnit unit = Resources.Load<Unit>($"{Constants.PathToUnitPrefabs}/{name}");
             
             _idPrefabMap.Add(id, unit);
         }
@@ -44,7 +45,7 @@ namespace Infrastructure.Factories.UnitsFactory
 
         public Unit Create(UnitTemplate template, Vector3 at)
         {
-            Unit unit = _idPrefabMap[template.ID];
+            Unit unit = _idPrefabMap[template.ID] as Unit;
             
             unit = _diContainer.InstantiatePrefabForComponent<Unit>(unit, at, Quaternion.identity, _root);
             

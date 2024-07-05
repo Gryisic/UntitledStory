@@ -1,0 +1,22 @@
+{
+  "Russian": [{
+    "Key": "Battle",
+    "Entries": {
+      "Attack": "Атака",
+      "Skill": "Скилл",
+      "Guard": "Защита",
+      "Items": "Предметы",
+      "Decision": "Решение"
+    }
+  }],
+  "English": [{
+    "Key": "Battle",
+    "Entries": {
+      "Attack": "Attack",
+      "Skill": "Skill",
+      "Guard": "Guard",
+      "Items": "Items",
+      "Decision": "Decision"
+    }
+  }]
+}

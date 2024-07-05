@@ -4,6 +4,8 @@ namespace Core.Data.Interfaces
 {
     public interface ITextsData : IGameData
     {
-        TextAsset GetText(string key);
+        TextAsset GetTextAsset(string key);
+
+        T GetLocalizedData<T>() where T: class, ILocalizableTextProvider;
     }
 }

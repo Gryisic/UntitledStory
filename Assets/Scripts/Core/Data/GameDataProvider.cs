@@ -13,7 +13,7 @@ namespace Core.Data
         [SerializeField] private GameData[] _dataArray;
 
         private IReadOnlyList<IGameData> _data;
-
+        
         public void Initialize(IServicesHandler servicesHandler)
         {
             List<IGameData> data = new List<IGameData>();

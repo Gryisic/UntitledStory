@@ -22,9 +22,13 @@ namespace Common.Units.Actions
         {
             ICustomAnimation animation = _data.Data.GetAnimation(Enums.StandardAnimation.Attack);
             
-            _data.Animator.PlayOneShot(animation);
+            if (animation != null)
+            {
+                _data.Animator.PlayOneShot(animation);
 
-            await UniTask.Delay(TimeSpan.FromSeconds(_data.Animator.CurrentAnimationDuration), cancellationToken: token);
+                await UniTask.Delay(TimeSpan.FromSeconds(_data.Animator.CurrentAnimationDuration), cancellationToken: token);
+            }
+            
             await base.ExecuteAsync(token);
         }
     }

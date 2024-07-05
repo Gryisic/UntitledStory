@@ -5,6 +5,7 @@ using Common.Battle.Interfaces;
 using Common.Battle.TargetSelection;
 using Common.Battle.TargetSelection.Interfaces;
 using Common.UI.Interfaces;
+using Core.Data.Texts;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure.Utils;
@@ -89,6 +90,12 @@ namespace Common.UI.Battle
             _phrase.gameObject.SetActive(false);
             Deactivate();
         }
+
+        public void UpdateActionPhrase(PartyMemberLocalization partyLocalization) => 
+            _phrase.text = partyLocalization.ActionPhrase;
+
+        public void UpdateButtonsLocalization(GeneralMenuLocalization menusLocalization) => 
+            _buttons.ForEach(b => b.UpdateLocalization(menusLocalization));
 
         public void UpdateRotation(Enums.BattleFieldSide side)
         {

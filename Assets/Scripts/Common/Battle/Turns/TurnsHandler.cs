@@ -1,6 +1,7 @@
 ﻿using System;
 using Common.Units.Battle;
 using Common.Units.Handlers;
+using Common.Units.Interfaces;
 using Infrastructure.Utils;
 
 namespace Common.Battle.Turns
@@ -25,7 +26,7 @@ namespace Common.Battle.Turns
         {
             _activeTurn?.Deactivate();
 
-            if (_unitsHandler.GetNextAliveUnit() is BattlePartyMember)
+            if (_unitsHandler.GetNextAliveUnit() is IPartyMember)
             {
                 _activeTurn = _partyMemberTurn;
                 nextTeam = Enums.BattleTeam.Party;
@@ -43,7 +44,7 @@ namespace Common.Battle.Turns
         {
             nextTeam = Enums.BattleTeam.Party;
             
-            if (_unitsHandler.HasUnitsWithFilter(u => u is BattlePartyMember && u.IsDead == false) == false)
+            if (_unitsHandler.HasUnitsWithFilter(u => u is IPartyMember && u.IsDead == false) == false)
             {
                 nextTeam = Enums.BattleTeam.Enemy;
                 return false;

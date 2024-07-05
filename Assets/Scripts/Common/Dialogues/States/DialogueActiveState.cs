@@ -4,17 +4,20 @@ using System.Threading;
 using Common.Dialogues.Interfaces;
 using Common.Dialogues.Utils;
 using Common.UI.Dialogue;
+using Common.UI.Dialogue.Portraits;
 using Core.Data.Interfaces;
+using Core.Data.Texts;
 using Core.GameStates;
 using Core.Interfaces;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
 using Ink.Runtime;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Common.Dialogues.States
 {
-    public class DialogueActiveState : IDialogueState, IDeactivatable, IGameStateChangeRequester, IDisposable
+    public class DialogueActiveState : IDialogueState, IDeactivatable, IGameStateChangeRequester, IDialogueArgsRequester, IDisposable
     {
         private readonly IStateChanger<IDialogueState> _stateChanger;
         private readonly IInputService _inputService;
@@ -22,15 +25,24 @@ namespace Common.Dialogues.States
         
         private readonly Dialogue _dialogue;
         private readonly InkFunctionsResolver _functionsResolver;
+        
         private readonly DialogueView _dialogueView;
+        private readonly PortraitsView _portraitsView;
         private readonly DialogueBoxView _boxView;
         private readonly DialogueChoicesView _choicesView;
 
         private CancellationTokenSource _dialogueTokenSource;
+        private NamesLocalization _namesLocalization;
         
         public event Action<Enums.GameStateType, GameStateArgs> RequestStateChange;
+        public event Func<DialogueStateArgs> RequestArgs;
 
-        public DialogueActiveState(IStateChanger<IDialogueState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Dialogue dialogue, InkFunctionsResolver functionsResolver, UI.UI ui)
+        public DialogueActiveState(IStateChanger<IDialogueState> stateChanger,
+            IServicesHandler servicesHandler,
+            IGameDataProvider gameDataProvider,
+            Dialogue dialogue,
+            InkFunctionsResolver functionsResolver,
+            UI.UI ui)
         {
             _stateChanger = stateChanger;
             _inputService = servicesHandler.InputService;
@@ -40,6 +52,7 @@ namespace Common.Dialogues.States
             _dialogueView = ui.Get<DialogueView>();
             _boxView = _dialogueView.GetView<DialogueBoxView>();
             _choicesView = _dialogueView.GetView<DialogueChoicesView>();
+            _portraitsView = _dialogueView.GetView<PortraitsView>();
         }
         
         public void Dispose()
@@ -55,6 +68,10 @@ namespace Common.Dialogues.States
 
             _dialogueTokenSource = new CancellationTokenSource();
             
+            DialogueStateArgs args = RequestArgs?.Invoke();
+
+            _namesLocalization = args.NamesLocalization;
+            
             ActivateDialogueAsync().Forget();
         }
 
@@ -66,10 +83,11 @@ namespace Common.Dialogues.States
 
         private void SubscribeToEvents()
         {
-            _dialogue.NamePrinted += _boxView.UpdateName;
             _dialogue.LetterPrinted += _boxView.UpdateSentence;
             _dialogue.Ended += OnDialogueEnded;
             _dialogue.ChoicesSelectionRequested += OnChoicesSelectionRequested;
+            _dialogue.SpeakerDataUpdated += OnSpeakerUpdated;
+            _dialogue.MonologueEnded += _portraitsView.DeactivatePortrait;
 
             _choicesView.ChoiseTaken += OnChoiceTaken;
             
@@ -79,10 +97,11 @@ namespace Common.Dialogues.States
 
         private void UnsubscribeToEvents()
         {
-            _dialogue.NamePrinted -= _boxView.UpdateName;
             _dialogue.LetterPrinted -= _boxView.UpdateSentence;
             _dialogue.Ended -= OnDialogueEnded;
             _dialogue.ChoicesSelectionRequested -= OnChoicesSelectionRequested;
+            _dialogue.SpeakerDataUpdated -= OnSpeakerUpdated;
+            _dialogue.MonologueEnded -= _portraitsView.DeactivatePortrait;
 
             _choicesView.ChoiseTaken -= OnChoiceTaken;
 
@@ -119,8 +138,15 @@ namespace Common.Dialogues.States
 
         private void ToggleAutoDialogueMode(InputAction.CallbackContext context) => _dialogue.ToggleAutoMode();
 
-        private void ToNextState() => RequestStateChange?.Invoke(Enums.GameStateType.Explore, new ExploringStateArgs());
-        
+        private void ToNextState()
+        {
+            DialogueStateArgs args = RequestArgs?.Invoke();
+            
+            args.Trigger.End();
+            
+            RequestStateChange?.Invoke(Enums.GameStateType.Explore, new ExploringStateArgs());
+        }
+
         private void OnChoicesSelectionRequested(IReadOnlyList<Choice> choices)
         {
             _choicesView.SetIndexesAmount(choices.Count);
@@ -136,6 +162,14 @@ namespace Common.Dialogues.States
             _dialogue.SetChoice(index);
             
             _choicesView.DeactivateAsync(_dialogueTokenSource.Token).Forget();
+        }
+        
+        private void OnSpeakerUpdated(SpeakerData data)
+        {
+            string speaker = _namesLocalization.GetLocalization(data.Speaker)?.Name;
+
+            _portraitsView.UpdatePortrait(data);
+            _boxView.UpdateName(speaker);
         }
         
         private async UniTask EndAsync()

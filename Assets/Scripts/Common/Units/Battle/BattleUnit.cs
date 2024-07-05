@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common.Models.Animator;
-using Common.Models.BattleAction;
+using Common.Models.Impactable.Interfaces;
+using Common.Models.Skills;
+using Common.Models.Skills.Templates;
 using Common.Models.Stats;
 using Common.Models.Stats.Interfaces;
+using Common.Models.StatusEffects.Interfaces;
 using Common.Units.Actions;
 using Common.Units.Interfaces;
 using Common.Units.Templates;
@@ -13,10 +16,16 @@ using UnityEngine;
 
 namespace Common.Units.Battle
 {
-    public abstract class BattleUnit : Unit, IBattleUnitSharedData
+    public abstract class BattleUnit : Unit, IBattleUnit
     {
-        public BattleActionsHandler ActionsHandler { get; private set; }
+        public SkillsHandler SkillsHandler { get; private set; }
         public IStatsHandler StatsHandler { get; private set; }
+        
+        public bool IsDead { get; private set; }
+        
+        public event Action<IImpactable, int> AppliedDamaged;
+        public event Action<IImpactable, int> Healed;
+        public event Action<IImpactable, IStatusEffectData> AppliedStatusEffect;
 
         public override void Initialize(UnitTemplate template)
         {
@@ -34,23 +43,32 @@ namespace Common.Units.Battle
             base.Initialize(template);
         }
 
-        public override void ApplyDamage(int amount)
+        public void ApplyDamage(int amount)
         {
-            StatsHandler?.DecreaseStat(Enums.UnitStat.Health, amount);
+            StatsHandler.DecreaseStat(Enums.UnitStat.Health, amount);
             
-            if (StatsHandler?.GetStatData(Enums.UnitStat.Health).Value <= 0)
+            AppliedDamaged?.Invoke(this, amount);
+            
+            if (StatsHandler.GetStatData(Enums.UnitStat.Health).Value <= 0)
                 Die();
-            
-            base.ApplyDamage(amount);
         }
 
-        public override void Heal(int amount)
+        public void Heal(int amount)
         {
             StatsHandler.IncreaseStat(Enums.UnitStat.Health, amount);
             
-            base.Heal(amount);
+            Healed?.Invoke(this, amount);
         }
+        
+        public void ApplyStatusEffect(IStatusEffect effect)
+        {
+            //AppliedStatusEffect?.Invoke(this, );
+        }
+        
+        public virtual void Select() { }
 
+        public virtual void Deselect() { }
+        
         public void MoveToPoint(Vector3 point) => actionsExecutor.AddActionToQueue(new MoveToPointAction(internalData, point, 5));
 
         public void MoveToPointAndLookAt(Vector3 point, Vector2 lookDirection) => actionsExecutor
@@ -61,29 +79,29 @@ namespace Common.Units.Battle
 
         public async UniTask ExecuteActionsWithAwaiter() => await actionsExecutor.ExecuteWithAwaiter();
 
-        public override void Restore()
+        public void Restore()
         {
             int maxHealth = StatsHandler.GetStatData(Enums.UnitStat.MaxHealth).Value;
             int health = StatsHandler.GetStatData(Enums.UnitStat.Health).Value;
             int healAmount = maxHealth - health;
             
             Heal(healAmount);
-            
-            base.Restore();
+
+            IsDead = false;
         }
 
-        protected override void Die()
+        protected void Die()
         {
             Debug.Log($"{name}: Well, looks like I'm dead!");
 
-            base.Die();
+            IsDead = true;
         }
 
         private void InitializeActionsHandler(BattleUnitTemplate battleUnitTemplate)
         {
-            IEnumerable<BattleActionTemplate> actionTemplates = battleUnitTemplate.SkillsTemplates;
+            IEnumerable<SkillTemplate> actionTemplates = battleUnitTemplate.SkillsTemplates;
 
-            ActionsHandler = new BattleActionsHandler(battleUnitTemplate.BasicAttackTemplate, actionTemplates, StatsHandler);
+            SkillsHandler = new SkillsHandler(battleUnitTemplate.BasicAttackTemplate, actionTemplates, StatsHandler);
         }
         
         private void InitializeStatsHandler(BattleUnitTemplate battleUnitTemplate) 

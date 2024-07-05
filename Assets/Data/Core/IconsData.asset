@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8550672718410098347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02113be84a04e56909f76b3f9ba7023, type: 3}
+  m_Name: Portrait
+  m_EditorClassIdentifier: 
+  _portraits:
+  - _speaker: Protagonist
+    _emotionsMap:
+    - _name: Neutral
+      _portrait: {fileID: 21300000, guid: cb2485b8889bdd2429423d0dc312a509, type: 3}
+  - _speaker: Bro
+    _emotionsMap:
+    - _name: Neutral
+      _portrait: {fileID: 21300000, guid: 02c1a6a44a1dbbe4bbd9b8c1affa592d, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14,6 +35,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _icons:
   - {fileID: 6657872587320783591}
+  - {fileID: -8550672718410098347}
 --- !u!114 &6657872587320783591
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -79,7 +79,7 @@ namespace Common.Navigation.BattleFieldSearchStrategy
             {
                 isOccupied = overlapColliders.Any(c => c.isTrigger == false && c.TryGetComponent(out ExploringUnit _) == false);
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }

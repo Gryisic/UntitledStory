@@ -9,13 +9,11 @@ namespace Common.UI.Battle
     {
         [SerializeField] private Image _icon;
         [SerializeField] private TextMeshProUGUI _name;
-        [SerializeField] private TextMeshProUGUI _cost;
 
         public void UpdateData(IListedItemData data)
         {
             _icon.sprite = data.Icon;
             _name.text = data.Name;
-            _cost.text = data.Cost.ToString();
         }
     }
 }

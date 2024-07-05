@@ -43,6 +43,9 @@
         public const int MaxStatValue = 9999;
         public const int MinStatValue = 0;
 
+        public const int BattleThoughtsCapacity = 64;
+        public const string MidThoughtsSpace = "     ";
+
         public const float DialogueLetterPrintTime = 0.1f;
         public const float AutoDialogueModeAwaitTime = 1f;
         

@@ -4,29 +4,30 @@ using System.Linq;
 using Common.Models.Scene;
 using Common.Units.Battle;
 using Common.Units.Extensions;
+using Common.Units.Interfaces;
 using Core.Extensions;
 using Infrastructure.Utils;
 using UnityEngine;
 
 namespace Common.Units.Handlers
 {
-    public class BattleUnitsHandler : UnitsHandler<BattleUnit>
+    public class BattleUnitsHandler : UnitsHandler<IBattleUnit>
     {
         private int _activeUnitIndex = -1;
 
-        private readonly List<BattleUnit> _externalUnits;
+        private readonly List<IBattleUnit> _externalUnits;
 
-        private List<BattleUnit> _inBattleUnits;
+        private List<IBattleUnit> _inBattleUnits;
         
-        public BattleUnit ActiveUnit { get; private set; }
+        public IBattleUnit ActiveUnit { get; private set; }
 
-        public IReadOnlyList<BattleUnit> Units
+        public IReadOnlyList<IBattleUnit> Units
         {
             get
             {
                 if (isDirty)
                 {
-                    _inBattleUnits = units.Cast<BattleUnit>().Concat(_externalUnits).ToList();
+                    _inBattleUnits = units.Cast<IBattleUnit>().Concat(_externalUnits).ToList();
                     
                     Sort(ref _inBattleUnits);
                 }
@@ -35,12 +36,12 @@ namespace Common.Units.Handlers
             }
         }
 
-        public IReadOnlyList<BattlePartyMember> PartyMembers => Units.Where(u => u is BattlePartyMember).Cast<BattlePartyMember>().ToList();
-        public IReadOnlyList<BattleEnemy> Enemies => Units.Where(u => u is BattleEnemy).Cast<BattleEnemy>().ToList();
+        public IReadOnlyList<IPartyMember> PartyMembers => Units.Where(u => u is IPartyMember).Cast<IPartyMember>().ToList();
+        public IReadOnlyList<IBattleEnemy> Enemies => Units.Where(u => u is IBattleEnemy).Cast<IBattleEnemy>().ToList();
 
         public BattleUnitsHandler(UnitsPool pool) : base(pool)
         {
-            _externalUnits = new List<BattleUnit>();
+            _externalUnits = new List<IBattleUnit>();
         }
 
         public override void Clear()
@@ -54,14 +55,14 @@ namespace Common.Units.Handlers
             isDirty = true;
         }
 
-        public void Add(BattleUnit unit)
+        public void Add(IBattleUnit unit)
         {
             _externalUnits.Add(unit);
 
             isDirty = true;
         }
 
-        private void Sort(ref List<BattleUnit> unitsToSort)
+        private void Sort(ref List<IBattleUnit> unitsToSort)
         {
             unitsToSort = unitsToSort
                 .OrderByDescending(u => u.StatsHandler.GetStatData(Enums.UnitStat.Initiative).Value)
@@ -70,18 +71,18 @@ namespace Common.Units.Handlers
             isDirty = false;
         }
 
-        public IReadOnlyList<BattleUnit> GetUnitsOfType(Type type)
+        public IReadOnlyList<IBattleUnit> GetUnitsOfType(Type type)
         {
-            if (type == typeof(BattleEnemy))
-                return Enemies;
-            
-            if (type == typeof(BattlePartyMember))
+            if (type == typeof(IPartyMember))
                 return PartyMembers;
+            
+            if (type == typeof(IBattleEnemy))
+                return Enemies;
 
             throw new InvalidOperationException($"Trying to get units of invalid type. Type: {type}");
         }
 
-        public BattleUnit GetNextUnit()
+        public IBattleUnit GetNextUnit()
         {
             _activeUnitIndex = _activeUnitIndex.Cycled(Units.Count);
             
@@ -90,10 +91,10 @@ namespace Common.Units.Handlers
             return ActiveUnit;
         }
 
-        public BattleUnit GetNextAliveUnit()
+        public IBattleUnit GetNextAliveUnit()
         {
             int step = 0;
-            BattleUnit unit = GetNextUnit();
+            IBattleUnit unit = GetNextUnit();
             
             while (unit.IsDead && step < _inBattleUnits.Count)
             {
@@ -105,9 +106,9 @@ namespace Common.Units.Handlers
             return unit;
         }
 
-        public bool HasUnitsWithFilter(Func<BattleUnit, bool> filter) => GetFilteredUnits(filter).Count > 0;
+        public bool HasUnitsWithFilter(Func<IBattleUnit, bool> filter) => GetFilteredUnits(filter).Count > 0;
 
-        public IReadOnlyList<BattleUnit> GetFilteredUnits(Func<BattleUnit, bool> filter) =>
+        public IReadOnlyList<IBattleUnit> GetFilteredUnits(Func<IBattleUnit, bool> filter) =>
             _inBattleUnits.Where(filter).ToList();
 
         public int GetNumberOfUnitsWithID(int id) => units.Count(u => u.ID == id);

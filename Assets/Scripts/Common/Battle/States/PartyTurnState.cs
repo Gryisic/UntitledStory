@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Threading;
 using Common.Battle.Interfaces;
 using Common.Battle.TargetSelection;
-using Common.Models.BattleAction;
+using Common.Models.Skills;
+using Common.Models.Skills.Interfaces;
 using Common.UI.Battle;
-using Common.UI.Battle.QTE;
 using Common.UI.Interfaces;
 using Common.Units.Handlers;
+using Core.Data.Texts;
 using Core.Extensions;
 using Core.GameStates;
 using Core.Interfaces;
@@ -28,6 +29,8 @@ namespace Common.Battle.States
         private readonly BattleUnitsHandler _battleUnitsHandler;
         private readonly BattleActionsView _worldUI;
         private readonly BattleOverlayView _overlayUI;
+
+        private PartyMembersLocalization _partyMembersLocalization;
 
         private BattleStateArgs _args;
         
@@ -69,23 +72,34 @@ namespace Common.Battle.States
         public void Reset()
         {
             _targetSelector.Reset();
+            
+            _args = null;
+            _partyMembersLocalization = null;
         }
         
         private async UniTask ActivateAsync()
         {
             _isActive = true;
 
-            _args = RequestArgs?.Invoke();
+            _args ??= RequestArgs?.Invoke();
+            _partyMembersLocalization ??= _args.TextsData.GetLocalizedData<PartyMembersLocalization>();
+            
+            PartyMemberLocalization memberLocalization = _partyMembersLocalization
+                .GetLocalization(_battleUnitsHandler.ActiveUnit.ID).As<PartyMemberLocalization>();
+
+            _args.ThoughtsBuilder.AppendNeutralOfUnit(_battleUnitsHandler.ActiveUnit.ID);
+            
+            _overlayUI.ThoughtsView.Clear();
+            _overlayUI.ThoughtsView.Append(_args.ThoughtsBuilder.Build());
+            _args.ThoughtsBuilder.Clear();
             
             SubscribeToEvents();
-
-            BattleStateArgs args = RequestArgs?.Invoke();
-            args.IncreaseTurn();
 
             _uiAnimationTokenSource = new CancellationTokenSource();
 
             Vector2 activeUnitPosition = _battleUnitsHandler.ActiveUnit.Transform.position;
             _worldUI.ValidatePosition(activeUnitPosition, _args.NavigationArea.GetPositionSide(activeUnitPosition), _args.CameraService.SceneCamera);
+            _worldUI.UpdateActionPhrase(memberLocalization);
             
             await _worldUI.ActivateAsync(_uiAnimationTokenSource.Token);
             
@@ -150,6 +164,7 @@ namespace Common.Battle.States
 
 #if UNITY_EDITOR
             _inputService.Input.Debug.EndBattle.performed += OnBattleEnd;
+            _inputService.Input.Debug.DamageHero.performed += OnDebugDamage;
             
             _inputService.Input.Debug.Enable();
 #endif
@@ -159,6 +174,7 @@ namespace Common.Battle.States
         {
 #if UNITY_EDITOR
             _inputService.Input.Debug.EndBattle.performed -= OnBattleEnd;
+            _inputService.Input.Debug.DamageHero.performed -= OnDebugDamage;
             
             _inputService.Input.Debug.Disable();
 #endif
@@ -177,6 +193,9 @@ namespace Common.Battle.States
 
 #if UNITY_EDITOR
         private void OnBattleEnd(InputAction.CallbackContext context) => ToNextState<BattleFinalizeState>().Forget();
+
+        private void OnDebugDamage(InputAction.CallbackContext context) =>
+            _battleUnitsHandler.ActiveUnit.ApplyDamage(100);
 #endif
 
         private void OnUpPerformed(InputAction.CallbackContext context)
@@ -211,7 +230,7 @@ namespace Common.Battle.States
                     return null;
                 
                 case Enums.ListedItem.BattleAction:
-                    return _battleUnitsHandler.ActiveUnit.ActionsHandler.ExposedData;
+                    return _battleUnitsHandler.ActiveUnit.SkillsHandler.GetSkillsOfType<IActiveSkillData>();
                 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(item), item, null);
@@ -220,17 +239,17 @@ namespace Common.Battle.States
         
         private void OnActionSelected(Enums.Input action, int index)
         {
-            BattleAction concreteAction;
+            Skill concreteAction;
             
             switch (action)
             {
                 case Enums.Input.A:
-                    concreteAction = _battleUnitsHandler.ActiveUnit.ActionsHandler.GetBasicAttack();
+                    concreteAction = _battleUnitsHandler.ActiveUnit.SkillsHandler.GetBasicAttack();
                     ToActionExecutionState(concreteAction);
                     break;
                 
                 case Enums.Input.Y:
-                    concreteAction = _battleUnitsHandler.ActiveUnit.ActionsHandler.GetAction(index);
+                    concreteAction = _battleUnitsHandler.ActiveUnit.SkillsHandler.GetAction(index);
                     ToActionExecutionState(concreteAction);
                     break;
                 
@@ -253,7 +272,7 @@ namespace Common.Battle.States
             stateChanger.ChangeState<T>();
         }
 
-        private void ToActionExecutionState(BattleAction action)
+        private void ToActionExecutionState(Skill action)
         {
             _args.SetAction(action);
             

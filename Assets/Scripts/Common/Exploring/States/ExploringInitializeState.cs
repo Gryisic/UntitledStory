@@ -3,12 +3,13 @@ using Common.Models.Scene;
 using Common.Units;
 using Common.Units.Exploring;
 using Common.Units.Handlers;
-using Common.Units.Placement;
+using Common.Units.Interfaces;
 using Common.Units.Templates;
 using Core;
 using Core.Configs.Interfaces;
 using Core.Data.Interfaces;
 using Core.Interfaces;
+using UnityEngine;
 
 namespace Common.Exploring.States
 {
@@ -20,18 +21,18 @@ namespace Common.Exploring.States
         
         private readonly Player _player;
         private readonly SceneInfo _sceneInfo;
-        private readonly ExploringUnitsHandler _exploringUnitsHandler;
+        private readonly GeneralUnitsHandler _generalUnitsHandler;
 
         private readonly IUnitsConfig _unitsConfig;
         
-        public ExploringInitializeState(IStateChanger<IExploringState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, ExploringUnitsHandler exploringUnitsHandler)
+        public ExploringInitializeState(IStateChanger<IExploringState> stateChanger, IServicesHandler servicesHandler, IGameDataProvider gameDataProvider, Player player, SceneInfo sceneInfo, GeneralUnitsHandler generalUnitsHandler)
         {
             _stateChanger = stateChanger;
             _servicesHandler = servicesHandler;
             _gameDataProvider = gameDataProvider;
             _player = player;
             _sceneInfo = sceneInfo;
-            _exploringUnitsHandler = exploringUnitsHandler;
+            _generalUnitsHandler = generalUnitsHandler;
             _unitsConfig = _servicesHandler.ConfigsService.GetConfig<IUnitsConfig>();
         }
 
@@ -46,26 +47,18 @@ namespace Common.Exploring.States
         private void CreatePartyUnits()
         {
             IPartyData data = _gameDataProvider.GetData<IPartyData>();
-            ExploringUnitTemplate unitTemplate = data.ExploringUnitsTemplates[0];
+            PartyMemberTemplate unitTemplate = data.Templates[0];
             
-            ExploringUnit unit = _exploringUnitsHandler.GetUnitWithID(unitTemplate.ID);
+            IUnit unit = _generalUnitsHandler.GetUnitWithID(unitTemplate.ID);
             
             unit.Initialize(unitTemplate);
-            _player.UpdateExploringUnit(unit);
+            _player.UpdateActionsExecutor(unit as IExploringActionsExecutor);
         }
 
         private void InitializeTriggers()
         {
             foreach (var triggerZone in _sceneInfo.MonoTriggersHandler.TriggerZones) 
-                triggerZone.Initialize();
-        }
-
-        private void CreateUnit(UnitPlace place)
-        {
-            UnitTemplate template = _unitsConfig.GetTemplateWithID(place.ID);
-            Unit unit = _exploringUnitsHandler.GetUnitWithID(template.ID);
-
-            unit.Initialize(template);
+                triggerZone.Initialize(_generalUnitsHandler);
         }
     }
 }

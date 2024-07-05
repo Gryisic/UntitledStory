@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45b3bbe5570465cbdb1725b9d69a5be, type: 3}
+  m_Name: Protagonsit
+  m_EditorClassIdentifier: 
+  _id: 1
+  _animationData:
+  - _animationType: 0
+    _animation: {fileID: 11400000, guid: c6da86947e865804d937058206870409, type: 2}
+  - _animationType: 1
+    _animation: {fileID: 11400000, guid: e8acd47ba33e1f540a88129e4617cba6, type: 2}
+  _basicAttackTemplate: {fileID: 11400000, guid: bfa1b9a605bf00c4d885cac7239fabb6, type: 2}
+  _skillsTemplates:
+  - {fileID: 11400000, guid: c24b61981eb47f547860d4ab6bb33650, type: 2}
+  - {fileID: 11400000, guid: 5d2f50f93aaeea24495a07aa1358500f, type: 2}
+  - {fileID: 11400000, guid: 76493d0afa24caf48a6a67e0daaa5360, type: 2}
+  - {fileID: 11400000, guid: d94e8d36b1f89004d98665e317557496, type: 2}
+  _statDataContainer: {fileID: 11400000, guid: 252f8cbae738a9a4bbe502949601b8b8, type: 2}

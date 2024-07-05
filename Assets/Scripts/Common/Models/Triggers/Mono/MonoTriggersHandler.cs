@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Common.Models.Triggers.Extensions;
 using Common.Models.Triggers.Interfaces;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Common.Models.Triggers.Mono
 {

@@ -131,22 +131,19 @@ namespace Core.GameStates
             }
         }
         
-        private void OnBattleEndRequested(Enums.BattleResult result)
+        private void OnBattleEndRequested(Enums.BattleState state)
         {
-            switch (result)
+            switch (state)
             {
-                case Enums.BattleResult.Win:
+                case Enums.BattleState.Win:
                     ChangeState<BattleFinalizeState>();
                     return;
                 
-                case Enums.BattleResult.Lose:
+                case Enums.BattleState.Lose:
                     throw new NotImplementedException("Battle lose state is not implemented yet!");
                 
-                case Enums.BattleResult.Event:
-                    throw new NotImplementedException("Battle end with event state is not implemented yet!");
-                
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(result), result, null);
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
         }
 

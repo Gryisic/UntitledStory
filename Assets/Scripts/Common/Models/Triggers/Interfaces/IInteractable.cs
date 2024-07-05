@@ -4,6 +4,6 @@ namespace Common.Models.Triggers.Interfaces
 {
     public interface IInteractable
     {
-        void Interact(IUnitSharedData source);
+        void Interact(IPartyMember source);
     }
 }

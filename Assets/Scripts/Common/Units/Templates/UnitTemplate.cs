@@ -24,7 +24,7 @@ namespace Common.Units.Templates
             {
                 finalAnimation = _animationData.First(a => a.AnimationType == animation).Animation;
             }
-            catch (Exception exception)
+            catch
             {
                 Debug.LogWarning($"Animation {animation} of unit with id {_id} wasn't founded");
             }

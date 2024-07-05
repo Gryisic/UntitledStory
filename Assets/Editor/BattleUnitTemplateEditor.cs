@@ -1,14 +1,11 @@
-﻿using System;
-using Common.Models.Stats;
+﻿using Common.Models.Stats;
 using Common.Units.Templates;
 using Editor.Extensions;
 using UnityEditor;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Editor
 {
-    [CustomEditor(typeof(BattleUnitTemplate))]
+    [CustomEditor(typeof(BattleUnitTemplate), true)]
     public class BattleUnitTemplateEditor : UnityEditor.Editor
     {
         private UnityEditor.Editor _statsContainerEditor;

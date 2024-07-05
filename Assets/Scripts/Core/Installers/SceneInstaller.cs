@@ -21,7 +21,7 @@ namespace Core.Installers
             BindSceneInfo();
             BindSelf();
         }
-
+        
         public void Initialize()
         {
             ServicesHandler handler = (ServicesHandler) Container.Resolve<IServicesHandler>();
@@ -31,10 +31,10 @@ namespace Core.Installers
         
         public void Dispose()
         {
-            ExploringUnitsHandler exploringUnitsHandler = Container.Resolve<ExploringUnitsHandler>();
+            GeneralUnitsHandler generalUnitsHandler = Container.Resolve<GeneralUnitsHandler>();
             BattleUnitsHandler battleUnitsHandler = Container.Resolve<BattleUnitsHandler>();
 
-            exploringUnitsHandler.Dispose();
+            generalUnitsHandler.Dispose();
             battleUnitsHandler.Dispose();
             _sceneInfo.Dispose();
         }
@@ -42,7 +42,7 @@ namespace Core.Installers
         private void BindUnitsHandlers()
         {
             Container.Bind<UnitsPool>().AsSingle();
-            Container.Bind<ExploringUnitsHandler>().AsSingle();
+            Container.Bind<GeneralUnitsHandler>().AsSingle();
             Container.Bind<BattleUnitsHandler>().AsSingle();
         }
 

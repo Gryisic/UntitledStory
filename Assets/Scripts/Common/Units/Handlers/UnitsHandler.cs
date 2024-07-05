@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Models.Scene;
 using Common.Units.Extensions;
+using Common.Units.Interfaces;
 
 namespace Common.Units.Handlers
 {
-    public abstract class UnitsHandler<T> : IDisposable where T: Unit
+    public abstract class UnitsHandler<T> : IDisposable where T: class, IUnit
     {
         protected readonly UnitsPool unitsPool;
-        protected readonly List<Unit> units;
+        protected readonly List<IUnit> units;
         
         protected bool isDirty;
 
@@ -17,7 +18,7 @@ namespace Common.Units.Handlers
         {
             this.unitsPool = unitsPool;
             
-            units = new List<Unit>();
+            units = new List<IUnit>();
             
             isDirty = true;
         }
@@ -45,7 +46,7 @@ namespace Common.Units.Handlers
             return unit;
         }
 
-        public virtual bool TryRemove(Unit unit)
+        public virtual bool TryRemove(IUnit unit)
         {
             if (unit == null)
                 throw new NullReferenceException("Trying to remove unit that is null");

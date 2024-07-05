@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Models.GameEvents.Interfaces;
+using Common.Models.Skills.Interfaces;
 using Common.Models.Triggers.General;
 using Common.Models.Triggers.Interfaces;
 using Common.Units.Exploring;
+using Common.Units.Handlers;
 using Common.Units.Interfaces;
 using Infrastructure.Utils;
 using Infrastructure.Utils.Tools;
@@ -28,9 +31,7 @@ namespace Common.Models.Triggers.Mono
         public IReadOnlyList<GeneralTrigger> Triggers => _triggers;
 
         public Vector2 CollidedAt { get; private set; }
-
-        public event Action<string> IDUsed; 
-
+        
         private void Awake()
         {
             foreach (var trigger in _triggers)
@@ -51,21 +52,25 @@ namespace Common.Models.Triggers.Mono
             _localCollider.isTrigger = true;
         }
 
-        public void Initialize()
+        public void Initialize(GeneralUnitsHandler unitsHandler)
         {
             foreach (var trigger in _triggers) 
-                trigger.Initialize();
+                trigger.Initialize(unitsHandler);
         }
 
         private void Activate() => _localCollider.enabled = true;
 
         private void Deactivate() => _localCollider.enabled = false;
-        
-        public void Interact(IUnitSharedData source)
+
+        public void Interact(IPartyMember source)
         {
             if (_hasActiveTrigger && _firstTriggerInOrder.ActivationType == Enums.TriggerActivationType.Manual)
             {
                 CollidedAt = source.Transform.position;
+
+                if (_firstTriggerInOrder is IFieldObstacleTrigger fieldObstacleTrigger &&
+                    HasRequiredFieldSkill(source, fieldObstacleTrigger.RequiredSkill) == false)
+                    return;
                 
                 Execute();
             }
@@ -84,14 +89,14 @@ namespace Common.Models.Triggers.Mono
 
         private void Execute()
         {
-            _firstTriggerInOrder.Execute();
+            _firstTriggerInOrder.Ended += ValidateOrder;
             
-            DefineLoop();
+            _firstTriggerInOrder.Execute();
         }
 
         private void OnTriggerEnter2D(Collider2D collidedWith)
         {
-            if (_hasActiveTrigger == false || collidedWith.TryGetComponent(out ExploringUnit _) == false)
+            if (_hasActiveTrigger == false || collidedWith.TryGetComponent(out IPartyMember _) == false)
                 return;
 
             if (_firstTriggerInOrder.ActivationType == Enums.TriggerActivationType.Auto)
@@ -102,22 +107,12 @@ namespace Common.Models.Triggers.Mono
             }
         }
 
-        private void DefineLoop()
+        private void ValidateOrder(IGameEvent gameEvent)
         {
-            switch (_firstTriggerInOrder.LoopType)
-            {
-                case Enums.TriggerLoopType.OneShot:
-                    IDUsed?.Invoke(_firstTriggerInOrder.ID);
-                    _firstTriggerInOrder.Deactivate();
-                    SortTriggers();
-                    break;
-                
-                case Enums.TriggerLoopType.Cycle:
-                    break;
-                
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            if (_firstTriggerInOrder.LoopType == Enums.TriggerLoopType.OneShot)
+                SortTriggers();
+
+            gameEvent.Ended -= ValidateOrder;
         }
 
         private void UpdateTriggers(IReadOnlyList<string> ids)
@@ -151,6 +146,16 @@ namespace Common.Models.Triggers.Mono
 
             _sortedTriggers = activeTriggers.OrderBy(t => t.Priority == Enums.TriggerPriority.Main).ToList();
             _firstTriggerInOrder = _sortedTriggers[0];
+        }
+
+        private bool HasRequiredFieldSkill(IPartyMember source, Enums.FieldSkill skill)
+        {
+            IFieldSkillData requiredSkill = source
+                .SkillsHandler
+                .GetSkillsOfType<IFieldSkillData>()
+                .FirstOrDefault(s => s.Skill == skill);
+
+            return requiredSkill != null;
         }
 
         private int IDToIndex(string id)

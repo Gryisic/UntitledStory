@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Common.Battle.Interfaces;
 using Common.Models.Impactable.Interfaces;
+using Common.Models.Skills.Interfaces;
 using Common.QTE;
 using Common.QTE.Templates;
 using Common.UI.Battle.QTE;
@@ -181,7 +182,7 @@ namespace Common.Battle.States
         
         private async UniTask ExecuteAsync()
         {
-            IReadOnlyList<QuickTimeEvent> events = _args.Action.Data.QuickTimeEventSequence.GetEvents();
+            IReadOnlyList<QuickTimeEvent> events = _args.Action.GetDataAs<IActiveSkillData>().QuickTimeEventSequence.GetEvents();
             
             await _eventExecutor.ExecuteAsync(events, _eventTokenSource.Token);
             

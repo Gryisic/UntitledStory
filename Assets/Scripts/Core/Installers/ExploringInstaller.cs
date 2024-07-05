@@ -1,6 +1,8 @@
-﻿using Common.Exploring.States;
+﻿using Common.Exploring.Interfaces;
+using Common.Exploring.States;
 using Infrastructure.Factories.UnitsFactory;
 using Infrastructure.Factories.UnitsFactory.Interfaces;
+using UnityEngine;
 using Zenject;
 
 namespace Core.Installers

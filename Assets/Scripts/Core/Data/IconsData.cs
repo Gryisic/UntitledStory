@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Data.Interfaces;
-using Infrastructure.Utils;
 using Infrastructure.Utils.Attributes;
 using UnityEngine;
 
@@ -25,7 +24,7 @@ namespace Core.Data
             {
                 return _icons.First(i => i is T) as T;
             }
-            catch (NullReferenceException e)
+            catch
             {
                 Debug.LogError($"Trying to get icons of type that is not added to icons dataset. Type: {typeof(T)}");
                 throw;

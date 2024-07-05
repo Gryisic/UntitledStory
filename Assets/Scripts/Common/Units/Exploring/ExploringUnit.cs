@@ -1,17 +1,12 @@
 ﻿using System;
 using Common.Models.Animator;
-using Common.Models.Impactable.Interfaces;
-using Common.Models.StatusEffects.Interfaces;
-using Common.Models.Triggers.Interfaces;
 using Common.Units.Actions;
-using Common.Units.Interfaces;
 using Common.Units.Templates;
 using Infrastructure.Utils;
-using UnityEngine;
 
 namespace Common.Units.Exploring
 {
-    public abstract class ExploringUnit : Unit, IExploringActionsExecutor
+    public abstract class ExploringUnit : Unit
     {
         public override void Initialize(UnitTemplate template)
         {
@@ -43,44 +38,6 @@ namespace Common.Units.Exploring
             internalData.Animator.PlayCyclic(internalData.Data.GetAnimation(Enums.StandardAnimation.Idle));
         }
 
-        public void StartMoving(Vector2 direction)
-        {
-            internalData.SetMoveDirection(direction);
-            
-            actionsExecutor.AddActionToQueue(new ContinuousMoveAction(internalData));
-            actionsExecutor.Execute();
-        }
-
-        public void StopMoving() => internalData.SetMoveDirection(Vector2.zero);
-
-        public void Attack()
-        {
-            actionsExecutor.AddActionToQueue(new ExploringStateAttackAction(internalData));
-            actionsExecutor.Execute();
-            
-            Collider2D[] colliders = GetColliders(out int collidersCount);
-
-            for (var i = 0; i < collidersCount; i++)
-            {
-                if (colliders[i].TryGetComponent(out IDamageable damageable) && ReferenceEquals(damageable, this) == false)
-                    damageable.ApplyDamage(1);
-                
-                if (colliders[i].TryGetComponent(out IInteractable interactable))
-                {
-                    interactable.Interact(this);
-                    
-                    return;
-                }
-            }
-        }
-
-        public abstract void Interact();
-        
-        protected Collider2D[] GetColliders(out int collidersCount)
-        {
-            Collider2D[] colliders = new Collider2D[10];
-            collidersCount = Physics2D.OverlapCircleNonAlloc(transform.position, Constants.InteractionRadius, colliders);
-            return colliders;
-        }
+        public void CancelActions() => actionsExecutor.CancelAllActions();
     }
 }

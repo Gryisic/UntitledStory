@@ -1,6 +1,4 @@
 ﻿using System;
-using Common.Units;
-using Common.Units.Exploring;
 using Common.Units.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,31 +7,26 @@ namespace Core
 {
     public class Player
     {
-        private IExploringActionsExecutor _unit;
+        private IExploringActionsExecutor _actionsExecutor;
 
-        public void Activate() => _unit.Activate();
-
-        public void Deactivate() => _unit.Deactivate();
-
-        public void UpdateExploringUnit(ExploringUnit unit)
+        public void UpdateActionsExecutor(IExploringActionsExecutor actionsExecutor)
         {
-            if (unit == null)
-                throw new ArgumentNullException(nameof(unit));
-
-            _unit = unit;
+            _actionsExecutor = actionsExecutor ?? throw new ArgumentNullException(nameof(actionsExecutor));
         }
         
         public void StartMoving(InputAction.CallbackContext context)
         {
             Vector2 direction = context.ReadValue<Vector2>();
             
-            _unit.StartMoving(direction);
+            _actionsExecutor.StartMoving(direction);
         }
         
-        public void StopMoving(InputAction.CallbackContext context) => _unit.StopMoving();
+        public void StopMoving(InputAction.CallbackContext context) => _actionsExecutor.StopMoving();
 
-        public void Attack(InputAction.CallbackContext context) => _unit.Attack();
+        public void Attack(InputAction.CallbackContext context) => _actionsExecutor.Attack();
 
-        public void Interact(InputAction.CallbackContext context) => _unit.Interact();
+        public void Interact(InputAction.CallbackContext context) => _actionsExecutor.Interact();
+
+        public void CancelActions() => _actionsExecutor.CancelActions();
     }
 }
