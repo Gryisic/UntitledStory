@@ -1,6 +1,8 @@
 ﻿using System;
 using Common.Battle.Interfaces;
 using Common.Battle.Turns;
+using Common.Models.GameEvents.Bus;
+using Common.Models.GameEvents.BusHandled;
 using Common.Units.Handlers;
 using Core.GameStates;
 using Core.Interfaces;
@@ -39,6 +41,8 @@ namespace Common.Battle.States
             switch (nextTeam)
             {
                 case Enums.BattleTeam.Party:
+                    args.IncreaseTurn();
+                    EventBus<TurnPassedEvent>.Invoke(new TurnPassedEvent(args.CurrentTurn));
                     stateChanger.ChangeState<PartyTurnState>();
                     break;
                 

@@ -74,6 +74,10 @@ namespace Infrastructure.Utils.Types
                 return base[key];
 #endif
             }
+            set
+            {
+                base[key] = value;
+            }
         }
 
         [System.Serializable]

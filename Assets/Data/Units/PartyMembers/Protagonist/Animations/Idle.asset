@@ -12,8 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a0834955f0548198fe8be6b62d0b525, type: 3}
   m_Name: Idle
   m_EditorClassIdentifier: 
-  _sprites: []
-  _frames: []
+  _sprites:
+  - {fileID: -1308009380, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+  - {fileID: -879449973, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+  - {fileID: -1364499927, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+  - {fileID: 634109326, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+  - {fileID: 1702951276, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+  - {fileID: -1432747040, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+  - {fileID: 419468700, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+  - {fileID: -515983644, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+  _frames:
+  - _sprite: {fileID: -1308009380, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+    _callbacks: []
+  - _sprite: {fileID: -879449973, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+    _callbacks: []
+  - _sprite: {fileID: -1364499927, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+    _callbacks: []
+  - _sprite: {fileID: 634109326, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+    _callbacks: []
+  - _sprite: {fileID: 1702951276, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+    _callbacks: []
+  - _sprite: {fileID: -1432747040, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+    _callbacks: []
+  - _sprite: {fileID: 419468700, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+    _callbacks: []
+  - _sprite: {fileID: -515983644, guid: e21419cff0c5e384d8ba2a3ed6a39d9e, type: 3}
+    _callbacks: []
   references:
     version: 2
     RefIds: []

@@ -5,7 +5,6 @@ using Common.Battle.Interfaces;
 using Common.Battle.Utils;
 using Common.Navigation;
 using Common.UI.Battle;
-using Common.Units.Battle;
 using Common.Units.Handlers;
 using Common.Units.Interfaces;
 using Core.GameStates;
@@ -59,6 +58,9 @@ namespace Common.Battle.States
             BattleStateArgs args = RequestArgs?.Invoke();
             BattleThoughtsBuilder thoughtsBuilder = args.ThoughtsBuilder;
             
+            foreach (var unit in _unitsHandler.Units) 
+                unit.Clear();
+            
             thoughtsBuilder.Clear();
             thoughtsBuilder.AppendBattleState(Enums.BattleState.Win);
             _overlayUI.ThoughtsView.Append(thoughtsBuilder.Build());
@@ -70,7 +72,7 @@ namespace Common.Battle.States
             await _overlayUI.DeactivateAsync(_finalizeTokenSource.Token);
             
             _unitsHandler.DeactivateAll();
-            args.Trigger.End();
+            args.Event.End();
             
             StateResetRequested?.Invoke();
             RequestStateChange?.Invoke(Enums.GameStateType.Explore, new ExploringStateArgs(args.StartPoint));

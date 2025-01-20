@@ -2,19 +2,21 @@
 using Common.Models.GameEvents.Interfaces;
 using Common.Models.Triggers.Interfaces;
 using Core.Data.Texts;
+using Infrastructure.Utils;
 
 namespace Core.GameStates
 {
     public class DialogueStateArgs : GameStateArgs
     {
         public IDialogueDataProvider DialogueDataProvider { get; }
-        public IDialogueTrigger Trigger { get; }
+        public IDialogueEvent Event { get; }
         public NamesLocalization NamesLocalization { get; private set; }
         
-        public DialogueStateArgs(IDialogueDataProvider dialogueDataProvider, IDialogueTrigger trigger) : base(trigger)
+        public DialogueStateArgs(IDialogueDataProvider dialogueDataProvider, IDialogueEvent gameEvent,
+            Enums.GameStateFinalization finalization = Enums.GameStateFinalization.Full) : base(gameEvent, finalization)
         {
             DialogueDataProvider = dialogueDataProvider;
-            Trigger = trigger;
+            Event = gameEvent;
         }
 
         public void SetLocalizationData(NamesLocalization localization) =>

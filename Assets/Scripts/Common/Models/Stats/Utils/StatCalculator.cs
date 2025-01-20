@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common.Models.Stats.Interfaces;
+using Common.Models.Stats.Modifiers;
 using Core.Extensions;
 using Infrastructure.Utils;
+using UnityEngine;
 
 namespace Common.Models.Stats.Utils
 {
@@ -16,22 +18,23 @@ namespace Common.Models.Stats.Utils
             if (modifiers == null)
                 return finalValue.RoundToNearestInt();
 
-            List<IStatModifier> sortedModifiers = modifiers.OrderByDescending(k => k.Multiplier).ToList();
+            IOrderedEnumerable<StatAffection> affections =
+                modifiers.SelectMany(m => m.AffectedStats).OrderByDescending(a => a.Multiplier);
 
-            foreach (var modifier in sortedModifiers)
+            foreach (var affection in affections)
             {
-                switch (modifier.Multiplier)
+                switch (affection.Multiplier)
                 {
                     case Enums.StatModifierMultiplier.Add:
-                        finalValue += modifier.Value;
+                        finalValue += affection.Value;
                         break;
                     
-                    case Enums.StatModifierMultiplier.Multiply:
-                        finalValue *= modifier.Value;
+                    case Enums.StatModifierMultiplier.MultiplyPositive:
+                        finalValue *= affection.Value;
                         break;
                     
                     case Enums.StatModifierMultiplier.AddPercent:
-                        finalValue *= 1 + modifier.Value / 100;
+                        finalValue *= 1 + affection.Value / 100;
                         break;
 
                     default:
@@ -40,6 +43,47 @@ namespace Common.Models.Stats.Utils
             }
 
             return finalValue.RoundToNearestInt();
+        }
+
+        public static void AffectValues(IStatsHandler receiver, IReadOnlyList<StatAffection> affectedStats)
+        {
+            foreach (var statAffection in affectedStats)
+            {
+                int roundedValue = statAffection.Value.RoundToNearestInt();
+                int changeMultiplyValue = (receiver.GetStatData(statAffection.AffectedStat).Value * statAffection.Value).RoundToNearestInt();
+                int changePercentValue = (receiver.GetStatData(statAffection.AffectedStat).Value *
+                                          (statAffection.Value / 100)).RoundToNearestInt();
+
+                switch (statAffection.Multiplier)
+                {
+                    case Enums.StatModifierMultiplier.Add:
+                        receiver.IncreaseStat(statAffection.AffectedStat, roundedValue);
+                        break;
+                    
+                    case Enums.StatModifierMultiplier.Subtract:
+                        receiver.DecreaseStat(statAffection.AffectedStat, roundedValue);
+                        break;
+                    
+                    case Enums.StatModifierMultiplier.MultiplyPositive:
+                        receiver.IncreaseStat(statAffection.AffectedStat, changeMultiplyValue);
+                        break;
+                    
+                    case Enums.StatModifierMultiplier.MultiplyNegative:
+                        receiver.DecreaseStat(statAffection.AffectedStat, changeMultiplyValue);
+                        break;
+                    
+                    case Enums.StatModifierMultiplier.AddPercent:
+                        receiver.IncreaseStat(statAffection.AffectedStat, changePercentValue);
+                        break;
+                    
+                    case Enums.StatModifierMultiplier.SubtractPercent:
+                        receiver.DecreaseStat(statAffection.AffectedStat, changePercentValue);
+                        break;
+                    
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
     }
 }

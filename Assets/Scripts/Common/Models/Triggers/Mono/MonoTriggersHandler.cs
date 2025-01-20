@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Common.Models.GameEvents.Interfaces;
 using Common.Models.Triggers.Extensions;
 using Common.Models.Triggers.Interfaces;
 using UnityEngine;
@@ -12,6 +14,7 @@ namespace Common.Models.Triggers.Mono
 
         public IReadOnlyList<ITrigger> Triggers { get; private set; }
         public IReadOnlyList<IMonoTriggerZone> TriggerZones => _triggerZones;
+        public IReadOnlyList<IGameEvent> Events => Triggers.Select(t => t.Event).ToList();
 
         private void Awake()
         {

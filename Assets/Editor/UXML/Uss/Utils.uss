@@ -1,0 +1,17 @@
+.utils > .unity-label {
+    width: auto;
+    min-width: 10px;
+}
+
+.elements-separator {
+    padding-bottom: 10px;
+}
+
+.button {
+    background-color: rgb(70, 70, 70);
+}
+
+.button:hover {
+    background-color: rgb(173, 30, 30);
+    scale: 1.025 1.025;
+}

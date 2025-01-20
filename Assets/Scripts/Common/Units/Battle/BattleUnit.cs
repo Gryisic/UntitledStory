@@ -6,6 +6,7 @@ using Common.Models.Skills;
 using Common.Models.Skills.Templates;
 using Common.Models.Stats;
 using Common.Models.Stats.Interfaces;
+using Common.Models.StatusEffects;
 using Common.Models.StatusEffects.Interfaces;
 using Common.Units.Actions;
 using Common.Units.Interfaces;
@@ -18,9 +19,12 @@ namespace Common.Units.Battle
 {
     public abstract class BattleUnit : Unit, IBattleUnit
     {
+        private StatusEffectsResolver _statusEffectsResolver;
+        
         public SkillsHandler SkillsHandler { get; private set; }
         public IStatsHandler StatsHandler { get; private set; }
-        
+        public IStatusEffectsHandler StatusEffectsHandler => _statusEffectsResolver.EffectsHandler;
+
         public bool IsDead { get; private set; }
         
         public event Action<IImpactable, int> AppliedDamaged;
@@ -33,11 +37,13 @@ namespace Common.Units.Battle
                 throw new InvalidOperationException($"Trying to initialize exploring unit via non exploring temaplate. Template: {template}");
 
             CustomAnimator animator = new CustomAnimator(localRenderer);
-
+            StatusEffectsHandler effectsHandler = new StatusEffectsHandler();
+            
             InitializeStatsHandler(battleUnitTemplate);
             InitializeActionsHandler(battleUnitTemplate);
-
+            
             internalData = new UnitInternalData(template, animator, transform, localRigidbody);
+            _statusEffectsResolver = new StatusEffectsResolver(effectsHandler);
             actionsExecutor = new UnitActionsExecutor();
 
             base.Initialize(template);
@@ -62,7 +68,10 @@ namespace Common.Units.Battle
         
         public void ApplyStatusEffect(IStatusEffect effect)
         {
-            //AppliedStatusEffect?.Invoke(this, );
+            if (_statusEffectsResolver.TryAdd(effect) == false)
+                return;
+            
+            AppliedStatusEffect?.Invoke(this, effect.Data);
         }
         
         public virtual void Select() { }
@@ -90,11 +99,19 @@ namespace Common.Units.Battle
             IsDead = false;
         }
 
+        public void Clear() => _statusEffectsResolver.Clear();
+
+        public void SetActive() => _statusEffectsResolver.ExecuteTurnStartEffects();
+
+        public void SetPassive() => _statusEffectsResolver.ExecuteTurnEndEffects();
+
         protected void Die()
         {
             Debug.Log($"{name}: Well, looks like I'm dead!");
 
             IsDead = true;
+            
+            Clear();
         }
 
         private void InitializeActionsHandler(BattleUnitTemplate battleUnitTemplate)

@@ -2,6 +2,8 @@
 using System.Threading;
 using Common.Models.GameEvents.Interfaces;
 using Common.Models.Scene;
+using Core.Data;
+using Core.Data.Interfaces;
 using Core.Interfaces;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Utils;
@@ -13,6 +15,7 @@ namespace Core.GameStates
     {
         private readonly IGameStateSwitcher _stateSwitcher;
         private readonly IEventsService _eventsService;
+        private readonly IGameDataProvider _gameData;
         
         private readonly SceneSwitcher _sceneSwitcher;
         
@@ -21,10 +24,11 @@ namespace Core.GameStates
         
         public event Action ResetRequested;
 
-        public SceneSwitchState(SceneSwitcher sceneSwitcher, IGameStateSwitcher stateSwitcher, IServicesHandler servicesHandler)
+        public SceneSwitchState(SceneSwitcher sceneSwitcher, IGameStateSwitcher stateSwitcher, IServicesHandler servicesHandler, IGameDataProvider dataProvider)
         {
             _stateSwitcher = stateSwitcher;
             _eventsService = servicesHandler.EventsService;
+            _gameData = dataProvider;
             
             _sceneSwitcher = sceneSwitcher;
         }
@@ -52,13 +56,22 @@ namespace Core.GameStates
         {
             _isActive = true;
             _tokenSource = new CancellationTokenSource();
+            var triggersData = _gameData.GetData<ITriggersData>();
             
             if (args.CurrentSceneInfo != null)
-                _eventsService.RemoveEvents(args.CurrentSceneInfo.MonoTriggersHandler.Triggers);
+            {
+                _eventsService.RemoveEvents(args.CurrentSceneInfo.MonoTriggersHandler.Events);
+
+                foreach (var triggerZone in args.CurrentSceneInfo.MonoTriggersHandler.TriggerZones) 
+                    triggerZone.TriggerFinalized -= triggersData.Remove;
+            }
             
             SceneInfo newSceneInfo = await _sceneSwitcher.ChangeSceneAsync(args.NextSceneType, _tokenSource.Token);
             
-            _eventsService.AddEvents(newSceneInfo.MonoTriggersHandler.Triggers);
+            _eventsService.AddEvents(newSceneInfo.MonoTriggersHandler.Events);
+            
+            foreach (var triggerZone in newSceneInfo.MonoTriggersHandler.TriggerZones) 
+                triggerZone.TriggerFinalized += triggersData.Remove;
             
             _isActive = false;
             _tokenSource.Dispose();

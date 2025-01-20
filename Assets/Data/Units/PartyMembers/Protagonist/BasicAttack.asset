@@ -33,12 +33,12 @@ MonoBehaviour:
         - _comparator:
             _percentToCompare: 100
             _valueComparator: 0
-          _damageMultiplier: 3
+          _multiplier: 3
         - _comparator:
             _percentToCompare: 50
             _valueComparator: 2
-          _damageMultiplier: 2
+          _multiplier: 2
         - _comparator:
             _percentToCompare: 50
             _valueComparator: 3
-          _damageMultiplier: 1
+          _multiplier: 1

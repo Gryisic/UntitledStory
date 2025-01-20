@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/UXML/Uss/Utils.uss?fileID=7433441132597879392&amp;guid=1981949116552cb41b909c4f437a6920&amp;type=3#Utils" />
+    <ui:VisualElement name="Identifiers" class="elements-separator" style="flex-grow: 1;">
+        <uie:PropertyField binding-path="_effectName" />
+        <uie:PropertyField binding-path="_icon" />
+    </ui:VisualElement>
+    <ui:VisualElement name="EffectDefinition" class="elements-separator" style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+        <ui:EnumField type="Infrastructure.Utils.Enums+StatusEffectType, Assembly-CSharp" name="Type" binding-path="_type" value="Buff" label="Type" class="utils" style="width: 50%;" />
+        <ui:EnumField type="Infrastructure.Utils.Enums+Buff, Assembly-CSharp" name="BuffType" binding-path="_buffType" label="Buff" class="utils" style="width: 50%;" />
+        <ui:EnumField type="Infrastructure.Utils.Enums+Debuff, Assembly-CSharp" name="DebuffType" binding-path="_debuffType" label="Debuff" class="utils" style="width: 50%;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="EffectExecution" class="elements-separator" style="flex-grow: 1; flex-direction: row;">
+        <ui:EnumField label="Execution" type="Infrastructure.Utils.Enums+StatusEffectExecute, Assembly-CSharp" name="Execution" binding-path="_execution" class="utils" style="width: 45%;" />
+        <ui:IntegerField label="At" value="3" name="Duration" binding-path="_duration" class="utils" style="width: 45%;" />
+        <ui:Label tabindex="-1" text="Turns" parse-escape-sequences="true" display-tooltip-when-elided="true" style="width: 10px; padding-left: 5px; padding-top: 2.5px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Targets" class="elements-separator" style="flex-grow: 1;">
+        <uie:PropertyField binding-path="_affectedStats" />
+    </ui:VisualElement>
+</ui:UXML>

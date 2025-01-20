@@ -63,7 +63,7 @@ namespace Common.Models.Stats
         {
             if (amount < 0)
                 throw new InvalidOperationException("Trying to decrease stat value on negative value.");
-
+            
             _deltaValue -= amount;
 
             if (_lastRecalculatedValue + _deltaValue < Constants.MinStatValue) 
@@ -117,7 +117,7 @@ namespace Common.Models.Stats
         {
             try
             {
-                List<IStatModifier> modifiers = _modifiers.Where(m => m.Source == source).ToList();
+                List<IStatModifier> modifiers = _modifiers.Where(m => m == source.Modifier).ToList();
 
                 modifiers.ForEach(m => _modifiers.Remove(m));
 

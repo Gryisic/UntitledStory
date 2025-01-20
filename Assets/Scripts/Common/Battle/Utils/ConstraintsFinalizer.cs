@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.Battle.Constraints;
-using Common.Models.Triggers.Dependencies;
+using Common.Models.GameEvents.Dependencies;
 
 namespace Common.Battle.Utils
 {

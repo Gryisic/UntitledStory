@@ -1,11 +1,12 @@
 ﻿using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Core.Extensions
 {
     public static class StringExtensions
     {
-        public static string ToFirstUpper(this string text, bool clearSpecialSymbols = false)
+        public static string ToFirstUpper(this string text, bool clearSpecialSymbols = false, bool addSpaces = true)
         {
             if (clearSpecialSymbols)
                 text = new string(text
@@ -14,10 +15,10 @@ namespace Core.Extensions
 
             char[] letters = text.ToCharArray();
             char upperLetter = char.ToUpper(letters[0]);
-
+            
             letters[0] = upperLetter;
 
-            text = new string(letters).WithSpaces();
+            text = addSpaces ? new string(letters).WithSpaces() : new string(letters);
             
             return text;
         }

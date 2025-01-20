@@ -370,6 +370,9 @@ namespace Editor.GenericDrawers
 
         private bool IsSingleLine(SerializedProperty prop)
         {
+            if (prop == null)
+                return true;
+            
             return prop.propertyType != SerializedPropertyType.Generic || prop.hasVisibleChildren == false;
         }
 

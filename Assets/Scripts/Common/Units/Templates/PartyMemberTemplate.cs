@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Common.Units.Templates
 {
-    [CreateAssetMenu(menuName = "Common/Templates/Units/Party Member")]
+    [Serializable, CreateAssetMenu(menuName = "Common/Templates/Units/Party Member")]
     public class PartyMemberTemplate : BattleUnitTemplate
     {
         

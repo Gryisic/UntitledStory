@@ -1,7 +1,6 @@
 ﻿using System;
 using Infrastructure.Utils.Attributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Infrastructure.Utils.Tools
 {

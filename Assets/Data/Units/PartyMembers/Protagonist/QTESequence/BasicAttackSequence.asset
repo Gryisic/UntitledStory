@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c37db7bae6db4db982e8b5b762c9f14e, type: 3}
   m_Name: Tap
   m_EditorClassIdentifier: 
-  _startDelay: 1
-  _duration: 1
+  _startDelay: 0.3
+  _duration: 0.3
   _openDelay: 0
   _targetSide: 0
   _offset: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Name: Tap
   m_EditorClassIdentifier: 
   _startDelay: 0
-  _duration: 1
+  _duration: 0.3
   _openDelay: 0
   _targetSide: 0
   _offset: 1

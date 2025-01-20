@@ -13,7 +13,7 @@ namespace Core.GameStates
     {
         private readonly IGameStateSwitcher _stateSwitcher;
         private readonly IBattleStateFactory _stateFactory;
-
+        
         private BattleStateArgs _args;
         
         private bool _isInitialized;
@@ -94,6 +94,12 @@ namespace Core.GameStates
                 if (state is IBattleEndRequester endRequester)
                     endRequester.RequestBattleEnd += OnBattleEndRequested;
             }
+
+            foreach (var dependency in _args.Dependencies)
+            {
+                if (dependency is IGameStateChangerEvent stateChangeRequester)
+                    stateChangeRequester.StateChangeRequested += ToNextState;
+            }
         }
 
         private void UnsubscribeToEvents()
@@ -111,6 +117,12 @@ namespace Core.GameStates
                 
                 if (state is IBattleEndRequester endRequester)
                     endRequester.RequestBattleEnd -= OnBattleEndRequested;
+            }
+            
+            foreach (var dependency in _args.Dependencies)
+            {
+                if (dependency is IGameStateChangerEvent stateChangeRequester)
+                    stateChangeRequester.StateChangeRequested -= ToNextState;
             }
         }
         

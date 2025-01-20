@@ -1,0 +1,186 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4cc143c755e401aae02db89226d1ab4, type: 3}
+  m_Name: TriggersData
+  m_EditorClassIdentifier: 
+  _triggers:
+  - _id: Test
+    _event:
+      rid: 2797042506065772544
+    _users:
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: DialogueTest
+      _userID: _triggers.Array.data[0]._id_Test_DialogueTest
+      _objectPath: /Scene/Triggers/DialogueTest
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: DialogueTest3
+      _userID: _triggers.Array.data[1]._id_Test_DialogueTest3
+      _objectPath: /Scene/Triggers/DialogueTest3
+    _isActive: 1
+    _activationType: 1
+    _loopType: 0
+  - _id: Test4
+    _event:
+      rid: 2797042506065772545
+    _users:
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: DialogueTest
+      _userID: _triggers.Array.data[1]._id_Test4_DialogueTest
+      _objectPath: /Scene/Triggers/DialogueTest
+    _isActive: 1
+    _activationType: 1
+    _loopType: 1
+  - _id: BattleTest
+    _event:
+      rid: 2797042506065772546
+    _users:
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: BattleTest1
+      _userID: _triggers.Array.data[0]._id_BattleTest_BattleTest1
+      _objectPath: /Scene/Triggers/BattleTest1
+    _isActive: 1
+    _activationType: 0
+    _loopType: 1
+  - _id: CutTest
+    _event:
+      rid: 2797042507219206499
+    _users:
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: CutTest
+      _userID: _triggers.Array.data[0]._id_CutTest_CutTest
+      _objectPath: /Scene/Triggers/CutTest
+    _isActive: 1
+    _activationType: 0
+    _loopType: 0
+  - _id: TeleportTest
+    _event:
+      rid: 2797042507219206513
+    _users:
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: TeleportTest
+      _userID: _triggers.Array.data[0]._id_TeleportTest_TeleportTest
+      _objectPath: /Scene/Triggers/TeleportTest
+    _isActive: 1
+    _activationType: 0
+    _loopType: 0
+  - _id: Test3
+    _event:
+      rid: 2797042506065772549
+    _users:
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: DialogueTest3
+      _userID: _triggers.Array.data[2]._id_Test3_DialogueTest3
+      _objectPath: /Scene/Triggers/DialogueTest3
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: DialogueTest3
+      _userID: _triggers.Array.data[0]._id_Test3_DialogueTest3
+      _objectPath: /Scene/Triggers/DialogueTest3
+    _isActive: 0
+    _activationType: 0
+    _loopType: 1
+  - _id: Test2
+    _event:
+      rid: 2797042506065772550
+    _users:
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: DialogueTest2
+      _userID: _triggers.Array.data[0]._id_Test2_DialogueTest2
+      _objectPath: /Scene/Triggers/DialogueTest2
+    _isActive: 0
+    _activationType: 1
+    _loopType: 0
+  - _id: OptTest
+    _event:
+      rid: 2797042506065772550
+    _users:
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: DialogueTest2
+      _userID: _triggers.Array.data[0]._id_Test2_DialogueTest2
+      _objectPath: /Scene/Triggers/DialogueTest2
+    - _sceneIndex: 1
+      _sceneName: Academy
+      _objectName: BattleTest1
+      _userID: _triggers.Array.data[1]._id_OptTest_BattleTest1
+      _objectPath: /Scene/Triggers/BattleTest1
+    _isActive: 0
+    _activationType: 1
+    _loopType: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 2797042506065772544
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
+        _key: Test2
+    - rid: 2797042506065772545
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
+        _key: 
+    - rid: 2797042506065772546
+      type: {class: EncounterEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
+        _navigationArea: {fileID: 0}
+        _constraints: []
+    - rid: 2797042506065772549
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
+        _key: 
+    - rid: 2797042506065772550
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
+        _key: 
+    - rid: 2797042507219206499
+      type: {class: CutObstacleEvent, ns: Common.Models.GameEvents.FieldObstacle, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
+        _collider: {fileID: 0}
+    - rid: 2797042507219206513
+      type: {class: TeleportEvent, ns: Common.Models.GameEvents.FieldObstacle, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
+        _teleportTo: {fileID: 0}

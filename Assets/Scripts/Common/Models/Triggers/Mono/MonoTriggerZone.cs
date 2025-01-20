@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Models.GameEvents;
+using Common.Models.GameEvents.Bus;
+using Common.Models.GameEvents.BusHandled;
 using Common.Models.GameEvents.Interfaces;
 using Common.Models.Skills.Interfaces;
-using Common.Models.Triggers.General;
 using Common.Models.Triggers.Interfaces;
-using Common.Units.Exploring;
-using Common.Units.Handlers;
 using Common.Units.Interfaces;
 using Infrastructure.Utils;
-using Infrastructure.Utils.Tools;
 using UnityEngine;
 
 namespace Common.Models.Triggers.Mono
@@ -18,19 +17,24 @@ namespace Common.Models.Triggers.Mono
     public class MonoTriggerZone : MonoBehaviour, IMonoTriggerZone, IInteractable
     {
         [SerializeField] private Collider2D _localCollider;
-
-        [SerializeReference, SubclassesPicker] private GeneralTrigger[] _triggers;
+        [SerializeField] private GeneralTrigger[] _triggers;
 
         private GeneralTrigger _firstTriggerInOrder;
         private IReadOnlyList<GeneralTrigger> _sortedTriggers;
         
         private bool _hasActiveTrigger;
 
-        public Enums.PostEventState PostEventState => _firstTriggerInOrder.PostEventState;
         public IReadOnlyList<string> IDs => _triggers.Select(t => t.ID).ToList();
         public IReadOnlyList<GeneralTrigger> Triggers => _triggers;
 
+        public string SourceName => name;
         public Vector2 CollidedAt { get; private set; }
+        
+        public event Action<string> TriggerFinalized;
+
+#if UNITY_EDITOR
+        public static string TriggersPropertyName => nameof(_triggers);
+#endif
         
         private void Awake()
         {
@@ -52,15 +56,31 @@ namespace Common.Models.Triggers.Mono
             _localCollider.isTrigger = true;
         }
 
-        public void Initialize(GeneralUnitsHandler unitsHandler)
+        public void Initialize(TriggerInitializationArgs args)
         {
-            foreach (var trigger in _triggers) 
-                trigger.Initialize(unitsHandler);
+            foreach (var trigger in _triggers)
+            {
+                EventInitializationArgs eventArgs = new EventInitializationArgs(trigger.ID, args.UnitsHandler);
+                
+                trigger.Initialize(eventArgs);
+            }
         }
 
-        private void Activate() => _localCollider.enabled = true;
+        private void Activate()
+        {
+            foreach (var trigger in _triggers) 
+                trigger.Event.RequirementsMet += OnEventRequirementsMet;
+            
+            _localCollider.enabled = true;
+        }
 
-        private void Deactivate() => _localCollider.enabled = false;
+        private void Deactivate()
+        {
+            _localCollider.enabled = false;
+            
+            foreach (var trigger in _triggers) 
+                trigger.Event.RequirementsMet += OnEventRequirementsMet;
+        }
 
         public void Interact(IPartyMember source)
         {
@@ -89,17 +109,23 @@ namespace Common.Models.Triggers.Mono
 
         private void Execute()
         {
-            _firstTriggerInOrder.Ended += ValidateOrder;
+            _firstTriggerInOrder.Event.Ended += ValidateOrder;
             
             _firstTriggerInOrder.Execute();
         }
 
-        private void OnTriggerEnter2D(Collider2D collidedWith)
+        private void OnTriggerEnter2D(Collider2D collidedWith) => 
+            OnTriggerEnterOrExit(collidedWith, Enums.TriggerActivationType.AutoEnter);
+
+        private void OnTriggerExit2D(Collider2D collidedWith) => 
+            OnTriggerEnterOrExit(collidedWith, Enums.TriggerActivationType.AutoExit);
+
+        private void OnTriggerEnterOrExit(Collider2D collidedWith, Enums.TriggerActivationType activationType)
         {
             if (_hasActiveTrigger == false || collidedWith.TryGetComponent(out IPartyMember _) == false)
                 return;
 
-            if (_firstTriggerInOrder.ActivationType == Enums.TriggerActivationType.Auto)
+            if (_firstTriggerInOrder.ActivationType == activationType)
             {
                 CollidedAt = collidedWith.transform.position;
                 
@@ -107,11 +133,28 @@ namespace Common.Models.Triggers.Mono
             }
         }
 
-        private void ValidateOrder(IGameEvent gameEvent)
+        private void ValidateOrder(IEvent outerEvent)
         {
-            if (_firstTriggerInOrder.LoopType == Enums.TriggerLoopType.OneShot)
-                SortTriggers();
-
+            if (outerEvent is IGameEvent gameEvent == false)
+                throw new InvalidOperationException($"Trying to validate order of events via non 'IGameEvent'. Event: {outerEvent}");
+            
+            switch (_firstTriggerInOrder.LoopType)
+            {
+                case Enums.TriggerLoopType.OneShot:
+                    _firstTriggerInOrder.Deactivate();
+                    TriggerFinalized?.Invoke(_firstTriggerInOrder.ID);
+                    SortTriggers();
+                    break;
+                
+                case Enums.TriggerLoopType.Cycle:
+                    _firstTriggerInOrder.Deactivate();
+                    _firstTriggerInOrder.Activate();
+                    break;
+                
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
             gameEvent.Ended -= ValidateOrder;
         }
 
@@ -146,6 +189,24 @@ namespace Common.Models.Triggers.Mono
 
             _sortedTriggers = activeTriggers.OrderBy(t => t.Priority == Enums.TriggerPriority.Main).ToList();
             _firstTriggerInOrder = _sortedTriggers[0];
+        }
+        
+        private void OnEventRequirementsMet(IEvent @event)
+        {
+            Debug.Log($"Rec: {@event}");
+            if (@event is IGameEvent gameEvent == false)
+                return;
+
+            switch (gameEvent.OnRequirementsMet)
+            {
+                case Enums.TriggerActivationUponRequirementsMet.Immediate:
+                    gameEvent.Execute();
+                    break;
+                
+                case Enums.TriggerActivationUponRequirementsMet.Lazy:
+                    EventBus<TriggerActivatedEvent>.Invoke(new TriggerActivatedEvent(gameEvent.ID));
+                    break;
+            }
         }
 
         private bool HasRequiredFieldSkill(IPartyMember source, Enums.FieldSkill skill)

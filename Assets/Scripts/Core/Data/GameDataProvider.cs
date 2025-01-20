@@ -17,11 +17,14 @@ namespace Core.Data
         public void Initialize(IServicesHandler servicesHandler)
         {
             List<IGameData> data = new List<IGameData>();
-
+            
             data.AddRange(_dataArray);
             data.Add(new TextsData(servicesHandler.ConfigsService.GetConfig<IGameSettingsConfig>()));
-            data.Add(new TriggersData());
 
+            TriggersData triggersData = data.First(d => d is TriggersData) as TriggersData;
+            
+            triggersData.Initialize();
+                
             _data = data;
         }
 

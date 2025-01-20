@@ -1,6 +1,7 @@
 ﻿using Common.Models.Impactable.Interfaces;
 using Common.Models.Skills;
 using Common.Models.Stats.Interfaces;
+using Common.Models.StatusEffects.Interfaces;
 using UnityEngine;
 
 namespace Common.Units.Interfaces
@@ -9,6 +10,7 @@ namespace Common.Units.Interfaces
     {
         SkillsHandler SkillsHandler { get; }
         IStatsHandler StatsHandler { get; }
+        IStatusEffectsHandler StatusEffectsHandler { get; }
         Transform Transform { get; }
         
         bool IsDead { get; }

@@ -95,6 +95,8 @@ namespace Common.Battle.States
             
             SubscribeToEvents();
 
+            _battleUnitsHandler.ActiveUnit.SetActive();
+            
             _uiAnimationTokenSource = new CancellationTokenSource();
 
             Vector2 activeUnitPosition = _battleUnitsHandler.ActiveUnit.Transform.position;
@@ -113,6 +115,7 @@ namespace Common.Battle.States
             DeAttachInput();
             
             _targetSelector.Deactivate();
+            _battleUnitsHandler.ActiveUnit.SetPassive();
             
             await _worldUI.DeactivateAsync(_uiAnimationTokenSource.Token);
 

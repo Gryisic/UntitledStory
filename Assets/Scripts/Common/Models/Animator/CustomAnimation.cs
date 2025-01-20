@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Common.Models.Animator.Interfaces;
 using UnityEngine;
 
 namespace Common.Models.Animator
 {
-    [CreateAssetMenu(menuName = "Common/Templates/Animations/Animation")]
+    [Serializable, CreateAssetMenu(menuName = "Common/Templates/Animations/Animation")]
     public class CustomAnimation : ScriptableObject, ICustomAnimation
     {
         [SerializeField] private List<Sprite> _sprites;
@@ -14,10 +15,13 @@ namespace Common.Models.Animator
 
 #if UNITY_EDITOR 
         //Some shit required for custom inspector
-        public Sprite GetSprite(int index) => _sprites.Count < index ? null : _sprites[index];
+        public Sprite GetSprite(int index) => _sprites.Count <= index ? null : _sprites[index];
 
         public void UpdateSprites()
         {
+            if (ReferenceEquals(_frames, null))
+                return;
+            
             for (var i = 0; i < _frames.Count; i++)
             {
                 AnimationFrame frame = _frames[i];

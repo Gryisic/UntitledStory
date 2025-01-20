@@ -1,12 +1,10 @@
 ﻿using System;
 using Common.Dialogues.Interfaces;
-using Core.Configs.Interfaces;
 using Core.Data.Interfaces;
 using Core.Data.Texts;
 using Core.GameStates;
 using Core.Interfaces;
 using Ink.Runtime;
-using UnityEngine;
 
 namespace Common.Dialogues.States
 {

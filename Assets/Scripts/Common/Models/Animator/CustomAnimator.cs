@@ -39,7 +39,12 @@ namespace Common.Models.Animator
             PlayAnimation(animation, false);
         }
 
-        public void Stop() => _animationTokenSource?.Cancel();
+        public void Stop()
+        {
+            _animationTokenSource?.Cancel();
+
+            _currentAnimation = null;
+        }
 
         public void StopAtFirstFrame(ICustomAnimation animation)
         {
@@ -51,7 +56,7 @@ namespace Common.Models.Animator
 
         private void PlayAnimation(ICustomAnimation animation, bool isOneShot)
         {
-            if (animation == null)
+            if (animation == null || animation.Frames.Count <= 0)
                 return;
             
             _animationTokenSource?.Cancel();

@@ -2,6 +2,6 @@
 {
     public interface IStatModifierSource
     {
-        
+        IStatModifier Modifier { get; }
     }
 }

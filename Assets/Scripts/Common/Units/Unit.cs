@@ -79,7 +79,7 @@ namespace Common.Units
             
             actionsExecutor.SuppressActionExecution();
             actionsExecutor.CancelAllActions();
-            internalData.Animator.StopAtFirstFrame(internalData.Data.GetAnimation(Enums.StandardAnimation.Idle));
+            internalData.Animator.Stop();
         }
     }
 }

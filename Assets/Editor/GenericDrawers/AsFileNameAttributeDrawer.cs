@@ -24,7 +24,7 @@ namespace Editor.GenericDrawers
 
             position.width = fileNameWidth;
             
-            SimpleEditorBoxes.DrawInformationBox(position, fileNameWidth, propertyNameWidth, property.stringValue);
+            SimpleEditorWindows.DrawInformationBox(position, fileNameWidth, propertyNameWidth, property.stringValue);
         }
     }
 }

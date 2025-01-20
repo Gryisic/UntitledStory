@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="root" style="flex-grow: 1;">
+        <ui:Foldout text="Data" name="foldout" value="false">
+            <ui:TextField picking-mode="Ignore" label="ID" value="Put ID Here" binding-path="_id" name="id" />
+            <uie:PropertyField name="event" binding-path="_event" />
+            <ui:ListView focusable="true" name="users" virtualization-method="DynamicHeight" show-foldout-header="true" header-title="Users" binding-path="_users" />
+            <ui:Toggle label="Is Active" name="is_active" binding-path="_isActive" />
+            <ui:EnumField label="Activation" type="Infrastructure.Utils.Enums+TriggerActivationType, Assembly-CSharp" name="activation_type" binding-path="_activationType" />
+            <ui:EnumField label="Loop" type="Infrastructure.Utils.Enums+TriggerLoopType, Assembly-CSharp" name="activation_type" binding-path="_loopType" />
+        </ui:Foldout>
+    </ui:VisualElement>
+</ui:UXML>

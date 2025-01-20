@@ -42,8 +42,10 @@ namespace Editor.Windows
             {
                 VisualElement localRoot = new VisualElement();
                 Foldout foldout = new Foldout();
-
+                Button copyButton = GetCloneButton(localRoot);
+                
                 localRoot.Add(foldout);
+                localRoot.Add(copyButton);
 
                 return localRoot;
             };
@@ -90,7 +92,7 @@ namespace Editor.Windows
             {
                 if (TryConvertTo(jProperty, out text) || TryConvertTo(jProperty, out number))
                 {
-                    JsonValueVisualElement valueVisualElement = new JsonValueVisualElement(Extensions.TypeMap);
+                    JsonValueVisualElement valueVisualElement = new JsonValueVisualElement();
 
                     valueVisualElement.Key = jProperty.Name;
                     valueVisualElement.Value = text;
@@ -131,7 +133,7 @@ namespace Editor.Windows
                 {
                     JsonHashtableVisualElement hashElement = Extensions.ResolveVisualElements<JsonHashtableVisualElement>(arrayVisualElement);
                     
-                    arrayVisualElement.SetExplicitValueElement(key);
+                    arrayVisualElement.SetExplicitValueElement(key, hashElement);
                     
                     ProcessJObject(jObject, hashElement);
                 }
@@ -146,7 +148,7 @@ namespace Editor.Windows
 
                     if (TryConvertTo(jToken, out string text))
                     {
-                        JsonValueVisualElement valueVisualElement = new JsonValueVisualElement(Extensions.TypeMap);
+                        JsonValueVisualElement valueVisualElement = new JsonValueVisualElement();
                         
                         arrayVisualElement.SetValueElement(valueVisualElement);
                         
@@ -157,7 +159,7 @@ namespace Editor.Windows
                     {
                         JsonHashtableVisualElement hashElement = Extensions.ResolveVisualElements<JsonHashtableVisualElement>(arrayVisualElement);
                         
-                        arrayVisualElement.SetExplicitValueElement(key);
+                        arrayVisualElement.SetExplicitValueElement(key, hashElement);
                         
                         ProcessJObject(jObject, hashElement);
                     }
@@ -219,9 +221,44 @@ namespace Editor.Windows
 
         #endregion
 
+        #region Utils
+
         private List<TextAsset> GetJsons() => Resources.LoadAll<TextAsset>(PathToJsonFiles).ToList();
 
-        private abstract class JsonFieldVisualElement : VisualElement { }
+        private Button GetCloneButton(VisualElement localRoot)
+        {
+            Button button = new Button();
+
+            button.text = "Clone";
+            
+            button.RegisterCallback<ClickEvent, VisualElement>(CloneTree, localRoot);
+            
+            return button;
+        }
+
+        private void CloneTree(ClickEvent evt, VisualElement localRoot)
+        {
+            JsonHashtableVisualElement hashtable = localRoot.Q<JsonHashtableVisualElement>();
+            JsonArrayVisualElement value = hashtable.Value as JsonArrayVisualElement;
+            JsonFieldVisualElement copy = value.GetCopy(hashtable);
+            
+            //Debug.Log(copy.Children().First());
+            
+            Debug.Log(hashtable.childCount);
+            
+            hashtable.Add(copy);
+            
+            Debug.Log(hashtable.childCount);
+        }
+
+        #endregion
+
+        #region JsonElements
+
+        private abstract class JsonFieldVisualElement : VisualElement
+        {
+            public abstract JsonFieldVisualElement GetCopy(JsonFieldVisualElement parent);
+        }
         
         private class JsonValueVisualElement : JsonFieldVisualElement
         {
@@ -240,9 +277,9 @@ namespace Editor.Windows
                 set => _valueField.value = value;
             }
 
-            public JsonValueVisualElement(Dictionary<JsonVisualElementType, VisualTreeAsset> typeMap)
+            public JsonValueVisualElement()
             {
-                VisualElement root = typeMap[JsonVisualElementType.Value].Instantiate();
+                VisualElement root = Extensions.TypeMap[JsonVisualElementType.Value].Instantiate();
 
                 _keyField = root.Q<TextField>("Key");
                 _valueField = root.Q<TextField>("Value");
@@ -255,22 +292,28 @@ namespace Editor.Windows
                 _keyField.style.display = DisplayStyle.None;
                 _valueField.style.marginLeft = new StyleLength(new Length(51, LengthUnit.Percent));
             }
+
+            public override JsonFieldVisualElement GetCopy(JsonFieldVisualElement parent)
+            {
+                JsonValueVisualElement copy = new JsonValueVisualElement();
+
+                copy.Value = Value;
+                
+                return copy;
+            }
         }
 
         private class JsonHashtableVisualElement : JsonFieldVisualElement
         {
             private readonly VisualElement _root;
             private readonly VisualElement _container;
-
-            private Dictionary<JsonVisualElementType, VisualTreeAsset> _typeMap;
             
             public JsonFieldVisualElement Value { get; private set; }
 
-            public JsonHashtableVisualElement(Dictionary<JsonVisualElementType, VisualTreeAsset> typeMap)
+            public JsonHashtableVisualElement()
             {
-                _root = typeMap[JsonVisualElementType.Hashtable].Instantiate();
+                _root = Extensions.TypeMap[JsonVisualElementType.Hashtable].Instantiate();
                 
-                _typeMap = typeMap;
                 _container = _root.Q<VisualElement>("Container");
                 
                 Add(_container);
@@ -278,7 +321,7 @@ namespace Editor.Windows
 
             public void SetValueElement(JsonVisualElementType type)
             {
-                JsonFieldVisualElement valueField = Extensions.DefineElement(type, this, _typeMap);
+                JsonFieldVisualElement valueField = Extensions.DefineElement(type, this);
                 
                 Value = valueField;
                 
@@ -295,6 +338,15 @@ namespace Editor.Windows
 
                 dropdownField.style.display = DisplayStyle.None;
             }
+
+            public override JsonFieldVisualElement GetCopy(JsonFieldVisualElement parent)
+            {
+                JsonHashtableVisualElement copy = new JsonHashtableVisualElement();
+
+                copy.Value = Value;
+                
+                return copy;
+            }
         }
         
         private class JsonArrayVisualElement: JsonFieldVisualElement
@@ -302,8 +354,9 @@ namespace Editor.Windows
             private readonly VisualElement _root;
             
             private TextField _keyElement;
-            private Dictionary<JsonVisualElementType, VisualTreeAsset> _typeMap;
             private List<string> _keys;
+
+            private List<JsonFieldVisualElement> _childs;
             
             public string Key
             {
@@ -317,20 +370,21 @@ namespace Editor.Windows
                 }
             }
 
-            public JsonArrayVisualElement(Dictionary<JsonVisualElementType, VisualTreeAsset> typeMap)
+            public JsonArrayVisualElement()
             {
-                _typeMap = typeMap;
-                _root = typeMap[JsonVisualElementType.Array].Instantiate();
+                _root = Extensions.TypeMap[JsonVisualElementType.Array].Instantiate();
                 _keys = new List<string>();
+                _childs = new List<JsonFieldVisualElement>();
                 
                 Add(_root);
             }
             
             public void SetValueElement(JsonVisualElementType type)
             {
-                JsonFieldVisualElement valueField = Extensions.DefineElement(type, this, _typeMap);
+                JsonFieldVisualElement valueField = Extensions.DefineElement(type, this);
                 
                 _root.Add(valueField);
+                _childs.Add(valueField);
 
                 if (valueField is JsonValueVisualElement valueVisualElement)
                 {
@@ -353,6 +407,7 @@ namespace Editor.Windows
             public void SetValueElement(JsonFieldVisualElement element)
             {
                 _root.Add(element);
+                _childs.Add(element);
                 
                 if (element is JsonValueVisualElement valueVisualElement)
                 {
@@ -369,7 +424,7 @@ namespace Editor.Windows
                 dropdownField.style.display = DisplayStyle.None;
             }
             
-            public void SetExplicitValueElement(string key)
+            public void SetExplicitValueElement(string key, JsonFieldVisualElement element)
             {
                 if (_keyElement == null)
                 {
@@ -380,9 +435,35 @@ namespace Editor.Windows
                     _keyElement.value = key;
                 }
                 
-                DropdownField dropdownField = _root.Q<DropdownField>("ValueSelector");
+                SetValueElement(element);
+            }
 
-                dropdownField.style.display = DisplayStyle.None;
+            public override JsonFieldVisualElement GetCopy(JsonFieldVisualElement parent)
+            {
+                JsonArrayVisualElement copy = Extensions.DefineElement(JsonVisualElementType.Array, parent) as JsonArrayVisualElement;
+                
+                foreach (var child in _childs)
+                {
+                    JsonFieldVisualElement childCopy = child.GetCopy(copy);
+                    
+                    //Debug.Log(copy.childCount);
+                    
+                    copy.SetValueElement(childCopy);
+                    
+                    //Debug.Log(copy.childCount);
+                }
+                
+                // foreach (var visualElement in _root.Children())
+                // {
+                //     Debug.Log(_root.Q("Zalupa"));
+                //     
+                //     //var child = visualElement as JsonFieldVisualElement;
+                //     //var copyChild = child.GetCopy();
+                //     
+                //     copy.SetValueElement(visualElement as JsonFieldVisualElement);
+                // }
+                
+                return copy;
             }
         }
         
@@ -393,6 +474,8 @@ namespace Editor.Windows
             Array
         }
 
+        #endregion
+
         private static class Extensions
         {
             public static Dictionary<JsonVisualElementType, VisualTreeAsset> TypeMap = new()
@@ -402,7 +485,7 @@ namespace Editor.Windows
                 { JsonVisualElementType.Hashtable, AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(PathToHashtableVisualAsset) }
             };
             
-            public static JsonFieldVisualElement DefineElement(JsonVisualElementType type, JsonFieldVisualElement parent, Dictionary<JsonVisualElementType, VisualTreeAsset> typeMap)
+            public static JsonFieldVisualElement DefineElement(JsonVisualElementType type, JsonFieldVisualElement parent)
             {
                 switch (type)
                 {
@@ -477,12 +560,12 @@ namespace Editor.Windows
             public static T GetVisualElement<T>() where T: JsonFieldVisualElement
             {
                 if (typeof(JsonValueVisualElement) == typeof(T))
-                    return new JsonValueVisualElement(TypeMap) as T;
+                    return new JsonValueVisualElement() as T;
             
                 if (typeof(JsonArrayVisualElement) == typeof(T))
-                    return new JsonArrayVisualElement(TypeMap) as T;
+                    return new JsonArrayVisualElement() as T;
             
-                return new JsonHashtableVisualElement(TypeMap) as T;
+                return new JsonHashtableVisualElement() as T;
             }
         }
     }

@@ -584,24 +584,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 587209394}
   _triggers:
-  - rid: 5730241714604998656
+  - _id: BattleTest
+    _event:
+      rid: 2797042506065772587
+    _activationType: 0
+    _loopType: 1
+    _priority: 0
+  - _id: OptTest
+    _event:
+      rid: 8953213602474229775
+    _activationType: 1
+    _loopType: 0
+    _priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5730241714604998656
-      type: {class: EncounterTrigger, ns: Common.Models.Triggers.General, asm: Assembly-CSharp}
+    - rid: 2797042506065772587
+      type: {class: EncounterEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
       data:
-        _id: BattleTest
         _postEventState: 0
-        _priority: 0
-        _activationType: 1
-        _loopType: 1
         dependencies:
-        - rid: 8431998820127866880
+        - rid: 8953213579452219392
+        _requirements: []
+        _onRequirementsMet: 0
         _navigationArea: {fileID: 587209395}
         _constraints:
-        - rid: 5730241714604998657
-    - rid: 5730241714604998657
+        - rid: 2797042641930813441
+    - rid: 2797042641930813441
       type: {class: PlacementConstraint, ns: Common.Battle.Constraints, asm: Assembly-CSharp}
       data:
         _partyMembersPositions:
@@ -615,8 +624,8 @@ MonoBehaviour:
         - _placementMarker: {fileID: 1425702405}
           _hasBoundedUnit: 1
           _id: -999
-    - rid: 8431998820127866880
-      type: {class: UnitsDependency, ns: Common.Models.Triggers.Dependencies, asm: Assembly-CSharp}
+    - rid: 8953213579452219392
+      type: {class: UnitsDependency, ns: Common.Models.GameEvents.Dependencies, asm: Assembly-CSharp}
       data:
         _afterEventBehaviour: 4
         _enemyPlacement:
@@ -624,6 +633,30 @@ MonoBehaviour:
           _positionMarker: {fileID: 2003101032}
         - _id: -999
           _positionMarker: {fileID: 1425702405}
+    - rid: 8953213602474229775
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirements:
+        - rid: 8953213602474229776
+        _onRequirementsMet: 0
+        _key: OptTest
+    - rid: 8953213602474229776
+      type: {class: BusHandledEventInvokedRequirement, ns: Common.Models.GameEvents.Requirements, asm: Assembly-CSharp}
+      data:
+        _binding:
+          _assemblyQualifiedName: Common.Models.GameEvents.BusHandled.TurnPassedEvent,
+            Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        _callback:
+          rid: 8953213602474229777
+    - rid: 8953213602474229777
+      type: {class: CompareToTargetCallbackTurnPassedEvent, ns: Infrastructure.Utils.Tools.Generated, asm: Assembly-CSharp}
+      data:
+        _methodName: 
+        _target: 2
+        _comparisonMethod: 0
+        _comparator: 0
 --- !u!1 &608479790
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,29 +802,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 608479793}
   _triggers:
-  - rid: 5730241714604998659
-  - rid: 5730241714604998660
+  - _id: Test
+    _event:
+      rid: 2797042507219206518
+    _activationType: 1
+    _loopType: 0
+    _priority: 0
+  - _id: Test4
+    _event:
+      rid: 2797042507219206519
+    _activationType: 1
+    _loopType: 1
+    _priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5730241714604998659
-      type: {class: DialogueTrigger, ns: Common.Models.Triggers.General, asm: Assembly-CSharp}
+    - rid: 2797042507219206518
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
       data:
-        _id: Test
         _postEventState: 0
-        _priority: 0
-        _activationType: 0
-        _loopType: 0
         dependencies: []
-    - rid: 5730241714604998660
-      type: {class: DialogueTrigger, ns: Common.Models.Triggers.General, asm: Assembly-CSharp}
+        _requirements: []
+        _onRequirementsMet: 0
+        _key: Test
+    - rid: 2797042507219206519
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
       data:
-        _id: Test3
         _postEventState: 0
-        _priority: 0
-        _activationType: 0
-        _loopType: 1
         dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
+        _key: Test4
 --- !u!1 &645613262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,19 +1041,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 711065484}
   _triggers:
-  - rid: 8431999163478573056
+  - _id: CutTest
+    _event:
+      rid: 2797042507219206532
+    _activationType: 0
+    _loopType: 0
+    _priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 8431999163478573056
-      type: {class: CutObstacleTrigger, ns: Common.Models.Triggers.FieldObstacle, asm: Assembly-CSharp}
+    - rid: 2797042507219206532
+      type: {class: CutObstacleEvent, ns: Common.Models.GameEvents.FieldObstacle, asm: Assembly-CSharp}
       data:
-        _id: CutTest
         _postEventState: 0
-        _priority: 0
-        _activationType: 1
-        _loopType: 0
         dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
         _collider: {fileID: 711065484}
 --- !u!61 &711065484
 BoxCollider2D:
@@ -1403,19 +1447,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 905211759}
   _triggers:
-  - rid: 5730241714604998661
+  - _id: Test3
+    _event:
+      rid: 2797042507219206533
+    _activationType: 0
+    _loopType: 1
+    _priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5730241714604998661
-      type: {class: DialogueTrigger, ns: Common.Models.Triggers.General, asm: Assembly-CSharp}
+    - rid: 2797042507219206533
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
       data:
-        _id: Test4
         _postEventState: 0
-        _priority: 0
-        _activationType: 1
-        _loopType: 1
         dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
+        _key: Test3
 --- !u!61 &905211759
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2254,19 +2302,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 1489568825}
   _triggers:
-  - rid: 5730241714604998661
+  - _id: Test2
+    _event:
+      rid: 2797042506065772584
+    _activationType: 1
+    _loopType: 0
+    _priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5730241714604998661
-      type: {class: DialogueTrigger, ns: Common.Models.Triggers.General, asm: Assembly-CSharp}
+    - rid: 2797042506065772584
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
       data:
-        _id: Test2
         _postEventState: 0
-        _priority: 0
-        _activationType: 1
-        _loopType: 0
         dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
+        _key: Test2
 --- !u!1 &1762140762
 GameObject:
   m_ObjectHideFlags: 0
@@ -2347,19 +2399,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 1786350105}
   _triggers:
-  - rid: 5668010030446936064
+  - _id: TeleportTest
+    _event:
+      rid: 2797042507219206534
+    _activationType: 0
+    _loopType: 0
+    _priority: 0
   references:
     version: 2
     RefIds:
-    - rid: 5668010030446936064
-      type: {class: TeleportObstacleTrigger, ns: Common.Models.Triggers.FieldObstacle, asm: Assembly-CSharp}
+    - rid: 2797042507219206534
+      type: {class: TeleportEvent, ns: Common.Models.GameEvents.FieldObstacle, asm: Assembly-CSharp}
       data:
-        _id: TeleportTest
         _postEventState: 0
-        _priority: 0
-        _activationType: 1
-        _loopType: 0
         dependencies: []
+        _requirements: []
+        _onRequirementsMet: 0
         _teleportTo: {fileID: 1353311321}
 --- !u!61 &1786350105
 BoxCollider2D:
@@ -3196,7 +3251,7 @@ SceneRoots:
   - {fileID: 483969983}
   - {fileID: 1929952532}
   - {fileID: 763486960212994905}
+  - {fileID: 1027509630}
   - {fileID: 1352993572}
   - {fileID: 67913539}
   - {fileID: 215193017}
-  - {fileID: 1027509630}

@@ -29,6 +29,14 @@ namespace Core.Extensions
             return childs;
         }
 
+        public static string GetFullPath(this Transform current)
+        {
+            if (ReferenceEquals(current.parent, null))
+                return $"/{current.name}";
+
+            return $"{current.parent.GetFullPath()}/{current.name}";
+        }
+
         public static void ClampAround(this RectTransform transform, Vector2 position, Camera camera)
         {
             transform.position = position;

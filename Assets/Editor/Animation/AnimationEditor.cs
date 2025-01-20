@@ -133,7 +133,7 @@ namespace Editor.Animation
                 ToggleAnimation();
 
             GUI.enabled = _isAnimating == false;
-
+            
             _spritesCount = _animation.Frames.Count - 1;
             _index = EditorGUILayout.IntSlider("Animation", _index, 0, _spritesCount);
 
@@ -162,12 +162,19 @@ namespace Editor.Animation
             Sprite sprite = _animation.GetSprite(_index);
             Texture2D previewTexture = AssetPreview.GetAssetPreview(sprite);
 
-            if (previewTexture == null)
+            if (ReferenceEquals(previewTexture, null))
                 return;
             
             previewTexture.filterMode = FilterMode.Point;
-            
-            GUILayout.Label("", GUILayout.Height(PreviewTextureSize), GUILayout.Width(PreviewTextureSize));
+
+            try
+            {
+                GUILayout.Label("", GUILayout.Height(PreviewTextureSize), GUILayout.Width(PreviewTextureSize));
+            }
+            catch (ArgumentException exception)
+            {
+                Debug.LogWarning($"Strange exception: {exception}");
+            }
             
             Rect lastRect = GUILayoutUtility.GetLastRect();
             

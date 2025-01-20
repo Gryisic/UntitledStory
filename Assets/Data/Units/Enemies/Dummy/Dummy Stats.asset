@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
   m_Name: Health
   m_EditorClassIdentifier: 
-  _initialValue: 3
+  _initialValue: 9
   _growthModifier: 1
   _debug: 0
 --- !u!114 &-1989238031073028181
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6cac0214064266a1302e51af2133c3, type: 3}
   m_Name: Energy
   m_EditorClassIdentifier: 
-  _initialValue: 3
+  _initialValue: 9
   _growthModifier: 1
   _debug: 0
 --- !u!114 &3689219223333961738

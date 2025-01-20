@@ -78,9 +78,9 @@ namespace Editor.Stats
             
             float partWidth = position.width / 3;
 
-            SimpleEditorBoxes.DrawInformationBox(position, partWidth - 2, 0, $"Cur: {levelValue}");
-            SimpleEditorBoxes.DrawInformationBox(position, partWidth - 2, partWidth, $"Lvl 1: {levelOneValue}");
-            SimpleEditorBoxes.DrawInformationBox(position, partWidth - 2, partWidth * 2, $"Lvl 99: {maxLevelValue}");
+            SimpleEditorWindows.DrawInformationBox(position, partWidth - 2, 0, $"Cur: {levelValue}");
+            SimpleEditorWindows.DrawInformationBox(position, partWidth - 2, partWidth, $"Lvl 1: {levelOneValue}");
+            SimpleEditorWindows.DrawInformationBox(position, partWidth - 2, partWidth * 2, $"Lvl 99: {maxLevelValue}");
         }
     }
 }

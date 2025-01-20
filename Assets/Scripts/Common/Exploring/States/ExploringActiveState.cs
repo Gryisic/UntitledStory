@@ -122,7 +122,7 @@ namespace Common.Exploring.States
                 return;
             
             List<string> ids = _triggersData.GetIDList().ToList();
-
+            
             foreach (var trigger in _sceneInfo.MonoTriggersHandler.TriggerZones)
             {
                 List<string> intersectedIDs = trigger.IDs.Intersect(ids).ToList();

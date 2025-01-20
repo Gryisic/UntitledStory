@@ -39,6 +39,13 @@ namespace Editor.Utils
             
             return obj;
         }
+
+        public static int GetLastArrayIndex(SerializedProperty property)
+        {
+            string path = property.propertyPath.Split("Array.data[").Last();
+            
+            return Convert.ToInt32(path.Remove(path.IndexOf(']')));
+        }
         
         private static object GetValue_Imp(object source, string name)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common.Battle.Constraints;
+using Common.Models.GameEvents.Dependencies;
 using Common.Models.GameEvents.Interfaces;
-using Common.Models.Triggers.Dependencies;
 
 namespace Common.Models.Triggers.Interfaces
 {

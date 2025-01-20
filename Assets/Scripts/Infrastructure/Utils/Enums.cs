@@ -13,6 +13,12 @@ namespace Infrastructure.Utils
             Dialogue,
             Battle
         }
+        
+        public enum GameStateFinalization
+        {
+            Full,
+            Partial
+        }
 
         public enum PostEventState
         {
@@ -40,6 +46,12 @@ namespace Infrastructure.Utils
             KeyboardAndMouse,
             SonyGamepad,
             MicrosoftGamepad
+        }
+        
+        public enum ValueComparisonMethod
+        {
+            Integer,
+            Percent
         }
         
         public enum ValueComparator
@@ -179,6 +191,13 @@ namespace Infrastructure.Utils
             Corruption
         }
         
+        public enum StatusEffectExecute
+        {
+            Immediate,
+            TurnStart,
+            TurnEnd
+        }
+        
         public enum UnitStat
         {
             MaxHealth,
@@ -198,14 +217,11 @@ namespace Infrastructure.Utils
         public enum StatModifierMultiplier
         {
             Add,
-            Multiply,
-            AddPercent
-        }
-        
-        public enum PresentedValueType
-        {
-            Raw,
-            Percent
+            Subtract,
+            MultiplyPositive,
+            MultiplyNegative,
+            AddPercent,
+            SubtractPercent
         }
 
         public enum SkillType
@@ -300,14 +316,22 @@ namespace Infrastructure.Utils
         
         public enum TriggerActivationType
         {
-            Auto,
-            Manual
+            Manual,
+            AutoEnter,
+            AutoExit,
+            Requirement
         }
         
         public enum TriggerLoopType
         {
             OneShot,
             Cycle
+        }
+
+        public enum TriggerActivationUponRequirementsMet
+        {
+            Immediate,
+            Lazy
         }
 
         public enum StandardAnimation

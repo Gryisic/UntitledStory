@@ -38,9 +38,9 @@ namespace Editor.Stats
             rect.x += keyWidth + 12;
             rect.height = EditorGUIUtility.singleLineHeight;
 
-            SimpleEditorBoxes.DrawInformationBox(rect, partWidth - 2, 0, "Initial Value");
-            SimpleEditorBoxes.DrawInformationBox(rect, partWidth - 2, partWidth + 3, "Growth Modifier");
-            SimpleEditorBoxes.DrawInformationBox(rect, dataWidth - 10, partWidth * 2 + 6, "Level Data");
+            SimpleEditorWindows.DrawInformationBox(rect, partWidth - 2, 0, "Initial Value");
+            SimpleEditorWindows.DrawInformationBox(rect, partWidth - 2, partWidth + 3, "Growth Modifier");
+            SimpleEditorWindows.DrawInformationBox(rect, dataWidth - 10, partWidth * 2 + 6, "Level Data");
         }
     }
 }

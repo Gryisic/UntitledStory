@@ -1,13 +1,12 @@
-﻿using Infrastructure.Utils;
+﻿using System.Collections.Generic;
+using Common.Models.Stats.Modifiers;
 
 namespace Common.Models.Stats.Interfaces
 {
     public interface IStatModifier
     {
-        IStatModifierSource Source { get; }
+        int ID { get; }
         
-        Enums.StatModifierMultiplier Multiplier { get; }
-        
-        float Value { get; }
+        IReadOnlyList<StatAffection> AffectedStats { get; }
     }
 }

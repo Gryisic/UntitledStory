@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/UXML/Uss/Utils.uss?fileID=7433441132597879392&amp;guid=1981949116552cb41b909c4f437a6920&amp;type=3#Utils" />
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+        <ui:EnumField label="Affect" type="Infrastructure.Utils.Enums+UnitStat, Assembly-CSharp" name="AffectedStat" binding-path="_affectedStat" class="utils" style="width: 33%;" />
+        <ui:EnumField type="Infrastructure.Utils.Enums+StatModifierMultiplier, Assembly-CSharp" name="Multiplier" binding-path="_multiplier" label="By" class="utils" style="width: 33%;" />
+        <ui:Slider picking-mode="Ignore" label="Value" value="0" high-value="999" name="Value" binding-path="_value" show-input-field="true" class="utils" style="width: 33%;" />
+    </ui:VisualElement>
+</ui:UXML>

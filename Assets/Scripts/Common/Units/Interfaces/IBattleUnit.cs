@@ -9,6 +9,10 @@ namespace Common.Units.Interfaces
         void MoveToPointAndLookAt(Vector3 point, Vector2 lookDirection);
         void ExecuteActions();
         void Restore();
+        void Clear();
+
+        void SetActive();
+        void SetPassive();
 
         UniTask ExecuteActionsWithAwaiter();
     }

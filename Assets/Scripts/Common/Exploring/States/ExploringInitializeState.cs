@@ -1,5 +1,7 @@
 ﻿using Common.Exploring.Interfaces;
+using Common.Models.GameEvents;
 using Common.Models.Scene;
+using Common.Models.Triggers;
 using Common.Units;
 using Common.Units.Exploring;
 using Common.Units.Handlers;
@@ -58,7 +60,7 @@ namespace Common.Exploring.States
         private void InitializeTriggers()
         {
             foreach (var triggerZone in _sceneInfo.MonoTriggersHandler.TriggerZones) 
-                triggerZone.Initialize(_generalUnitsHandler);
+                triggerZone.Initialize(new TriggerInitializationArgs(_generalUnitsHandler));
         }
     }
 }

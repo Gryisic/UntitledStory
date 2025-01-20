@@ -1,24 +1,23 @@
 ﻿using System.Collections.Generic;
 using Common.Battle.Constraints;
+using Common.Battle.Interfaces;
 using Common.Battle.Utils;
 using Common.Models.Cameras.Interfaces;
+using Common.Models.GameEvents.Dependencies;
 using Common.Models.GameEvents.Interfaces;
 using Common.Models.Skills;
-using Common.Models.Triggers.Dependencies;
-using Common.Models.Triggers.General;
-using Common.Models.Triggers.Interfaces;
 using Common.Navigation;
 using Common.Units.Interfaces;
 using Core.Data.Interfaces;
-using Core.Data.Texts;
+using Infrastructure.Utils;
 using UnityEngine;
 
 namespace Core.GameStates
 {
     public class BattleStateArgs : GameStateArgs
     {
-        public IReadOnlyList<BattleConstraint> Constraints => Trigger.Constraints;
-        public IReadOnlyList<Dependency> Dependencies => Trigger.Dependencies;
+        public IReadOnlyList<BattleConstraint> Constraints => Event.Constraints;
+        public IReadOnlyList<Dependency> Dependencies => Event.Dependencies;
         
         public Vector2 StartPoint { get; private set; }
         public NavigationArea NavigationArea { get; }
@@ -26,7 +25,7 @@ namespace Core.GameStates
         public IBattleUnitSharedData ActiveUnit { get; private set; }
         public IBattleUnitSharedData Target { get; private set; }
         
-        public IEncounterTrigger Trigger { get; }
+        public IEncounterEvent Event { get; }
         public ICameraService CameraService { get; private set; }
         
         public Skill Action { get; private set; }
@@ -36,11 +35,14 @@ namespace Core.GameStates
         
         public int CurrentTurn { get; private set; }
 
-        public BattleStateArgs(Vector2 startPoint, NavigationArea navigationArea, IEncounterTrigger encounterTrigger) : base(encounterTrigger)
+        public BattleStateArgs(Vector2 startPoint,
+            NavigationArea navigationArea,
+            IEncounterEvent gameEvent,
+            Enums.GameStateFinalization finalization = Enums.GameStateFinalization.Full) : base(gameEvent, finalization)
         {
             StartPoint = startPoint;
             NavigationArea = navigationArea;
-            Trigger = encounterTrigger;
+            Event = gameEvent;
         }
 
         public void SetAction(Skill action) => Action = action;

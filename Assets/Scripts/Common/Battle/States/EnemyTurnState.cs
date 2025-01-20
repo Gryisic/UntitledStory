@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Common.Battle.Interfaces;
+using Common.Units.Handlers;
 using Core.Interfaces;
 using Cysharp.Threading.Tasks;
 
@@ -8,9 +9,14 @@ namespace Common.Battle.States
 {
     public class EnemyTurnState : BattleStateBase, IDisposable
     {
-        private CancellationTokenSource _actionTokenSource;
+        private readonly BattleUnitsHandler _battleUnitsHandler;
         
-        public EnemyTurnState(IStateChanger<IBattleState> stateChanger) : base(stateChanger) { }
+        private CancellationTokenSource _actionTokenSource;
+
+        public EnemyTurnState(IStateChanger<IBattleState> stateChanger, BattleUnitsHandler unitsHandler) : base(stateChanger)
+        {
+            _battleUnitsHandler = unitsHandler;
+        }
 
         public override void Activate()
         {
@@ -33,7 +39,11 @@ namespace Common.Battle.States
 #if UNITY_EDITOR
         private async UniTask SimulateTurnAsync()
         {
+            _battleUnitsHandler.ActiveUnit.SetActive();
+            
             await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: _actionTokenSource.Token);
+            
+            _battleUnitsHandler.ActiveUnit.SetPassive();
             
             _actionTokenSource.Dispose();
             _actionTokenSource = null;

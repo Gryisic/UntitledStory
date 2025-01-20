@@ -142,7 +142,7 @@ namespace Common.Dialogues.States
         {
             DialogueStateArgs args = RequestArgs?.Invoke();
             
-            args.Trigger.End();
+            args.Event.End();
             
             RequestStateChange?.Invoke(Enums.GameStateType.Explore, new ExploringStateArgs());
         }
