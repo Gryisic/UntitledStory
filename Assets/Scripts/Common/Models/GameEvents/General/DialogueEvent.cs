@@ -2,17 +2,13 @@
 using Common.Models.GameEvents.Interfaces;
 using Core.GameStates;
 using Infrastructure.Utils;
-using Infrastructure.Utils.Attributes;
-using UnityEngine;
 
 namespace Common.Models.GameEvents.General
 {
+    [Serializable]
     public class DialogueEvent : GeneralEvent, IDialogueEvent
     {
-        [Space, Header("Dialogue Data")]
-        [SerializeField, FromParent("_id")] private string _key;
-        
-        public string Key => _key;
+        public string Key => ID;
 
         public event Action<Enums.GameStateType, GameStateArgs> StateChangeRequested;
 

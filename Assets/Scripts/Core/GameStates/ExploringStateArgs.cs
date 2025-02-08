@@ -1,4 +1,5 @@
 ﻿using Common.Models.GameEvents.Interfaces;
+using Infrastructure.Utils;
 using UnityEngine;
 
 namespace Core.GameStates
@@ -7,7 +8,7 @@ namespace Core.GameStates
     {
         public Vector2 Position { get; }
         
-        public ExploringStateArgs(Vector2 position, IGameEventData eventData = null) : base(eventData)
+        public ExploringStateArgs(Vector2 position, Enums.GameStateFinalization finalization = Enums.GameStateFinalization.Full, IGameEventData eventData = null) : base(eventData, finalization)
         {
             Position = position;
         }

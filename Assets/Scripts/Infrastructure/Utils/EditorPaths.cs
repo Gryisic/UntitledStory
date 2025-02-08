@@ -7,7 +7,7 @@ namespace Infrastructure.Utils
         public const string PathToEditorTriggerUXML = "Assets/Editor/UXML/Common/EditorTriggerUXML.uxml";
         public const string PathToEditorTriggeUserUXML = "Assets/Editor/UXML/Common/EditorTriggerUserUXML.uxml";
         
-        public const string PathToTriggersData = "Assets/Data/Core/TriggersData.asset";
+        public const string PathToEventsData = "Assets/Data/Core/EventsData.asset";
     }
 }
 #endif

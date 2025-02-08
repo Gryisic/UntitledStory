@@ -7,7 +7,7 @@ namespace Common.Models.Cameras
     {
         public void FollowUnit(Transform unitTransform, Enums.CameraDistanceType distanceType)
         {
-            virtualCamera.m_Lens.OrthographicSize = DistanceToSize(distanceType);
+            virtualCamera.Lens.OrthographicSize = DistanceToSize(distanceType);
 
             virtualCamera.Follow = unitTransform;
         }

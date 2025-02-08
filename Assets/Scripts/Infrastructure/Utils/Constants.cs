@@ -82,5 +82,8 @@
 
         public const string PressedInputButtonDeclaration = "Pressed";
         public const string ReleasedInputButtonDeclaration = "Released";
+        
+        public const string PathToEventsTemplates = "Core/Events/";
+        public const string PathToEventsRequirements = "Core/Events/Requirements/";
     }
 }

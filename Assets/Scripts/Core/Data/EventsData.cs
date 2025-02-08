@@ -1,36 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Models.GameEvents.Bindings;
 using Common.Models.GameEvents.BusHandled;
-using Common.Models.GameEvents.Interfaces;
+using Core.Data.Events;
 using Core.Data.Interfaces;
-using Core.Data.Triggers;
 using UnityEngine;
 
 namespace Core.Data
 {
-    [Serializable, CreateAssetMenu(menuName = "Core/Data/Triggers")]
-    public class TriggersData : GameData, ITriggersData
+    [Serializable, CreateAssetMenu(menuName = "Core/Data/Events")]
+    public class EventsData : GameData, IEventsData, IDisposable
     {
-        [SerializeField] private List<EditorTrigger> _triggers;
+        [SerializeField] private List<EventData> _events;
         
         private List<string> _idList;
-
-        private IEventBinding<TriggerActivatedEvent> _eventBinding;
-
+        
         public bool IsDirty { get; private set; } = true;
-
+        
         public void Initialize()
         {
             _idList = new List<string>();
-            _eventBinding = new EventBinding<TriggerActivatedEvent>(Add);
             
-            _idList.AddRange(_triggers.Where(t => t.IsActive).Select(t => t.ID));
+            _idList.AddRange(_events.Where(t => t.IsActive).Select(t => t.ID));
 
             IsDirty = true;
         }
         
+        public void Dispose()
+        {
+            _events.ForEach(e => e.Dispose());
+        }
+
         public void Add(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -65,11 +65,13 @@ namespace Core.Data
         }
 
 #if UNITY_EDITOR
-        public IReadOnlyList<EditorTrigger> Triggers => _triggers;
-
-        public void ActivateFromRedactor(string id) => _triggers.First(t => t.ID == id).Activate();
+        public static string EventsPropertyName => nameof(_events);
         
-        public void DeactivateFromRedactor(string id) => _triggers.First(t => t.ID == id).Deactivate();
+        public IReadOnlyList<EventData> Events => _events;
+
+        public void ActivateFromRedactor(string id) => _events.First(t => t.ID == id).Activate();
+        
+        public void DeactivateFromRedactor(string id) => _events.First(t => t.ID == id).Deactivate();
 #endif
     }
 }

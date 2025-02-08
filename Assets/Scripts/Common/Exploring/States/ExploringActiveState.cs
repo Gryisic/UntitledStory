@@ -23,7 +23,7 @@ namespace Common.Exploring.States
         private readonly IInputService _inputService;
         private readonly ICameraService _cameraService;
         private readonly IEventsService _eventsService;
-        private readonly ITriggersData _triggersData;
+        private readonly IEventsData _eventsData;
         
         private readonly Player _player;
         private readonly SceneInfo _sceneInfo;
@@ -38,7 +38,7 @@ namespace Common.Exploring.States
             _inputService = servicesHandler.InputService;
             _eventsService = servicesHandler.EventsService;
             _cameraService = servicesHandler.GetSubService<ICameraService>();
-            _triggersData = gameDataProvider.GetData<ITriggersData>();
+            _eventsData = gameDataProvider.GetData<IEventsData>();
             _player = player;
             _sceneInfo = sceneInfo;
             _unitsHandler = unitsHandler;
@@ -118,10 +118,10 @@ namespace Common.Exploring.States
 
         private void ValidateData()
         {
-            if (_triggersData.IsDirty == false)
+            if (_eventsData.IsDirty == false)
                 return;
             
-            List<string> ids = _triggersData.GetIDList().ToList();
+            List<string> ids = _eventsData.GetIDList().ToList();
             
             foreach (var trigger in _sceneInfo.MonoTriggersHandler.TriggerZones)
             {

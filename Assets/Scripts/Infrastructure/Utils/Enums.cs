@@ -1,9 +1,11 @@
 ﻿using System;
+using Unity.Behavior;
 
 namespace Infrastructure.Utils
 {
     public static class Enums
     {
+        [BlackboardEnum]
         public enum GameStateType
         {
             Initialize,

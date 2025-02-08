@@ -1,4 +1,4 @@
-﻿using Cinemachine;
+﻿using Unity.Cinemachine;
 using Infrastructure.Utils;
 using UnityEngine;
 
@@ -6,7 +6,7 @@ namespace Common.Models.Cameras
 {
     public abstract class Camera : MonoBehaviour
     {
-        [SerializeField] protected CinemachineVirtualCamera virtualCamera;
+        [SerializeField] protected CinemachineCamera virtualCamera;
         [SerializeField] protected CinemachineImpulseListener impulseListener;
         [SerializeField] private CinemachineConfiner2D confiner2D;
         
@@ -25,7 +25,7 @@ namespace Common.Models.Cameras
             virtualCamera.Priority = Constants.DeactivatedCameraPriority;
         }
 
-        public void SetConfiner(Collider2D confiner) => confiner2D.m_BoundingShape2D = confiner;
+        public void SetConfiner(Collider2D confiner) => confiner2D.BoundingShape2D = confiner;
 
         protected abstract float DistanceToSize(Enums.CameraDistanceType distanceType);
     }

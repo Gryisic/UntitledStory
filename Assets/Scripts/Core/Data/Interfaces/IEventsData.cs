@@ -2,7 +2,7 @@
 
 namespace Core.Data.Interfaces
 {
-    public interface ITriggersData : IGameData
+    public interface IEventsData : IGameData
     {
         bool IsDirty { get; }
         

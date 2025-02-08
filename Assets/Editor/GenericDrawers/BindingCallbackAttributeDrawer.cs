@@ -100,7 +100,7 @@ namespace Editor.GenericDrawers
                             object reference = Activator.CreateInstance(constructedType);
                             Type generatedType = NonGenericSubclassesUtils.GetType(reference.GetType());
                             
-                            if (generatedType == null)
+                            if (ReferenceEquals(generatedType, null))
                                 return;
                             
                             constructedObject = generatedType.GetConstructor(Type.EmptyTypes).Invoke(null);

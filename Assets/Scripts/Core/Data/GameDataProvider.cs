@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Configs.Interfaces;
 using Core.Data.Interfaces;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace Core.Data
 {
     [CreateAssetMenu(menuName = "Core/Data/Provider")]
-    public class GameDataProvider : ScriptableObject, IGameDataProvider
+    public class GameDataProvider : ScriptableObject, IGameDataProvider, IDisposable
     {
         [SerializeField] private GameData[] _dataArray;
 
@@ -21,11 +22,20 @@ namespace Core.Data
             data.AddRange(_dataArray);
             data.Add(new TextsData(servicesHandler.ConfigsService.GetConfig<IGameSettingsConfig>()));
 
-            TriggersData triggersData = data.First(d => d is TriggersData) as TriggersData;
+            EventsData eventsData = data.First(d => d is EventsData) as EventsData;
             
-            triggersData.Initialize();
+            eventsData.Initialize();
                 
             _data = data;
+        }
+        
+        public void Dispose()
+        {
+            foreach (var data in _data)
+            {
+                if (data is IDisposable disposable)
+                    disposable.Dispose();
+            }
         }
 
         public T GetData<T>() where T : IGameData => (T) _data.First(d => d is T);

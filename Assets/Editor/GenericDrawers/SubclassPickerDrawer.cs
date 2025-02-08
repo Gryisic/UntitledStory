@@ -25,13 +25,15 @@ namespace Editor.GenericDrawers
         {
             SubclassesPicker picker = (SubclassesPicker) attribute;
             Type type = fieldInfo.FieldType;
+            Type comparingType = type.IsArray ? type.GetElementType() : type;
             string typeName = property.managedReferenceValue?.GetType().Name.WithSpaces() ?? "Not Set";
-            Rect dropdownRect = position;
-
-            dropdownRect.x += 15;
-            dropdownRect.width -= 15;
+            Rect dropdownRect = EditorGUI.IndentedRect(position);
+            
             dropdownRect.height = EditorGUIUtility.singleLineHeight;
-
+            
+            if (picker.DisableManualChange && ReferenceEquals(property.managedReferenceValue, null) == false)
+                GUI.enabled = false;
+            
             if (EditorGUI.DropdownButton(dropdownRect, new(typeName), FocusType.Keyboard))
             {
                 GenericMenu menu = new GenericMenu();
@@ -39,6 +41,15 @@ namespace Editor.GenericDrawers
                 foreach (Type concreteType in GetClasses(type))
                 {
                     string name = concreteType.Name.WithSpaces();
+                    Type baseType = concreteType.BaseType;
+
+                    while (baseType != null && baseType != comparingType)
+                    {
+                        name = $"{baseType.Name.WithSpaces()}/{name}";
+
+                        baseType = baseType.BaseType;
+                    }
+                    
                     menu.AddItem(new GUIContent(name), typeName == name, () =>
                     {
                         property.managedReferenceValue = concreteType.GetConstructor(Type.EmptyTypes).Invoke(null);
@@ -49,6 +60,8 @@ namespace Editor.GenericDrawers
                 
                 menu.ShowAsContext();
             }
+            
+            GUI.enabled = true;
 
             GUIContent guiContent = picker.DrawLabel ? new GUIContent(label) : GUIContent.none;
             

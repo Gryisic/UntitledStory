@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using Infrastructure.Utils.Attributes;
 using UnityEditor;
 using UnityEngine;
@@ -38,8 +39,15 @@ namespace Editor.GenericDrawers
 
                 SerializedProperty atIndex = property.serializedObject.FindProperty(levels[i - 1])
                     .GetArrayElementAtIndex(index);
-                
-                return atIndex.FindPropertyRelative(attributeProperty.Property).stringValue;
+
+                try
+                {
+                    return atIndex.FindPropertyRelative(attributeProperty.Property).stringValue;
+                }
+                catch (NullReferenceException e)
+                {
+                    return "Not set";
+                }
             }
 
             return property.serializedObject.FindProperty(levels[^2]).FindPropertyRelative(attributeProperty.Property).stringValue;

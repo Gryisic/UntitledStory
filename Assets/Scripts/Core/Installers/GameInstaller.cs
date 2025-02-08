@@ -1,4 +1,5 @@
-﻿using Common.Models.GameEvents;
+﻿using System;
+using Common.Models.GameEvents;
 using Common.Models.GameEvents.Interfaces;
 using Common.UI;
 using Core.Configs;
@@ -22,7 +23,7 @@ using Input = Core.PlayerInput.Input;
 
 namespace Core.Installers
 {
-    public class GameInstaller : MonoInstaller, IInitializable
+    public class GameInstaller : MonoInstaller, IInitializable, IDisposable
     {
         [SerializeField] private Game _game;
         [SerializeField] private ConfigsService _configsService;
@@ -38,6 +39,11 @@ namespace Core.Installers
             eventsService.Initialize();
             _ui.Initialize(_gameDataProvider);
             _game.Initiate();
+        }
+        
+        public void Dispose()
+        {
+            _gameDataProvider?.Dispose();
         }
 
         public override void InstallBindings()

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84e50026369437b809fd7f2654f3ec2, type: 3}
+  m_Name: Test2
+  m_EditorClassIdentifier: 
+  _id: Test2
+  _isActive: 0
+  _event:
+    rid: 8031586220842156133
+  references:
+    version: 2
+    RefIds:
+    - rid: 8031586220842156133
+      type: {class: EncounterEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirement:
+          _graph: {fileID: 8908954347997216267, guid: c90988c19ff225949a0586f63d4d97d7, type: 2}
+          _some: 
+        _onRequirementsMet: 0
+        _navigationArea: {fileID: 0}
+        _constraints: []

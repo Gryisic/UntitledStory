@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Models.Triggers.Interfaces;
 using Core.Data;
+using Core.Data.Events;
 using Infrastructure.Utils;
 using UnityEditor;
 using UnityEngine;
@@ -11,25 +12,25 @@ using UnityEngine.UIElements;
 
 namespace Editor.Windows
 {
-    public class TriggersRedactorEditorWindow : EditorWindow
+    public class EventsRedactorEditorWindow : EditorWindow
     {
-        private TriggersData _triggersData;
+        private EventsData _eventsData;
         private ListView _listView;
         
-        [MenuItem("Tools/Triggers Redactor")]
+        [MenuItem("Tools/Events Redactor")]
         public static void Open()
         {
-            TriggersRedactorEditorWindow window = GetWindow<TriggersRedactorEditorWindow>();
+            EventsRedactorEditorWindow window = GetWindow<EventsRedactorEditorWindow>();
 
-            window.titleContent = new GUIContent("Triggers Redactor");
+            window.titleContent = new GUIContent("Events Redactor");
         }
         
         private void CreateGUI()
         {
-            _triggersData = AssetDatabase.LoadAssetAtPath<TriggersData>(EditorPaths.PathToTriggersData);
+            _eventsData = AssetDatabase.LoadAssetAtPath<EventsData>(EditorPaths.PathToEventsData);
             
             VisualElement root = rootVisualElement;
-            List<ITrigger> triggers = _triggersData.Triggers.Cast<ITrigger>().ToList();
+            List<EventData> eventDatas = _eventsData.Events.ToList();
             
             _listView = new ListView();
             
@@ -42,17 +43,17 @@ namespace Editor.Windows
 
             Action<VisualElement, int> bindItem = (element, index) =>
             {
-                ITrigger trigger = triggers[index];
+                EventData data = eventDatas[index];
                 
-                if (trigger == null)
+                if (data == null)
                     return;
                 
-                TriggerVisualElement triggerElement = new TriggerVisualElement(trigger, _triggersData);
+                EventVisualElement eventElement = new EventVisualElement(data, _eventsData);
                 
-                element.Add(triggerElement);
+                element.Add(eventElement);
             };
 
-            _listView.itemsSource = triggers;
+            _listView.itemsSource = eventDatas;
             _listView.makeItem = makeItem;
             _listView.bindItem = bindItem;
             _listView.virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight;
@@ -60,12 +61,12 @@ namespace Editor.Windows
             root.Add(_listView);
         }
         
-        private class TriggerVisualElement : VisualElement
+        private class EventVisualElement : VisualElement
         {
             private readonly string _id;
-            private readonly TriggersData _data;
+            private readonly EventsData _eventsData;
             
-            public TriggerVisualElement(ITrigger trigger, TriggersData data)
+            public EventVisualElement(EventData data, EventsData eventsData)
             {
                 VisualElement root = new VisualElement();
                 Label id = new Label();
@@ -73,10 +74,10 @@ namespace Editor.Windows
 
                 root.style.flexDirection = FlexDirection.Row;
                 
-                _data = data;
-                _id = trigger.ID;
+                _eventsData = eventsData;
+                _id = data.ID;
                 id.text = _id;
-                isActive.value = trigger.IsActive;
+                isActive.value = data.IsActive;
 
                 isActive.RegisterValueChangedCallback(OnTogglePressed);
                 
@@ -91,11 +92,11 @@ namespace Editor.Windows
                 switch (evt.newValue)
                 {
                     case true:
-                        _data.ActivateFromRedactor(_id);
+                        _eventsData.ActivateFromRedactor(_id);
                         break;
                     
                     case false:
-                        _data.DeactivateFromRedactor(_id);
+                        _eventsData.DeactivateFromRedactor(_id);
                         break;
                 }
             }

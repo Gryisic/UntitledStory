@@ -65,12 +65,18 @@ namespace Editor.GenericDrawers
         {
             Rect fieldRect = new Rect(position);
             fieldRect.height = EditorGUIUtility.singleLineHeight;
+            ExpandableAttribute expandableAttribute = (ExpandableAttribute) attribute;
 
+            if (expandableAttribute.DisableManualObjectAssignment)
+                GUI.enabled = false;
+            
             EditorGUI.PropertyField(fieldRect, property, label, true);
+            
+            GUI.enabled = true;
 
             if (property.objectReferenceValue == null)
                 return;
-
+            
             property.isExpanded = EditorGUI.Foldout(fieldRect, property.isExpanded, GUIContent.none, true);
 
             if (!property.isExpanded)

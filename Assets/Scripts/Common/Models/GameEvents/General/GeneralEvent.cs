@@ -6,18 +6,19 @@ using Common.Models.GameEvents.Interfaces;
 using Common.Models.GameEvents.Requirements;
 using Common.Models.Triggers.Interfaces;
 using Infrastructure.Utils;
+using Infrastructure.Utils.Attributes;
 using Infrastructure.Utils.Tools;
 using UnityEngine;
 
 namespace Common.Models.GameEvents.General
 {
     [Serializable]
-    public abstract class GeneralEvent : IGameEvent
+    public abstract class GeneralEvent : IGameEvent, IDisposable
     {
         [SerializeField] private Enums.PostEventState _postEventState;
         [SerializeReference, SubclassesPicker] protected Dependency[] dependencies;
-        [SerializeReference, SubclassesPicker] private EventRequirement[] _requirements;
-        [SerializeField] private Enums.TriggerActivationUponRequirementsMet _onRequirementsMet;
+        [SerializeField] private EventRequirement _requirement;
+        [SerializeField, EditableIfAsset] private Enums.TriggerActivationUponRequirementsMet _onRequirementsMet;
 
         protected IMonoTriggerData data;
 
@@ -28,11 +29,11 @@ namespace Common.Models.GameEvents.General
         public IReadOnlyList<Dependency> Dependencies => dependencies;
         public IMonoTriggerData MonoData => data;
 
-        public bool HasRequirements => _requirements.Length > 0;
+        public bool HasRequirements => _requirement != null;
         public Enums.TriggerActivationUponRequirementsMet OnRequirementsMet => _onRequirementsMet;
 
         public event Action<IEvent> RequirementsMet;
-        public event Action<IEvent> Ended;
+        public event Action<IGameEvent> Ended;
 
         public abstract void Execute();
         
@@ -40,11 +41,26 @@ namespace Common.Models.GameEvents.General
         {
             ID = args.ID;
             
+            if (HasRequirements)
+            {
+                _requirement.Fulfilled += OnEventRequirementsFulfilled;
+                _requirement.StartChecking();
+            }
+            
             foreach (var dependency in dependencies)
             {
                 dependency.SetUnitsHandler(args.UnitsHandler);
                 dependency.Resolve();
             }
+        }
+
+        public void Dispose()
+        {
+            if (HasRequirements == false) 
+                return;
+            
+            _requirement.Fulfilled -= OnEventRequirementsFulfilled;
+            _requirement.StopChecking();
         }
         
         public void Activate()
@@ -54,15 +70,6 @@ namespace Common.Models.GameEvents.General
 
             if (HasRequirements == false) 
                 return;
-            
-            foreach (var requirement in _requirements)
-            {
-                if (requirement is BusHandledEventInvokedRequirement handledEventInvokedRequirement)
-                {
-                    handledEventInvokedRequirement.Subscribe();
-                    handledEventInvokedRequirement.Fulfilled += OnEventRequirementsFulfilled;
-                }
-            }
         }
 
         public void Deactivate()
@@ -73,17 +80,10 @@ namespace Common.Models.GameEvents.General
             if (HasRequirements == false) 
                 return;
             
-            foreach (var requirement in _requirements)
-            {
-                if (requirement is BusHandledEventInvokedRequirement handledEventInvokedRequirement)
-                {
-                    handledEventInvokedRequirement.Unsubscribe();
-                    handledEventInvokedRequirement.Fulfilled -= OnEventRequirementsFulfilled;
-                }
-            }
+            _requirement.Fulfilled -= OnEventRequirementsFulfilled;
         }
 
-        private void OnEventRequirementsFulfilled(EventRequirement requirement) => RequirementsMet?.Invoke(this);
+        private void OnEventRequirementsFulfilled() => RequirementsMet?.Invoke(this);
 
         public void SetData(IMonoTriggerData data) => this.data = data;
         

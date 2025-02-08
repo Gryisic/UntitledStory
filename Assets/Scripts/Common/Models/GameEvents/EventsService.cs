@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common.Models.GameEvents.Interfaces;
-using Common.Models.Triggers;
 using Core.Data.Interfaces;
-using Infrastructure.Utils;
-using UnityEngine;
 
 namespace Common.Models.GameEvents
 {
@@ -14,7 +11,7 @@ namespace Common.Models.GameEvents
         private readonly HashSet<IGameEvent> _events;
         private readonly IGameDataProvider _gameDataProvider;
         
-        private ITriggersData _triggersData;
+        private IEventsData _eventsData;
 
         public IReadOnlyList<IGameEvent> Events => _events.ToList();
 
@@ -26,7 +23,7 @@ namespace Common.Models.GameEvents
 
         public void Initialize()
         {
-            _triggersData = _gameDataProvider.GetData<ITriggersData>();
+            _eventsData = _gameDataProvider.GetData<IEventsData>();
         }
 
         public void AddEvent(IGameEvent gameEvent)

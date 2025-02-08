@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84e50026369437b809fd7f2654f3ec2, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  _id: Test
+  _isActive: 1
+  _event:
+    rid: 8031586203415871765
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8031586203415871765
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirement:
+          _sequence:
+            rid: 8031586263918445144
+        _onRequirementsMet: 0
+    - rid: 8031586263918445144
+      type: {class: AndSequence, ns: Common.Models.GameEvents.Requirements.Sequences, asm: Assembly-CSharp}
+      data:
+        _sequences:
+        - rid: 8031586263918445149
+        - rid: 8031586270799724544
+    - rid: 8031586263918445149
+      type: {class: RequirementCheck, ns: Common.Models.GameEvents.Requirements.Sequences, asm: Assembly-CSharp}
+      data:
+        _binding:
+          _assemblyQualifiedName: Common.Models.GameEvents.BusHandled.TurnPassedEvent,
+            Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        _callback:
+          rid: 8031586263918445150
+    - rid: 8031586263918445150
+      type: {class: CompareToTargetCallbackTurnPassedEvent, ns: Infrastructure.Utils.Tools.Generated, asm: Assembly-CSharp}
+      data:
+        _methodName: 
+        _target: 0
+        _comparisonMethod: 0
+        _comparator: 0
+    - rid: 8031586270799724544
+      type: {class: OrSequence, ns: Common.Models.GameEvents.Requirements.Sequences, asm: Assembly-CSharp}
+      data:
+        _sequences:
+        - rid: 8031586270799724545
+    - rid: 8031586270799724545
+      type: {class: RequirementCheck, ns: Common.Models.GameEvents.Requirements.Sequences, asm: Assembly-CSharp}
+      data:
+        _binding:
+          _assemblyQualifiedName: 
+        _callback:
+          rid: -2

@@ -24,7 +24,7 @@ namespace Common.Units.Actions
         public override void Cancel()
         {
             _data.Animator.PlayCyclic(_data.Data.GetAnimation(Enums.StandardAnimation.Idle));
-            _data.Rigidbody.velocity = Vector2.zero;
+            _data.Rigidbody.linearVelocity = Vector2.zero;
         }
 
         public override async UniTask ExecuteAsync(CancellationToken token)
@@ -41,7 +41,7 @@ namespace Common.Units.Actions
 
             while (timer <= time && token.IsCancellationRequested == false)
             {
-                _data.Rigidbody.velocity = direction * _speed;       
+                _data.Rigidbody.linearVelocity = direction * _speed;       
                 
                 await UniTask.WaitForFixedUpdate(cancellationToken: token);
 

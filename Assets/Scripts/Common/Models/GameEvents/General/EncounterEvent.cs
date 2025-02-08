@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace Common.Models.GameEvents.General
 {
+    [Serializable]
     public class EncounterEvent : GeneralEvent, IEncounterEvent
     {
         [Space, Header("Encounter Data")]

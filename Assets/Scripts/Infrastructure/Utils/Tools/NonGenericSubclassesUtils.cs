@@ -7,6 +7,8 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.Compilation;
+using Assembly = System.Reflection.Assembly;
 
 namespace Infrastructure.Utils.Tools
 {
@@ -54,6 +56,8 @@ namespace Infrastructure.Utils.Tools
 
             using StreamWriter writer = new StreamWriter(fileName);
             provider.GenerateCodeFromCompileUnit(targetUnit, writer, options);
+            CompilationPipeline.RequestScriptCompilation();
+            AssetDatabase.Refresh();
 
             return Type.GetType(fullName);
         }

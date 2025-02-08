@@ -17,7 +17,7 @@ namespace Editor.Triggers
             
             if (GUILayout.Button("To Data", GUILayout.Width(60)))
             {
-                TriggersData data = TriggersDataAdapter.GetData();
+                EventsData data = EventsDataAdapter.GetData();
                 
                 EditorGUIUtility.PingObject(data);
                 Selection.activeObject = data;

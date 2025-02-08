@@ -26,7 +26,7 @@ namespace Core
         public void Initiate()
         {
             CreateStates(_factory);
-
+            
             foreach (var gameState in _gameStates)
             {
                 if (gameState is IStatesResetRequester resetRequester)

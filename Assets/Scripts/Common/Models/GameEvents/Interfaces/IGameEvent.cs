@@ -18,7 +18,7 @@ namespace Common.Models.GameEvents.Interfaces
         Enums.TriggerActivationUponRequirementsMet OnRequirementsMet { get; }
         
         event Action<IEvent> RequirementsMet;
-        event Action<IEvent> Ended;
+        event Action<IGameEvent> Ended;
 
         void Initialize(EventInitializationArgs args);
 

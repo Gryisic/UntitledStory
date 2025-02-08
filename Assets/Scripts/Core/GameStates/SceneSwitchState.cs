@@ -56,7 +56,7 @@ namespace Core.GameStates
         {
             _isActive = true;
             _tokenSource = new CancellationTokenSource();
-            var triggersData = _gameData.GetData<ITriggersData>();
+            var triggersData = _gameData.GetData<IEventsData>();
             
             if (args.CurrentSceneInfo != null)
             {

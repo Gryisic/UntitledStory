@@ -1,35 +1,44 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
-using Common.Models.Triggers.Interfaces;
+using Common.Models.Triggers;
 using Core.Data;
-using Core.Data.Triggers;
+using Core.Extensions;
 using Editor.Utils;
 using Infrastructure.Utils.Attributes;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Editor.Triggers
 {
-    [CustomPropertyDrawer(typeof(FromTriggersDataAttribute))]
-    public class FromTriggersDataAttributeDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(FromEventsDataAttribute))]
+    public class FromEventsDataAttributeDrawer : PropertyDrawer
     {
+        private SerializedProperty _dataProperty;
+        
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            FromTriggersDataAttribute triggersData = attribute as FromTriggersDataAttribute;
-            TriggersData data = TriggersDataAdapter.GetData();
-            
-            if (triggersData.AsDropdown)
+            if (property.propertyType != SerializedPropertyType.String)
             {
-                DrawDropdown(position, property, data);
+                EditorGUI.LabelField(position, "Attribute should be applied to string");
+                return;
+            }
+            
+            _dataProperty ??= GetParentProperty(property).FindPropertyRelative(GeneralTrigger.TemplatePropertyName);
+            
+            EventsData data = EventsDataAdapter.GetData();
+            
+            DrawDropdown(position, property, data);
+            
+            if (ReferenceEquals(_dataProperty.objectReferenceValue, null))
+            {
+                /*Rect pos = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight, position.width, position.height);
+                EditorGUI.LabelField(pos, "Data was not founded");
+                */
                 
                 return;
             }
-
-            GUI.enabled = triggersData.SuppressGUI ? false : true;
             
-            SerializedProperty parentProperty = GetParentProperty(property, out string id);
+            /*SerializedProperty parentProperty = GetParentProperty(property, out string id);
 
             if (id == string.Empty)
             {
@@ -53,30 +62,28 @@ namespace Editor.Triggers
             object value = triggerField.GetValue(trigger);
             FieldInfo parentField = GetParent(property, parentProperty, out object parentObject);
             
-            parentField.SetValue(parentObject, value);
+            parentField.SetValue(parentObject, value);*/
 
-            EditorGUI.PropertyField(position, property, label, true);
-            
-            GUI.enabled = true;
+            /*
+            position.y += EditorGUIUtility.singleLineHeight;
+            EditorGUI.PropertyField(position, property, true);*/
         }
 
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        /*public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            float height = 0;
-            SerializedProperty endProperty = property.GetEndProperty();
-            
-            while (SerializedProperty.EqualContents(property, endProperty) == false)
-            {
-                height += EditorGUI.GetPropertyHeight(property);
-                property.NextVisible(false);
-            }
+            float height = EditorGUIUtility.singleLineHeight;
+
+            if (ReferenceEquals(_dataProperty, null) || ReferenceEquals(_dataProperty.objectReferenceValue, null))
+                return height;
+
+            height += EditorGUI.GetPropertyHeight(_dataProperty);
             
             return height;
-        }
+        }*/
 
-        private void DrawDropdown(Rect position, SerializedProperty property, TriggersData data)
+        private void DrawDropdown(Rect position, SerializedProperty property, EventsData data)
         {
-            string populatedID = property.stringValue ?? "Not Set";
+            string populatedID = string.IsNullOrEmpty(property.stringValue) ? "Not Set" : property.stringValue;
             Rect dropdownRect = position;
             Rect labelRect;
 
@@ -93,28 +100,15 @@ namespace Editor.Triggers
             {
                 GenericMenu menu = new GenericMenu();
                 
-                foreach (var trigger in data.Triggers)
+                foreach (var template in data.Events)
                 {
-                    menu.AddItem(new GUIContent(trigger.ID), populatedID == trigger.ID, () =>
+                    menu.AddItem(new GUIContent(template.ID), populatedID == template.ID, () =>
                     {
-                        if (populatedID == trigger.ID)
+                        if (populatedID == template.ID)
                             return;
-                        
-                        Object targetObject = property.serializedObject.targetObject;
-                        string objectName = targetObject.name;
-                        string userID = $"{property.propertyPath}_{property.stringValue}_{objectName}";
-                        
-                        if (property.stringValue != string.Empty)
-                        {
-                            EditorTrigger oldTrigger = data.Triggers.First(t => t.ID == property.stringValue);
 
-                            oldTrigger.RemoveUser(userID);
-                        }
-                        
-                        property.stringValue = trigger.ID;
-                        userID = $"{property.propertyPath}_{property.stringValue}_{objectName}";
-                        
-                        trigger.AddUser(userID, targetObject);
+                        property.stringValue = template.ID;
+                        _dataProperty.objectReferenceValue = template.Clone();
                         
                         property.serializedObject.ApplyModifiedProperties();
                         EditorUtility.SetDirty(data);
@@ -126,7 +120,16 @@ namespace Editor.Triggers
             }
         }
         
-        private SerializedProperty GetParentProperty(SerializedProperty property, out string id)
+        private SerializedProperty GetParentProperty(SerializedProperty property)
+        {
+            string indexString = property.propertyPath.Replace("_triggers.Array.data[", "").Replace($"].{property.name}", "");
+            int.TryParse(indexString, out int index);
+            SerializedProperty atIndex = property.serializedObject.FindProperty("_triggers").GetArrayElementAtIndex(index);
+            
+            return atIndex;
+        }
+        
+        /*private SerializedProperty GetParentProperty(SerializedProperty property, out string id)
         {
             string indexString = property.propertyPath.Replace("_triggers.Array.data[", "").Replace($"].{property.name}", "");
             int.TryParse(indexString, out int index);
@@ -135,7 +138,7 @@ namespace Editor.Triggers
             id = atIndex.FindPropertyRelative("_id").stringValue;
             
             return atIndex;
-        }
+        }*/
 
         private FieldInfo GetParent(SerializedProperty property, SerializedProperty parentProperty, out object parentObject)
         {

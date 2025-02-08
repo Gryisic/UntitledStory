@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -38,13 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 1
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -67,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -123,6 +119,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &10253652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84e50026369437b809fd7f2654f3ec2, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  _id: Test
+  _isActive: 0
+  _event:
+    rid: 8953213954083520789
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8953213954083520789
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirement:
+          _sequence:
+            rid: -2
+        _onRequirementsMet: 0
 --- !u!1 &25544630
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,6 +227,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -285,6 +314,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -335,6 +367,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &241006043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84e50026369437b809fd7f2654f3ec2, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  _id: Test
+  _isActive: 0
+  _event:
+    rid: 8953213954083520789
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8953213954083520789
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirement:
+          _sequence:
+            rid: -2
+        _onRequirementsMet: 0
 --- !u!224 &388182343 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4487987822420341106, guid: abb623e4d6f75074dbd8dfaf7291e00a, type: 3}
@@ -471,6 +533,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -514,6 +579,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587209390}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -537,7 +603,8 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -548,7 +615,6 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &587209395
@@ -584,79 +650,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 587209394}
   _triggers:
-  - _id: BattleTest
-    _event:
-      rid: 2797042506065772587
+  - _id: Test
+    _eventData: {fileID: 1829276667}
+    _priority: 0
     _activationType: 0
     _loopType: 1
-    _priority: 0
-  - _id: OptTest
-    _event:
-      rid: 8953213602474229775
-    _activationType: 1
-    _loopType: 0
-    _priority: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 2797042506065772587
-      type: {class: EncounterEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
-      data:
-        _postEventState: 0
-        dependencies:
-        - rid: 8953213579452219392
-        _requirements: []
-        _onRequirementsMet: 0
-        _navigationArea: {fileID: 587209395}
-        _constraints:
-        - rid: 2797042641930813441
-    - rid: 2797042641930813441
-      type: {class: PlacementConstraint, ns: Common.Battle.Constraints, asm: Assembly-CSharp}
-      data:
-        _partyMembersPositions:
-        - _placementMarker: {fileID: 1324386682}
-          _hasBoundedUnit: 1
-          _id: 1
-        _enemiesPositions:
-        - _placementMarker: {fileID: 2003101032}
-          _hasBoundedUnit: 1
-          _id: -999
-        - _placementMarker: {fileID: 1425702405}
-          _hasBoundedUnit: 1
-          _id: -999
-    - rid: 8953213579452219392
-      type: {class: UnitsDependency, ns: Common.Models.GameEvents.Dependencies, asm: Assembly-CSharp}
-      data:
-        _afterEventBehaviour: 4
-        _enemyPlacement:
-        - _id: -999
-          _positionMarker: {fileID: 2003101032}
-        - _id: -999
-          _positionMarker: {fileID: 1425702405}
-    - rid: 8953213602474229775
-      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
-      data:
-        _postEventState: 0
-        dependencies: []
-        _requirements:
-        - rid: 8953213602474229776
-        _onRequirementsMet: 0
-        _key: OptTest
-    - rid: 8953213602474229776
-      type: {class: BusHandledEventInvokedRequirement, ns: Common.Models.GameEvents.Requirements, asm: Assembly-CSharp}
-      data:
-        _binding:
-          _assemblyQualifiedName: Common.Models.GameEvents.BusHandled.TurnPassedEvent,
-            Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        _callback:
-          rid: 8953213602474229777
-    - rid: 8953213602474229777
-      type: {class: CompareToTargetCallbackTurnPassedEvent, ns: Infrastructure.Utils.Tools.Generated, asm: Assembly-CSharp}
-      data:
-        _methodName: 
-        _target: 2
-        _comparisonMethod: 0
-        _comparator: 0
 --- !u!1 &608479790
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,6 +697,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608479790}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -722,7 +721,8 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -733,7 +733,6 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &608479794
@@ -753,6 +752,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -803,36 +805,10 @@ MonoBehaviour:
   _localCollider: {fileID: 608479793}
   _triggers:
   - _id: Test
-    _event:
-      rid: 2797042507219206518
+    _eventData: {fileID: 1123724430}
+    _priority: 0
     _activationType: 1
     _loopType: 0
-    _priority: 0
-  - _id: Test4
-    _event:
-      rid: 2797042507219206519
-    _activationType: 1
-    _loopType: 1
-    _priority: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 2797042507219206518
-      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
-      data:
-        _postEventState: 0
-        dependencies: []
-        _requirements: []
-        _onRequirementsMet: 0
-        _key: Test
-    - rid: 2797042507219206519
-      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
-      data:
-        _postEventState: 0
-        dependencies: []
-        _requirements: []
-        _onRequirementsMet: 0
-        _key: Test4
 --- !u!1 &645613262
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,10 +818,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 645613263}
+  - component: {fileID: 645613268}
   - component: {fileID: 645613267}
   - component: {fileID: 645613266}
-  - component: {fileID: 645613265}
   - component: {fileID: 645613264}
+  - component: {fileID: 645613265}
   m_Layer: 0
   m_Name: FollowCamera
   m_TagString: Untagged
@@ -865,8 +842,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2091182048}
+  m_Children: []
   m_Father: {fileID: 483969983}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &645613264
@@ -881,7 +857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375dd9e658524fdf8a4a8d2e2ef9dbac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  virtualCamera: {fileID: 645613267}
+  virtualCamera: {fileID: 645613268}
   impulseListener: {fileID: 645613265}
   confiner2D: {fileID: 645613266}
 --- !u!114 &645613265
@@ -896,16 +872,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ApplyAfter: 2
-  m_ChannelMask: 1
-  m_Gain: 1
-  m_Use2DDistance: 0
-  m_UseCameraSpace: 1
-  m_ReactionSettings:
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  ReactionSettings:
     m_SecondaryNoise: {fileID: 0}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_Duration: 1
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
     m_NoiseOffsets: {x: -89.075195, y: 575.1464, z: -495.53214}
 --- !u!114 &645613266
 MonoBehaviour:
@@ -919,9 +895,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BoundingShape2D: {fileID: 0}
-  m_Damping: 0.5
-  m_MaxWindowSize: -1
+  BoundingShape2D: {fileID: 0}
+  Damping: 0.5
+  SlowingDistance: 0
+  OversizeWindow:
+    Enabled: 0
+    MaxWindowSize: 0
+    Padding: 0
+  m_LegacyMaxWindowSize: -2
 --- !u!114 &645613267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,36 +912,71 @@ MonoBehaviour:
   m_GameObject: {fileID: 645613262}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 15
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
-  m_Lens:
+  CameraDistance: 10
+  DeadZoneDepth: 0
+  Composition:
+    ScreenPosition: {x: 0, y: 0}
+    DeadZone:
+      Enabled: 1
+      Size: {x: 0, y: 0}
+    HardLimits:
+      Enabled: 1
+      Size: {x: 0.8, y: 0.8}
+      Offset: {x: 0, y: 0}
+  CenterOnActivate: 1
+  TargetOffset: {x: 0, y: 0, z: 0}
+  Damping: {x: 1, y: 1, z: 1}
+  Lookahead:
+    Enabled: 0
+    Time: 0
+    Smoothing: 0
+    IgnoreY: 0
+--- !u!114 &645613268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645613262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 1
+    m_Value: 15
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
     FieldOfView: 60
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
-    GateFit: 2
-    FocusDistance: 10
-    m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 2091182048}
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &662709278
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,23 +1057,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 711065484}
   _triggers:
-  - _id: CutTest
-    _event:
-      rid: 2797042507219206532
+  - _id: Test
+    _eventData: {fileID: 1745648541}
+    _priority: 0
     _activationType: 0
     _loopType: 0
-    _priority: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 2797042507219206532
-      type: {class: CutObstacleEvent, ns: Common.Models.GameEvents.FieldObstacle, asm: Assembly-CSharp}
-      data:
-        _postEventState: 0
-        dependencies: []
-        _requirements: []
-        _onRequirementsMet: 0
-        _collider: {fileID: 711065484}
 --- !u!61 &711065484
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1066,6 +1070,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711065481}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1089,7 +1094,8 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -1100,7 +1106,6 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &711065485
@@ -1120,6 +1125,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1275,94 +1283,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 587209391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &801756897
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 801756898}
-  - component: {fileID: 801756900}
-  - component: {fileID: 801756899}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &801756898
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 801756897}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1443218357}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &801756899
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 801756897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
-  m_LookaheadTime: 0
-  m_LookaheadSmoothing: 0
-  m_LookaheadIgnoreY: 0
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
-  m_TargetMovementOnly: 1
-  m_ScreenX: 0.5
-  m_ScreenY: 0.5
-  m_CameraDistance: 10
-  m_DeadZoneWidth: 0
-  m_DeadZoneHeight: 0
-  m_DeadZoneDepth: 0
-  m_UnlimitedSoftZone: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
-  m_BiasX: 0
-  m_BiasY: 0
-  m_CenterOnActivate: 1
-  m_GroupFramingMode: 2
-  m_AdjustmentMode: 0
-  m_GroupFramingSize: 0.8
-  m_MaxDollyIn: 5000
-  m_MaxDollyOut: 5000
-  m_MinimumDistance: 1
-  m_MaximumDistance: 5000
-  m_MinimumFOV: 3
-  m_MaximumFOV: 60
-  m_MinimumOrthoSize: 1
-  m_MaximumOrthoSize: 5000
---- !u!114 &801756900
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 801756897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &811719576 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3549457590588671862, guid: dbae79a228b16c54dbd6d57194a34673, type: 3}
@@ -1447,23 +1367,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 905211759}
   _triggers:
-  - _id: Test3
-    _event:
-      rid: 2797042507219206533
+  - _id: Test
+    _eventData: {fileID: 1534811080}
+    _priority: 0
     _activationType: 0
     _loopType: 1
-    _priority: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 2797042507219206533
-      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
-      data:
-        _postEventState: 0
-        dependencies: []
-        _requirements: []
-        _onRequirementsMet: 0
-        _key: Test3
 --- !u!61 &905211759
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1472,6 +1380,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905211756}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1495,7 +1404,8 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -1506,7 +1416,6 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &905211760
@@ -1526,6 +1435,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1822,6 +1734,69 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ab00ab879e83b94a9028855cc04c6fb, type: 3}
+--- !u!114 &1123724430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84e50026369437b809fd7f2654f3ec2, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  _id: Test
+  _isActive: 1
+  _event:
+    rid: 8031586203415871765
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8031586203415871765
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirement:
+          _sequence:
+            rid: 8031586263918445144
+        _onRequirementsMet: 0
+    - rid: 8031586263918445144
+      type: {class: AndSequence, ns: Common.Models.GameEvents.Requirements.Sequences, asm: Assembly-CSharp}
+      data:
+        _sequences:
+        - rid: 8031586263918445149
+        - rid: 8031586270799724544
+    - rid: 8031586263918445149
+      type: {class: RequirementCheck, ns: Common.Models.GameEvents.Requirements.Sequences, asm: Assembly-CSharp}
+      data:
+        _binding:
+          _assemblyQualifiedName: Common.Models.GameEvents.BusHandled.TurnPassedEvent,
+            Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        _callback:
+          rid: 8031586263918445150
+    - rid: 8031586263918445150
+      type: {class: CompareToTargetCallbackTurnPassedEvent, ns: Infrastructure.Utils.Tools.Generated, asm: Assembly-CSharp}
+      data:
+        _methodName: 
+        _target: 0
+        _comparisonMethod: 0
+        _comparator: 0
+    - rid: 8031586270799724544
+      type: {class: OrSequence, ns: Common.Models.GameEvents.Requirements.Sequences, asm: Assembly-CSharp}
+      data:
+        _sequences:
+        - rid: 8031586270799724545
+    - rid: 8031586270799724545
+      type: {class: RequirementCheck, ns: Common.Models.GameEvents.Requirements.Sequences, asm: Assembly-CSharp}
+      data:
+        _binding:
+          _assemblyQualifiedName: 
+        _callback:
+          rid: -2
 --- !u!1 &1197797950
 GameObject:
   m_ObjectHideFlags: 0
@@ -2038,10 +2013,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1443218357}
+  - component: {fileID: 1443218362}
   - component: {fileID: 1443218361}
   - component: {fileID: 1443218360}
-  - component: {fileID: 1443218359}
   - component: {fileID: 1443218358}
+  - component: {fileID: 1443218359}
   m_Layer: 0
   m_Name: FocusCamera
   m_TagString: Untagged
@@ -2061,8 +2037,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 801756898}
+  m_Children: []
   m_Father: {fileID: 483969983}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1443218358
@@ -2077,7 +2052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876f0be49bcb4a6caaa8c239c46a5904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  virtualCamera: {fileID: 1443218361}
+  virtualCamera: {fileID: 1443218362}
   impulseListener: {fileID: 1443218359}
   confiner2D: {fileID: 1443218360}
 --- !u!114 &1443218359
@@ -2092,16 +2067,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ApplyAfter: 2
-  m_ChannelMask: 1
-  m_Gain: 1
-  m_Use2DDistance: 0
-  m_UseCameraSpace: 1
-  m_ReactionSettings:
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  ReactionSettings:
     m_SecondaryNoise: {fileID: 0}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_Duration: 1
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
     m_NoiseOffsets: {x: -471.06088, y: -540.7593, z: -676.8508}
 --- !u!114 &1443218360
 MonoBehaviour:
@@ -2115,9 +2090,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BoundingShape2D: {fileID: 0}
-  m_Damping: 0.5
-  m_MaxWindowSize: -1
+  BoundingShape2D: {fileID: 0}
+  Damping: 0.5
+  SlowingDistance: 0
+  OversizeWindow:
+    Enabled: 0
+    MaxWindowSize: 0
+    Padding: 0
+  m_LegacyMaxWindowSize: -2
 --- !u!114 &1443218361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2127,36 +2107,71 @@ MonoBehaviour:
   m_GameObject: {fileID: 1443218356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
-  m_Lens:
+  CameraDistance: 10
+  DeadZoneDepth: 0
+  Composition:
+    ScreenPosition: {x: 0, y: 0}
+    DeadZone:
+      Enabled: 1
+      Size: {x: 0, y: 0}
+    HardLimits:
+      Enabled: 1
+      Size: {x: 0.8, y: 0.8}
+      Offset: {x: 0, y: 0}
+  CenterOnActivate: 1
+  TargetOffset: {x: 0, y: 0, z: 0}
+  Damping: {x: 1, y: 1, z: 1}
+  Lookahead:
+    Enabled: 0
+    Time: 0
+    Smoothing: 0
+    IgnoreY: 0
+--- !u!114 &1443218362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443218356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 1
+    m_Value: 10
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
     FieldOfView: 60
     OrthographicSize: 2.5
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
-    GateFit: 2
-    FocusDistance: 10
-    m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 801756898}
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &1489568822
 GameObject:
   m_ObjectHideFlags: 0
@@ -2199,6 +2214,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1489568822}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -2222,7 +2238,8 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -2233,7 +2250,6 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &1489568826
@@ -2253,6 +2269,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2302,23 +2321,71 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 1489568825}
   _triggers:
-  - _id: Test2
-    _event:
-      rid: 2797042506065772584
+  - _id: Test
+    _eventData: {fileID: 241006043}
+    _priority: 0
     _activationType: 1
     _loopType: 0
-    _priority: 0
+--- !u!114 &1534811080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84e50026369437b809fd7f2654f3ec2, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  _id: Test
+  _isActive: 0
+  _event:
+    rid: 8953213954083520789
   references:
     version: 2
     RefIds:
-    - rid: 2797042506065772584
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8953213954083520789
       type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
       data:
         _postEventState: 0
         dependencies: []
-        _requirements: []
+        _requirement:
+          _sequence:
+            rid: -2
         _onRequirementsMet: 0
-        _key: Test2
+--- !u!114 &1745648541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84e50026369437b809fd7f2654f3ec2, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  _id: Test
+  _isActive: 0
+  _event:
+    rid: 8953213954083520789
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8953213954083520789
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirement:
+          _sequence:
+            rid: -2
+        _onRequirementsMet: 0
 --- !u!1 &1762140762
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,23 +2466,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localCollider: {fileID: 1786350105}
   _triggers:
-  - _id: TeleportTest
-    _event:
-      rid: 2797042507219206534
+  - _id: Test
+    _eventData: {fileID: 10253652}
+    _priority: 0
     _activationType: 0
     _loopType: 0
-    _priority: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 2797042507219206534
-      type: {class: TeleportEvent, ns: Common.Models.GameEvents.FieldObstacle, asm: Assembly-CSharp}
-      data:
-        _postEventState: 0
-        dependencies: []
-        _requirements: []
-        _onRequirementsMet: 0
-        _teleportTo: {fileID: 1353311321}
 --- !u!61 &1786350105
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2424,6 +2479,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786350102}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -2447,7 +2503,8 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -2458,7 +2515,6 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &1786350106
@@ -2478,6 +2534,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2513,6 +2572,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1829276667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84e50026369437b809fd7f2654f3ec2, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  _id: Test
+  _isActive: 0
+  _event:
+    rid: 8953213954083520789
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8953213954083520789
+      type: {class: DialogueEvent, ns: Common.Models.GameEvents.General, asm: Assembly-CSharp}
+      data:
+        _postEventState: 0
+        dependencies: []
+        _requirement:
+          _sequence:
+            rid: -2
+        _onRequirementsMet: 0
 --- !u!1 &1929952530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2702,28 +2791,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
+  ShowDebugText: 0
+  ShowCameraFrustum: 1
+  IgnoreTimeScale: 0
+  WorldUpOverride: {fileID: 0}
+  ChannelMask: -1
+  UpdateMethod: 2
+  BlendUpdateMethod: 1
+  LensModeOverride:
+    Enabled: 0
+    DefaultMode: 2
+  DefaultBlend:
+    Style: 1
+    Time: 2
+    CustomCurve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  CustomBlends: {fileID: 0}
 --- !u!114 &2029698821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2762,12 +2849,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!114 &2029698822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2780,47 +2867,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ImpulseDefinition:
-    m_ImpulseChannel: 1
-    m_ImpulseShape: 2
-    m_CustomImpulseShape:
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 2
+    CustomImpulseShape:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ImpulseDuration: 0.2
-    m_ImpulseType: 0
-    m_DissipationRate: 0.25
-    m_RawSignal: {fileID: 0}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_RepeatMode: 0
-    m_Randomize: 1
-    m_TimeEnvelope:
-      m_AttackShape:
+    ImpulseDuration: 0.2
+    ImpulseType: 0
+    DissipationRate: 0.25
+    RawSignal: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      m_DecayShape:
+      DecayShape:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      m_AttackTime: 0
-      m_SustainTime: 0.2
-      m_DecayTime: 0.7
-      m_ScaleWithImpact: 1
-      m_HoldForever: 0
-    m_ImpactRadius: 100
-    m_DirectionMode: 0
-    m_DissipationMode: 2
-    m_DissipationDistance: 100
-    m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: 0, y: -1, z: 0}
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0, y: -1, z: 0}
 --- !u!114 &2029698823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2837,94 +2924,6 @@ MonoBehaviour:
   _impulseSource: {fileID: 2029698822}
   _followingCamera: {fileID: 645613264}
   _focusCamera: {fileID: 1443218358}
---- !u!1 &2091182047
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2091182048}
-  - component: {fileID: 2091182050}
-  - component: {fileID: 2091182049}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2091182048
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2091182047}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 645613263}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2091182049
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2091182047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
-  m_LookaheadTime: 0
-  m_LookaheadSmoothing: 0
-  m_LookaheadIgnoreY: 0
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
-  m_TargetMovementOnly: 1
-  m_ScreenX: 0.5
-  m_ScreenY: 0.5
-  m_CameraDistance: 10
-  m_DeadZoneWidth: 0
-  m_DeadZoneHeight: 0
-  m_DeadZoneDepth: 0
-  m_UnlimitedSoftZone: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
-  m_BiasX: 0
-  m_BiasY: 0
-  m_CenterOnActivate: 1
-  m_GroupFramingMode: 2
-  m_AdjustmentMode: 0
-  m_GroupFramingSize: 0.8
-  m_MaxDollyIn: 5000
-  m_MaxDollyOut: 5000
-  m_MinimumDistance: 1
-  m_MaximumDistance: 5000
-  m_MinimumFOV: 3
-  m_MaximumFOV: 60
-  m_MinimumOrthoSize: 1
-  m_MaximumOrthoSize: 5000
---- !u!114 &2091182050
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2091182047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2107077615
 GameObject:
   m_ObjectHideFlags: 0

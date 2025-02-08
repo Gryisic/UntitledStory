@@ -19,7 +19,16 @@ namespace Common.Models.GameEvents.Bus
 
         public static bool UnregisterGenericBinding(object binding)
         {
-            Type bindingType = GetBindingType(binding);
+            Type bindingType;
+            
+            try
+            {
+                bindingType = GetBindingType(binding);
+            }
+            catch (NullReferenceException e)
+            {
+                return false;
+            }
             MethodInfo methodInfo = typeof(EventBusUtils).GetMethod(nameof(RemoveFromBus), BindingFlags.NonPublic | BindingFlags.Static);
             
             return (bool) methodInfo.MakeGenericMethod(bindingType).Invoke(null, new []{ binding });

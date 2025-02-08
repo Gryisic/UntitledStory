@@ -16,7 +16,7 @@ namespace Common.Models.GameEvents.Requirements
 
         private object _concreteBinding;
         
-        public override event Action<EventRequirement> Fulfilled;
+        public event Action<EventRequirement> Fulfilled;
 
         public void Subscribe()
         {

@@ -1,18 +1,22 @@
-﻿using System;
-using Common.Models.GameEvents.Interfaces;
+﻿using Common.Models.GameEvents.Interfaces;
 using Infrastructure.Utils;
 
 namespace Core.GameStates
 {
-    public class GameStateArgs : EventArgs
+    public class GameStateArgs
     {
-        public IGameEventData EventData { get; }
+        public IGameEventData Data { get; }
         public Enums.GameStateFinalization Finalization { get; }
         
-        public GameStateArgs(IGameEventData eventData = null, Enums.GameStateFinalization finalization = Enums.GameStateFinalization.Full)
+        protected GameStateArgs(IGameEventData data, Enums.GameStateFinalization finalization = Enums.GameStateFinalization.Full)
         {
-            EventData = eventData;
             Finalization = finalization;
+            Data = data;
+        }
+
+        public GameStateArgs()
+        {
+            
         }
     }
 }

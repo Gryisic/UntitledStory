@@ -21,7 +21,7 @@ namespace Common.Dialogues.States
     {
         private readonly IStateChanger<IDialogueState> _stateChanger;
         private readonly IInputService _inputService;
-        private readonly ITriggersData _triggersData;
+        private readonly IEventsData _eventsData;
         
         private readonly Dialogue _dialogue;
         private readonly InkFunctionsResolver _functionsResolver;
@@ -46,7 +46,7 @@ namespace Common.Dialogues.States
         {
             _stateChanger = stateChanger;
             _inputService = servicesHandler.InputService;
-            _triggersData = gameDataProvider.GetData<ITriggersData>();
+            _eventsData = gameDataProvider.GetData<IEventsData>();
             _dialogue = dialogue;
             _functionsResolver = functionsResolver;
             _dialogueView = ui.Get<DialogueView>();
@@ -91,8 +91,8 @@ namespace Common.Dialogues.States
 
             _choicesView.ChoiseTaken += OnChoiceTaken;
             
-            _functionsResolver.ActivateTrigger += _triggersData.Add;
-            _functionsResolver.DeactivateTrigger += _triggersData.Remove;
+            _functionsResolver.ActivateTrigger += _eventsData.Add;
+            _functionsResolver.DeactivateTrigger += _eventsData.Remove;
         }
 
         private void UnsubscribeToEvents()
@@ -105,8 +105,8 @@ namespace Common.Dialogues.States
 
             _choicesView.ChoiseTaken -= OnChoiceTaken;
 
-            _functionsResolver.ActivateTrigger -= _triggersData.Add;
-            _functionsResolver.DeactivateTrigger -= _triggersData.Remove;
+            _functionsResolver.ActivateTrigger -= _eventsData.Add;
+            _functionsResolver.DeactivateTrigger -= _eventsData.Remove;
         }
         
         private void AttachInput()

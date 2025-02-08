@@ -1,5 +1,5 @@
 ﻿using System;
-using Cinemachine;
+using Unity.Cinemachine;
 using Common.Models.Cameras.Interfaces;
 using Core.Extensions;
 using Infrastructure.Utils;
@@ -37,7 +37,7 @@ namespace Common.Models.Cameras
 
         public void SetEasingAndConfiner(Enums.CameraEasingType easingType, Collider2D confiner, float easingTime = Constants.DefaultCameraBlendTime)
         {
-            _brain.m_DefaultBlend = DefineBlend(easingType, easingTime);
+            _brain.DefaultBlend = DefineBlend(easingType, easingTime);
             
             _focusCamera.SetConfiner(confiner);
             _followingCamera.SetConfiner(confiner);
@@ -93,10 +93,10 @@ namespace Common.Models.Cameras
             switch (easingType)
             {
                 case Enums.CameraEasingType.Instant:
-                    return new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.Cut, blendTime);
+                    return new CinemachineBlendDefinition(CinemachineBlendDefinition.Styles.Cut, blendTime);
                 
                 case Enums.CameraEasingType.Smooth:
-                    return new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, blendTime);
+                    return new CinemachineBlendDefinition(CinemachineBlendDefinition.Styles.EaseInOut, blendTime);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(easingType), easingType, null);

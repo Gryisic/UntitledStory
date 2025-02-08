@@ -8,7 +8,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Editor
+namespace Editor.Data
 {
     [CustomEditor(typeof(Core.Data.IconsData))]
     public class IconsDataEditor : UnityEditor.Editor

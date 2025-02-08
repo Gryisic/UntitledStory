@@ -77,6 +77,6 @@ namespace Core
         }
         
         private async void UnloadSceneAsync(AsyncOperation obj) => 
-            await SceneManager.UnloadSceneAsync(_currentSceneIndex);
+            await UniTask.WaitUntil(() => SceneManager.UnloadSceneAsync(_currentSceneIndex).isDone);
     }
 }

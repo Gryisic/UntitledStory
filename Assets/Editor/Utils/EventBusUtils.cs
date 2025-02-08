@@ -29,7 +29,7 @@ namespace Editor.Utils
         {
             PlayModeStateChange = state;
             
-            if (state == PlayModeStateChange.ExitingPlayMode)
+            if (state == PlayModeStateChange.EnteredEditMode)
                 ClearAllBuses();
         }
 #endif
